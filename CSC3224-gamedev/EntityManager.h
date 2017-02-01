@@ -11,6 +11,7 @@ class EntityManager
 public:
 	static EntityManager* getInstance();
 	static void destroyInstance();
+	~EntityManager();
 
 	Entity createEntity(vector<Component>* components = new vector<Component>());
 	void destroyEntity(uint32_t id);

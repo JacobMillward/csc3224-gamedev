@@ -28,6 +28,14 @@ void EntityManager::destroyInstance()
 	entityManager_ = nullptr;
 }
 
+EntityManager::~EntityManager()
+{
+	for(auto entry : entityMap_)
+	{
+		delete entry.second;
+	}
+}
+
 Entity EntityManager::createEntity(vector<Component>* components)
 {
 	Entity e = Entity(getNextID());
