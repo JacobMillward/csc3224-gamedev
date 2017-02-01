@@ -1,16 +1,21 @@
 #pragma once
-
+#include <cstdint>
 
 
 class Component
 {
 public:
-	enum Type { Position };
+	enum Type
+	{
+		Position
+	};
 
-	Component(Type t) { _type = t; }
+	Component(Type t);
 	virtual ~Component() = 0;
+	uint32_t getID() const { return id_; }
 
 private:
-	Type _type;
+	Type type_;
+	static uint32_t nextID_;
+	uint32_t id_;
 };
-
