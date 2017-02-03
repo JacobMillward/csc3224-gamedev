@@ -9,8 +9,7 @@ using namespace std;
 class EntityManager
 {
 public:
-	static EntityManager* getInstance();
-	static void destroyInstance();
+	EntityManager();
 	~EntityManager();
 
 	Entity createEntity(vector<Component>* components = new vector<Component>());
@@ -19,9 +18,6 @@ public:
 	void removeComponent(uint32_t id, const Component& c);
 
 private:
-	static EntityManager* entityManager_;
-	EntityManager();
-
 	map<uint32_t, vector<Component>*> entityMap_;
 	unsigned int entityID_;
 

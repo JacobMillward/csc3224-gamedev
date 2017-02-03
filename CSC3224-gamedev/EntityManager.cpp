@@ -12,22 +12,6 @@ unsigned int EntityManager::getNextID()
 	return entityID_++;
 }
 
-EntityManager* EntityManager::getInstance()
-{
-	if (!entityManager_)
-	{
-		entityManager_ = new EntityManager();
-	}
-
-	return entityManager_;
-}
-
-void EntityManager::destroyInstance()
-{
-	delete entityManager_;
-	entityManager_ = nullptr;
-}
-
 EntityManager::~EntityManager()
 {
 	for(auto entry : entityMap_)

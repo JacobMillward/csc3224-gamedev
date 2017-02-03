@@ -15,6 +15,7 @@ public:
 	void changeState(State s);
 	State getState() const;
 
+	void run();
 	void init();
 	void processInput();
 	void update();
