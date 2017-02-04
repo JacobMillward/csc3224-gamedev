@@ -7,7 +7,7 @@ EntityManager::EntityManager() : entityID_(0)
 {
 }
 
-unsigned int EntityManager::getNextID()
+uint32_t EntityManager::getNextID()
 {
 	return entityID_++;
 }
@@ -20,9 +20,9 @@ EntityManager::~EntityManager()
 	}
 }
 
-Entity EntityManager::createEntity(vector<Component>* components)
+Entity EntityManager::createEntity(vector<Component>* components = new vector<Component>())
 {
-	Entity e = Entity(getNextID());
+	Entity e = Entity(getNextID(), *this);
 	entityMap_.insert(pair<uint32_t, vector<Component>*>(e.getID(), components));
 	return e;
 }
