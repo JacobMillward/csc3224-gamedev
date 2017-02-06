@@ -1,11 +1,7 @@
-#include "Game.h"
-#include <iostream>
-
-using namespace std;
+#include "MyGame.h"
 
 int main()
 {
-	Game* app = new Game();
-	app->run();
-	delete app;
+	MyGame app = MyGame();
+	app.run();
 }
