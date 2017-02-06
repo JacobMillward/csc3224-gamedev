@@ -1,11 +1,12 @@
 #pragma once
-#include <map>
+#include <unordered_map>
 #include <vector>
-#include <string>
+#include <typeindex>
+#include <typeinfo>
 #include "Entity.h"
-#include "Component.h"
 
 using namespace std;
+typedef unordered_map<uint32_t, unordered_map<type_index, vector<IComponent*>>> EntityMap;
 
 class EntityManager
 {
@@ -13,13 +14,13 @@ public:
 	EntityManager();
 	~EntityManager();
 
-	Entity createEntity(vector<Component>* components);
+	Entity createEntity();
 	void destroyEntity(uint32_t id);
-	void addComponent(uint32_t id, const Component& c);
-	void removeComponent(uint32_t id, const Component& c);
+	void addComponent(uint32_t id, IComponent& c);
+	void removeComponent(uint32_t id, IComponent& c);
 
 private:
-	map<uint32_t, vector<Component>*> entityMap_;
+	EntityMap entityMap_;
 	uint32_t entityID_;
 
 	uint32_t getNextID();

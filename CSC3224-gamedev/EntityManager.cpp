@@ -1,9 +1,9 @@
-#include <algorithm>
+#include <string>
 #include "EntityManager.h"
 
 using namespace std;
 
-EntityManager::EntityManager() : entityID_(0)
+EntityManager::EntityManager() : entityMap_(EntityMap()), entityID_(0)
 {
 }
 
@@ -14,16 +14,12 @@ uint32_t EntityManager::getNextID()
 
 EntityManager::~EntityManager()
 {
-	for(auto entry : entityMap_)
-	{
-		delete entry.second;
-	}
 }
 
-Entity EntityManager::createEntity(vector<Component>* components = new vector<Component>())
+Entity EntityManager::createEntity()
 {
 	Entity e = Entity(getNextID(), *this);
-	entityMap_.insert(pair<uint32_t, vector<Component>*>(e.getID(), components));
+	entityMap_.insert(make_pair(e.getID(), unordered_map<type_index, vector<IComponent*>>()));
 	return e;
 }
 
@@ -34,39 +30,57 @@ void EntityManager::destroyEntity(uint32_t id)
 	auto it = entityMap_.find(id);
 	if (it != entityMap_.end())
 	{
-		delete it->second;
-		entityMap_.erase(it);
-	}
-	else
-	{
-		throw "Tried to destroy non-existent entity#" + to_string(id);
-	}
-}
-
-void EntityManager::addComponent(uint32_t id, const Component& c)
-{
-	auto it = entityMap_.find(id);
-	if (it != entityMap_.end())
-	{
-		it->second->push_back(c);
-	}
-	else
-	{
-		throw "Tried to add component to a non-existent entity#" + to_string(id);
-	}
-}
-
-void EntityManager::removeComponent(uint32_t id, const Component& c)
-{
-	auto it = entityMap_.find(id);
-	if (it != entityMap_.end())
-	{
-		auto componentIt = find(it->second->begin(), it->second->end(), c);
-		if (componentIt != it->second->end())
+		for (auto ent1 : it->second)
 		{
-			it->second->erase(componentIt);
+			for (auto ent2 : ent1.second)
+			{
+				delete ent2;
+			}
+		}
+		entityMap_.erase(it);
+		return;
+	}
+	throw "Error destroying non-existent entity#" + to_string(id);
+}
+
+void EntityManager::addComponent(uint32_t id, IComponent& c)
+{
+	auto it = entityMap_.find(id);
+	if (it != entityMap_.end())
+	{
+		//Try and emplace it
+		auto result = it->second.try_emplace(typeid(c), vector<IComponent*> { &c });
+		if (!result.second)
+		{
+			//If we haven't placed it in, add it to the existing list
+			result.first->second.push_back(&c);
 			return;
 		}
 	}
-	throw "Error removing component#" + std::to_string(c.getID()) + " from entity#" + to_string(id);
+	throw "Error adding component to a non-existent entity#" + to_string(id);
+}
+
+void EntityManager::removeComponent(uint32_t id, IComponent& c)
+{
+	//Try and find the entity
+	auto it1 = entityMap_.find(id);
+	if (it1 != entityMap_.end())
+	{
+		//Find the list of this components type
+		auto it2 = it1->second.find(typeid(c));
+		if (it2 != it1->second.end())
+		{
+			//We've found the list, so lets find the correct component and erase
+			for (auto it3 = it2->second.begin(); it3 != it2->second.end(); ++it3) {
+				if (*it3 == &c)
+				{
+					delete *it3;
+					it2->second.erase(it3);
+					return;
+				}
+			}
+		}
+		throw "Error removing non-existent component from entity#" + to_string(id);
+	}
+	throw "Error removing component from non-existent entity#" + to_string(id);
 }
