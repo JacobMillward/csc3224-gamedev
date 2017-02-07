@@ -19,7 +19,7 @@ EntityManager::~EntityManager()
 
 Entity EntityManager::createEntity()
 {
-	Entity e = Entity(getNextID(), *this);
+	Entity e = Entity(getNextID(), *this, *new sf::Vector3f(0, 0, 0));
 	entityMap_.insert(make_pair(e.getID(), unordered_map<type_index, vector<IComponent*>>()));
 	return e;
 }
