@@ -15,6 +15,7 @@ public:
 	void removeComponent(IComponent& c) const;
 	sf::Vector3f* getPosition();
 
+	bool operator==(const Entity& other) const;
 private:
 	uint32_t id_;
 	EntityManager* entityManager_;

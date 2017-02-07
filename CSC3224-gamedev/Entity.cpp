@@ -33,3 +33,8 @@ sf::Vector3f * Entity::getPosition()
 {
 	return position_;
 }
+
+bool Entity::operator==(const Entity & other) const
+{
+	return this->id_ == other.getID();
+}
