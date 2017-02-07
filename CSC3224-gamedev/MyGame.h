@@ -1,5 +1,6 @@
 #pragma once
 #include "GameBase.h"
+#include "World.h"
 
 class MyGame : public GameBase
 {

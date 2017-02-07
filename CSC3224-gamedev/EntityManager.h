@@ -2,7 +2,6 @@
 #include <unordered_map>
 #include <vector>
 #include <typeindex>
-#include <typeinfo>
 #include "Entity.h"
 
 using namespace std;

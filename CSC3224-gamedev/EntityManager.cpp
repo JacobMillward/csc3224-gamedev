@@ -1,5 +1,6 @@
 #include <string>
 #include "EntityManager.h"
+#include <typeindex>
 
 using namespace std;
 

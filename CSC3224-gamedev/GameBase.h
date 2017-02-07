@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML\System\Clock.hpp>
-#include "World.h"
 
 class GameBase
 {

@@ -1,8 +1,6 @@
 #pragma once
 #include <SFML\System\Clock.hpp>
 #include "EntityManager.h"
-#include "System.h"
-#include "GameBase.h"
 
 class World
 {
@@ -16,7 +14,7 @@ public:
 	};
 	World(float timeScale = 1);
 	~World();
-	inline void changeState(State s) { state_ = s; };
+	void changeState(State s) { state_ = s; };
 	State getState() const { return state_; };
 	void step(const sf::Time& gameDelta);
 
