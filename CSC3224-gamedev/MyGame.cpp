@@ -10,6 +10,7 @@ MyGame::MyGame()
 MyGame::~MyGame()
 {
 	/* Destroy world (Mwahaha) */
+	//TODO: Construct world destroying function
 }
 
 void MyGame::init()

@@ -2,6 +2,7 @@
 #include "EntityManager.h"
 #include <typeindex>
 #include "Components/Position.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ Entity EntityManager::createEntity(sf::Vector3f& pos)
 	Position *p = new Position(pos);
 	if(!entityMap_.try_emplace(Position::typeID, vector<pair<IComponent*, uint32_t>> { make_pair(p, e.getID()) }).second)
 	{
-		throw "Error creating new Entity";
+		throw "Error creating new entity";
 	}
 	return e;
 }
@@ -33,20 +34,24 @@ Entity EntityManager::createEntity(sf::Vector3f& pos)
 
 void EntityManager::destroyEntity(uint32_t id)
 {
-	/*auto it = entityMap_.find(id);
-	if (it != entityMap_.end())
+	for (auto comType : entityMap_)
 	{
-		for (auto ent1 : it->second)
+		vector<vector<pair<IComponent*, uint32_t>>::iterator> matches;
+		for (auto it = comType.second.begin(); it != comType.second.end(); ++it)
 		{
-			for (auto ent2 : ent1.second)
+			if (id == it->second)
 			{
-				delete ent2;
+				matches.push_back(it);
 			}
 		}
-		entityMap_.erase(it);
-		return;
+		// Might need to loop in reverse here - UNIT TEST
+		for (auto e : matches)
+		{
+			delete e->first;
+			comType.second.erase(e);
+		}
+		
 	}
-	throw "Error destroying non-existent entity#" + to_string(id);*/
 }
 
 void EntityManager::addComponent(uint32_t id, IComponent& c)
