@@ -18,6 +18,8 @@ public:
 	State getState() const { return state_; };
 	void step(const sf::Time& gameDelta);
 
+	EntityManager& getEntityManager();
+
 private:
 	State state_;
 	EntityManager entityManager_;

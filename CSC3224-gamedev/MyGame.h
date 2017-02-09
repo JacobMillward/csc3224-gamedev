@@ -15,6 +15,6 @@ protected:
 	void shutdown() override;
 
 private:
-	World world_;
+	World world_ = NULL;
 };
 

@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-MyGame::MyGame()
+MyGame::MyGame() : world_(World())
 {
 }
 
@@ -17,8 +17,11 @@ void MyGame::init()
 {
 	/* Set up world */
 	//TODO: Load world setup from file
-	this->world_ = World();
 
+	auto e = this->world_.getEntityManager().createEntity();
+	auto e2 = this->world_.getEntityManager().createEntity();
+	this->world_.getEntityManager().destroyEntity(e);
+	this->world_.getEntityManager().destroyEntity(e2);
 	/* Set up world subsystems */
 	//TODO: Add subsystems
 }
