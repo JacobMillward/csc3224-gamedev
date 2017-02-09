@@ -2,11 +2,11 @@
 #include <unordered_map>
 #include <vector>
 #include <typeindex>
-#include <typeinfo>
 #include "Entity.h"
 
 using namespace std;
-typedef unordered_map<uint32_t, unordered_map<type_index, vector<IComponent*>>> EntityMap;
+
+typedef unordered_map<IComponent::Type, vector<pair<IComponent*, uint32_t>>> EntityMap;
 
 class EntityManager
 {
@@ -14,10 +14,10 @@ public:
 	EntityManager();
 	~EntityManager();
 
-	Entity createEntity();
-	void destroyEntity(uint32_t id);
-	void addComponent(uint32_t id, IComponent& c);
-	void removeComponent(uint32_t id, IComponent& c);
+	Entity* createEntity();
+	void destroyEntity(Entity* entity);
+	void addComponent(Entity& e, IComponent& c);
+	void removeComponent(Entity& e, IComponent& c);
 
 private:
 	EntityMap entityMap_;

@@ -1,5 +1,6 @@
 #pragma once
 #include "GameBase.h"
+#include "World.h"
 
 class MyGame : public GameBase
 {
@@ -14,6 +15,6 @@ protected:
 	void shutdown() override;
 
 private:
-	World world_;
+	World world_ = NULL;
 };
 

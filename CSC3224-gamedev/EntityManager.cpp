@@ -1,10 +1,19 @@
 #include <string>
 #include "EntityManager.h"
+#include <typeindex>
+#include "Components/Position.h"
+#include <algorithm>
+#include <iostream>
 
 using namespace std;
 
 EntityManager::EntityManager() : entityMap_(EntityMap()), entityID_(0)
 {
+	/* Initiaslise map with lists of all component types to save checks for creation later on */
+	for(int i = 0; i < static_cast<int>(IComponent::Type::TYPE_END); ++i)
+	{
+		entityMap_.try_emplace(IComponent::Type(i), vector<pair<IComponent*, uint32_t>>());
+	}
 }
 
 uint32_t EntityManager::getNextID()
@@ -14,73 +23,75 @@ uint32_t EntityManager::getNextID()
 
 EntityManager::~EntityManager()
 {
+	//TODO: Actually fix this huge ass leak here.
 }
 
-Entity EntityManager::createEntity()
+/*
+ * Creates an entity at position (0, 0, 0)
+ */
+Entity* EntityManager::createEntity()
 {
-	Entity e = Entity(getNextID(), *this);
-	entityMap_.insert(make_pair(e.getID(), unordered_map<type_index, vector<IComponent*>>()));
+	Position *p = new Position(0, 0, 0);
+	Entity *e = new Entity(getNextID(), *this, *p);
+	cout << "Creating Entity#" << e->getID() << endl;
+	entityMap_.find(IComponent::Type::Position)->second.push_back(make_pair(p, e->getID()));
 	return e;
 }
 
-
-
-void EntityManager::destroyEntity(uint32_t id)
+/*
+ * Destroys all components that belong to the specified entity. Also deletes the entity.
+ */
+void EntityManager::destroyEntity(Entity *entity)
 {
-	auto it = entityMap_.find(id);
-	if (it != entityMap_.end())
+	entity->isDeleted = true;
+	for (auto comType : entityMap_)
 	{
-		for (auto ent1 : it->second)
+		vector<vector<pair<IComponent*, uint32_t>>::iterator> matches;
+		for (auto it = comType.second.begin(); it != comType.second.end(); ++it)
 		{
-			for (auto ent2 : ent1.second)
+			if (entity->getID() == it->second)
 			{
-				delete ent2;
+				matches.push_back(it);
 			}
 		}
-		entityMap_.erase(it);
-		return;
+		// Might need to loop in reverse here - UNIT TEST
+		for (auto e : matches)
+		{
+			delete e->first;
+			comType.second.erase(e);
+		}
+		
 	}
-	throw "Error destroying non-existent entity#" + to_string(id);
+	cout << "Destroyed Entity#" << entity->getID() << endl;
+	delete entity;
 }
 
-void EntityManager::addComponent(uint32_t id, IComponent& c)
+/*
+ * Adds the specifed component to the entity.
+ */
+void EntityManager::addComponent(Entity& e, IComponent& c)
 {
-	auto it = entityMap_.find(id);
-	if (it != entityMap_.end())
-	{
-		//Try and emplace it
-		auto result = it->second.try_emplace(typeid(c), vector<IComponent*> { &c });
-		if (!result.second)
-		{
-			//If we haven't placed it in, add it to the existing list
-			result.first->second.push_back(&c);
-			return;
-		}
-	}
-	throw "Error adding component to a non-existent entity#" + to_string(id);
+	cout << "Adding Component type " << static_cast<int>(c.getType()) << " to Entity#" << e.getID() << endl;
+	entityMap_.find(c.getType())->second.push_back(make_pair(&c, e.getID()));
 }
 
-void EntityManager::removeComponent(uint32_t id, IComponent& c)
+/*
+ * Removes the specified component from the entity.
+ */
+void EntityManager::removeComponent(Entity& e, IComponent& c)
 {
-	//Try and find the entity
-	auto it1 = entityMap_.find(id);
-	if (it1 != entityMap_.end())
+	auto list = entityMap_.find(c.getType())->second;
+	auto it = find_if(list.begin(), list.end(), [&e, &c](pair<IComponent*, uint32_t> p){
+		return (e.getID() == p.second) && (&c == p.first);
+	});
+	if (it != list.end())
 	{
-		//Find the list of this components type
-		auto it2 = it1->second.find(typeid(c));
-		if (it2 != it1->second.end())
-		{
-			//We've found the list, so lets find the correct component and erase
-			for (auto it3 = it2->second.begin(); it3 != it2->second.end(); ++it3) {
-				if (*it3 == &c)
-				{
-					delete *it3;
-					it2->second.erase(it3);
-					return;
-				}
-			}
-		}
-		throw "Error removing non-existent component from entity#" + to_string(id);
+		cout << "Deleting " << typeid(it->first).name() << " Component from Entity#" << it->second << endl;
+		delete it->first;
+		list.erase(it);
 	}
-	throw "Error removing component from non-existent entity#" + to_string(id);
+	else
+	{
+		throw "No such component on Entity";
+	}
 }
