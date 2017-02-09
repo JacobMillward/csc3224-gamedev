@@ -14,10 +14,10 @@ public:
 	EntityManager();
 	~EntityManager();
 
-	Entity createEntity(sf::Vector3f& pos);
-	void destroyEntity(uint32_t id);
-	void addComponent(uint32_t id, IComponent& c);
-	void removeComponent(uint32_t id, IComponent& c);
+	Entity* createEntity();
+	void destroyEntity(Entity* entity);
+	void addComponent(Entity& e, IComponent& c);
+	void removeComponent(Entity& e, IComponent& c);
 
 private:
 	EntityMap entityMap_;
