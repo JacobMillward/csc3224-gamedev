@@ -57,6 +57,7 @@ void MyGame::run()
 
 		case World::State::Shutdown:
 			//Final game cleanup and window shutdown
+			shutdown();
 			loop = false;
 			break;
 

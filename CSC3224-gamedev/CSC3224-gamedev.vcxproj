@@ -144,7 +144,7 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="MyGame.h" />
-    <ClInclude Include="System.h" />
+    <ClInclude Include="Systems\ISystem.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
@@ -152,7 +152,6 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyGame.cpp" />
-    <ClCompile Include="System.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
