@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-MyGame::MyGame() : world_(World())
+MyGame::MyGame() : world_(World()), GameBase(new sf::Window(sf::VideoMode(800, 600), "My Game"))
 {
 }
 
@@ -31,10 +31,16 @@ void MyGame::run()
 	bool loop = true;
 	while (loop)
 	{
-		sf::Time currentTime = gameClock.getElapsedTime();
-		sf::Time dt = currentTime - lastTime;
-		lastTime = currentTime;
+		// Deal with window events
+		sf::Event event;
+		while (window_->pollEvent(event))
+		{
+			// "close requested" event: Change the world state to quitting
+			if (event.type == sf::Event::Closed)
+				world_.changeState(World::State::Quitting);
+		}
 
+		// Move the world state machine forward
 		switch (world_.getState())
 		{
 		case World::State::Init:
@@ -47,7 +53,7 @@ void MyGame::run()
 
 		case World::State::Running:
 			//Main loop
-			world_.step(dt);
+			world_.step(gameClock_.getElapsedTime());
 			break;
 
 		case World::State::Quitting:
@@ -70,4 +76,5 @@ void MyGame::run()
 void MyGame::shutdown()
 {
 	cout << "Shutting down" << endl;
+	window_->close();
 }

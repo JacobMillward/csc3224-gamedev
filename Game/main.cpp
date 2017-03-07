@@ -2,6 +2,9 @@
 
 int main()
 {
-	MyGame app = MyGame();
-	app.run();
+	MyGame* app = new MyGame();
+	app->run();
+	delete app;
+
+	return 0;
 }
