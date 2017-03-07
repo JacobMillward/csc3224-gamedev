@@ -194,15 +194,18 @@
   <ItemGroup>
     <ClInclude Include="Components\IComponent.h" />
     <ClInclude Include="Components\Position.h" />
+    <ClInclude Include="Components\Sprite.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="Systems\ISystem.h" />
+    <ClInclude Include="Systems\RenderableBuildSystem.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="RenderableBuildSystem.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

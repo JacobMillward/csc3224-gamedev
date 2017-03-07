@@ -11,6 +11,6 @@ public:
 
 	virtual void step(const sf::Time& dt) = 0;
 
-private:
+protected:
 	World *world_;
 };

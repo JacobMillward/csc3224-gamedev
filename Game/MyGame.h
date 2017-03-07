@@ -1,6 +1,7 @@
 #pragma once
 #include "GameBase.h"
 #include "World.h"
+#include "Components\Sprite.h"
 
 class MyGame : public GameBase
 {
@@ -16,5 +17,9 @@ protected:
 
 private:
 	World world_ = NULL;
+
+	sf::Texture playerTexture;
+	Entity* player;
+	Sprite* playerSprite;
 };
 

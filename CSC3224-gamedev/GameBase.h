@@ -1,12 +1,12 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
-#include <SFML/Window.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 class GameBase
 {
 public:
 	
-	GameBase(sf::Window* window) : gameClock_(sf::Clock()), window_(window) {};
+	GameBase(sf::RenderWindow* window) : gameClock_(sf::Clock()), window_(window) {};
 	virtual ~GameBase()
 	{
 		delete window_;
@@ -16,7 +16,7 @@ public:
 
 protected:
 	sf::Clock gameClock_;
-	sf::Window* window_;
+	sf::RenderWindow* window_;
 
 	virtual void init() {};
 	virtual void shutdown() {};

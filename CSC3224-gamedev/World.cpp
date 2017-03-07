@@ -23,7 +23,17 @@ void World::step(const sf::Time & gameDelta)
 	}
 }
 
+void World::draw(sf::RenderWindow & w)
+{
+	w.draw(vertexArray_);
+}
+
 EntityManager & World::getEntityManager()
 {
 	return entityManager_;
+}
+
+void World::setVertexArray(sf::VertexArray & v)
+{
+	this->vertexArray_ = v;
 }

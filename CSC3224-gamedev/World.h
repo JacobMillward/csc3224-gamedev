@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML\System\Clock.hpp>
+#include <SFML\Graphics.hpp>
 #include "EntityManager.h"
 #include "Systems/ISystem.h"
 
@@ -19,13 +20,16 @@ public:
 	State getState() const { return state_; };
 	void addSystem(ISystem& system);
 	void step(const sf::Time& gameDelta);
+	void draw(sf::RenderWindow& w);
 
 	EntityManager& getEntityManager();
+	void setVertexArray(sf::VertexArray& v);
 
-private:
+protected:
 	State state_;
 	EntityManager entityManager_;
 	vector<ISystem*> systemList_;
+	sf::VertexArray vertexArray_;
 	float timeScale_;
 };
 

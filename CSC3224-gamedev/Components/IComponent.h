@@ -3,7 +3,7 @@
 struct IComponent
 {
 public:
-	enum class Type { Position, TYPE_END };
+	enum class Type { Position, Renderable, TYPE_END };
 	virtual Type getType() = 0;
 	virtual ~IComponent() {}
 };

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-typedef unordered_map<IComponent::Type, vector<pair<IComponent*, uint32_t>>> EntityMap;
+typedef unordered_map<IComponent::Type, vector<pair<IComponent*, Entity*>>> EntityMap;
 
 class EntityManager
 {
@@ -18,7 +18,7 @@ public:
 	void destroyEntity(Entity* entity);
 	void addComponent(Entity& e, IComponent& c);
 	void removeComponent(Entity& e, IComponent& c);
-	vector<pair<IComponent*, uint32_t>>* getComponentList(IComponent::Type type);
+	vector<pair<IComponent*, Entity*>>* getComponentList(IComponent::Type type);
 
 private:
 	EntityMap entityMap_;

@@ -1,8 +1,10 @@
 #include "MyGame.h"
+#include "Systems\RenderableBuildSystem.h"
+#include "Components\Sprite.h"
 #include <iostream>
 
 
-MyGame::MyGame() : world_(World()), GameBase(new sf::Window(sf::VideoMode(800, 600), "My Game"))
+MyGame::MyGame() : world_(World()), GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "My Game"))
 {
 }
 
@@ -18,12 +20,15 @@ void MyGame::init()
 	/* Set up world */
 	//TODO: Load world setup from file
 
-	auto e = this->world_.getEntityManager().createEntity();
-	auto e2 = this->world_.getEntityManager().createEntity();
-	this->world_.getEntityManager().destroyEntity(e);
-	this->world_.getEntityManager().destroyEntity(e2);
+	player = world_.getEntityManager().createEntity();
+	sf::IntRect rect(0, 0, 160, 160);
+	playerTexture.loadFromFile("player.png");
+	playerSprite = new Sprite(playerTexture, rect);
+	player->addComponent(*playerSprite);
+
 	/* Set up world subsystems */
-	//TODO: Add subsystems
+	auto r = new RenderableBuildSystem(this->world_);
+	this->world_.addSystem(*r);
 }
 
 void MyGame::run()
@@ -54,6 +59,9 @@ void MyGame::run()
 		case World::State::Running:
 			//Main loop
 			world_.step(gameClock_.getElapsedTime());
+			window_->clear();
+			world_.draw(*window_);
+			window_->display();
 			break;
 
 		case World::State::Quitting:
@@ -76,5 +84,6 @@ void MyGame::run()
 void MyGame::shutdown()
 {
 	cout << "Shutting down" << endl;
+	this->world_.getEntityManager().destroyEntity(player);
 	window_->close();
 }
