@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML\System\Clock.hpp>
 #include "EntityManager.h"
+#include "Systems/ISystem.h"
 
 class World
 {
@@ -16,6 +17,7 @@ public:
 	~World();
 	void changeState(State s) { state_ = s; };
 	State getState() const { return state_; };
+	void addSystem(ISystem& system);
 	void step(const sf::Time& gameDelta);
 
 	EntityManager& getEntityManager();
@@ -23,6 +25,7 @@ public:
 private:
 	State state_;
 	EntityManager entityManager_;
+	vector<ISystem*> systemList_;
 	float timeScale_;
 };
 

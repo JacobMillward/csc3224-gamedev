@@ -33,9 +33,6 @@
     <ClInclude Include="GameBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Components\Position.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -54,12 +51,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
