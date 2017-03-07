@@ -25,7 +25,12 @@ void World::step(const sf::Time & gameDelta)
 
 void World::draw(sf::RenderWindow & w)
 {
-	w.draw(vertexArray_);
+	sf::RenderStates states;
+	for (auto vArray : drawables_)
+	{
+		states.texture = &vArray.second;
+		w.draw(vArray.first, states);
+	}
 }
 
 EntityManager & World::getEntityManager()
@@ -33,7 +38,16 @@ EntityManager & World::getEntityManager()
 	return entityManager_;
 }
 
-void World::setVertexArray(sf::VertexArray & v)
+void World::addDrawables(vector<pair<sf::VertexArray, sf::Texture>> &drawableList)
 {
-	this->vertexArray_ = v;
+	for (auto drawable : drawableList)
+	{
+		drawables_.push_back(drawable);
+	}
 }
+
+void World::clearDrawables()
+{
+	drawables_.clear();
+}
+

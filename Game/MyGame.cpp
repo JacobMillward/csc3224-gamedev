@@ -2,6 +2,7 @@
 #include "Systems\RenderableBuildSystem.h"
 #include "Components\Sprite.h"
 #include <iostream>
+#include <SFML\Window\Event.hpp>
 
 
 MyGame::MyGame() : world_(World()), GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "My Game"))

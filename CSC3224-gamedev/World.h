@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML\System\Clock.hpp>
-#include <SFML\Graphics.hpp>
+#include <SFML\Graphics\RenderWindow.hpp>
+#include <SFML\Graphics\VertexArray.hpp>
+#include <SFML\Graphics\Texture.hpp>
 #include "EntityManager.h"
 #include "Systems/ISystem.h"
 
@@ -23,13 +25,14 @@ public:
 	void draw(sf::RenderWindow& w);
 
 	EntityManager& getEntityManager();
-	void setVertexArray(sf::VertexArray& v);
+	void addDrawables(vector<pair<sf::VertexArray, sf::Texture>> &drawableList);
+	void clearDrawables();
 
 protected:
 	State state_;
 	EntityManager entityManager_;
 	vector<ISystem*> systemList_;
-	sf::VertexArray vertexArray_;
+	vector<pair<sf::VertexArray, sf::Texture>> drawables_;
 	float timeScale_;
 };
 

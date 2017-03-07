@@ -38,6 +38,8 @@ void RenderableBuildSystem::step(const sf::Time & dt)
 		quadIndex += 4;
 	}
 	
-
-	this->world_->setVertexArray(vArray_);
+	this->world_->clearDrawables();
+	vector<pair<sf::VertexArray, sf::Texture>> m;
+	m.push_back(make_pair(vArray_, static_cast<Sprite*>(list->at(0).first)->getTexture()));
+	this->world_->addDrawables(m);
 }
