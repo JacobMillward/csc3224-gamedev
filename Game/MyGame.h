@@ -6,7 +6,7 @@
 class MyGame : public GameBase
 {
 public:
-	MyGame();
+	MyGame(FreeListAllocator* alloc);
 	~MyGame();
 
 	void run() override;
@@ -16,7 +16,7 @@ protected:
 	void shutdown() override;
 
 private:
-	World world_ = NULL;
+	World* world_ = NULL;
 
 	sf::Texture playerTexture;
 	Entity* player;
