@@ -61,7 +61,7 @@ void MyGame::run()
 		case World::State::Running:
 			//Main loop
 			world_->step(gameClock_.getElapsedTime());
-			window_->clear();
+			window_->clear(sf::Color::Cyan);
 			world_->draw(*window_);
 			window_->display();
 			break;
