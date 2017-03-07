@@ -18,8 +18,7 @@ public:
 	void destroyEntity(Entity* entity);
 	void addComponent(Entity& e, IComponent& c);
 	void removeComponent(Entity& e, IComponent& c);
-	template <class T>
-	vector<pair<IComponent*, uint32_t>> getComponentList(T comClass);
+	vector<pair<IComponent*, uint32_t>>* getComponentList(IComponent::Type type);
 
 private:
 	EntityMap entityMap_;
@@ -27,9 +26,3 @@ private:
 
 	uint32_t getNextID();
 };
-
-template <class T>
-vector<pair<IComponent*, uint32_t>> EntityManager::getComponentList(T comClass)
-{
-	
-}

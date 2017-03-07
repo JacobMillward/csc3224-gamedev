@@ -95,3 +95,8 @@ void EntityManager::removeComponent(Entity& e, IComponent& c)
 		throw "No such component on Entity";
 	}
 }
+
+vector<pair<IComponent*, uint32_t>>* EntityManager::getComponentList(IComponent::Type type)
+{
+	return &(entityMap_.find(type)->second);
+}
