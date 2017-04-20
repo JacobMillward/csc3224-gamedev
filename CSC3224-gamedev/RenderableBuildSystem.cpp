@@ -1,7 +1,7 @@
 #include "Systems/RenderableBuildSystem.h"
 #include "World.h"
 #include "Components/Sprite.h"
-
+#include <EASTL\sort.h>
 RenderableBuildSystem::RenderableBuildSystem(World & w) : ISystem(w)
 {
 	vArray_ = sf::VertexArray(sf::Quads);
@@ -15,6 +15,9 @@ RenderableBuildSystem::~RenderableBuildSystem()
 void RenderableBuildSystem::step(const sf::Time & dt)
 {
 	auto list = this->world_->getEntityManager().getComponentList(IComponent::Type::Renderable);
+	eastl::quick_sort(list->begin(), list->end(), [](ComponentVector::value_type a, ComponentVector::value_type b) {
+		return a.second->getPosition()->Z() < b.second->getPosition()->Z();
+	});
 	vArray_.resize(list->size() * 4);
 
 	int quadIndex = 0;

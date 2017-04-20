@@ -22,11 +22,15 @@ void MyGame::init()
 	/* Set up world */
 	//TODO: Load world setup from file
 
-	sf::IntRect rect(0, 0, 160, 160);
+	sf::IntRect rect(0, 0, 600, 600);
 	playerTexture.loadFromFile("player.png");
 	Sprite* playerSprite = new Sprite(playerTexture, rect);
-	world_->getEntityManager().createEntity()->addComponent(*playerSprite);
-
+	Sprite* player2Sprite = new Sprite(playerTexture, rect);
+	auto p = world_->getEntityManager().createEntity();
+	p->addComponent(*playerSprite);
+	auto p2 = world_->getEntityManager().createEntity();
+	p2->addComponent(*player2Sprite);
+	p2->getPosition()->getPosition() = sf::Vector3f(100, 100, 10);
 	/* Set up world subsystems */
 	auto r = new RenderableBuildSystem(*this->world_);
 	this->world_->addSystem(*r);
