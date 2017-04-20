@@ -4,7 +4,7 @@
 #include "Components/Position.h"
 #include <algorithm>
 #include <iostream>
-
+#include <EASTL\hash_set.h>
 using namespace std;
 
 EntityManager::EntityManager() : entityMap_(EntityMap()), entityID_(0)
@@ -12,7 +12,7 @@ EntityManager::EntityManager() : entityMap_(EntityMap()), entityID_(0)
 	/* Initiaslise map with lists of all component types to save checks for creation later on */
 	for(int i = 0; i < static_cast<int>(IComponent::Type::TYPE_END); ++i)
 	{
-		entityMap_.try_emplace(IComponent::Type(i), vector<pair<IComponent*, Entity*>>());
+		entityMap_.emplace(i, ComponentVector());
 	}
 }
 
@@ -23,7 +23,19 @@ uint32_t EntityManager::getNextID()
 
 EntityManager::~EntityManager()
 {
-	//TODO: Actually fix this huge ass leak here.
+	auto eList = eastl::hash_set<uint32_t>();
+	for (auto comType : entityMap_)
+	{
+		for (auto it = comType.second.begin(); it != comType.second.end(); ++it)
+		{
+			delete it->first;
+			if (eList.find(it->second->getID()) != eList.end())
+			{
+				eList.insert(it->second->getID());
+				delete it->second;
+			}
+		}
+	}
 }
 
 /*
@@ -33,8 +45,8 @@ Entity* EntityManager::createEntity()
 {
 	Position *p = new Position(0, 0, 0);
 	Entity *e = new Entity(getNextID(), *this, *p);
-	cout << "Creating Entity#" << e->getID() << endl;
-	entityMap_.find(IComponent::Type::Position)->second.push_back(make_pair(p, e));
+	std::cout << "Creating Entity#" << e->getID() << endl;
+	entityMap_.find(static_cast<int>(IComponent::Type::Position))->second.push_back(make_pair(p, e));
 	return e;
 }
 
@@ -46,15 +58,16 @@ void EntityManager::destroyEntity(Entity *entity)
 	entity->isDeleted = true;
 	for (auto comType : entityMap_)
 	{
-		vector<vector<pair<IComponent*, Entity*>>::iterator> matches;
+		pair<IComponent*, Entity*>* matches[MAX_COMPONENTS];
+		int numMatches = 0;
 		for (auto it = comType.second.begin(); it != comType.second.end(); ++it)
 		{
-			if (*entity == *it->second)
+			if (entity == it->second)
 			{
-				matches.push_back(it);
+				matches[numMatches++] = it;
 			}
 		}
-		// Might need to loop in reverse here - UNIT TEST
+
 		for (auto e : matches)
 		{
 			delete e->first;
@@ -62,7 +75,7 @@ void EntityManager::destroyEntity(Entity *entity)
 		}
 		
 	}
-	cout << "Destroyed Entity#" << entity->getID() << endl;
+	std::cout << "Destroyed Entity#" << entity->getID() << endl;
 	delete entity;
 }
 
@@ -71,8 +84,8 @@ void EntityManager::destroyEntity(Entity *entity)
  */
 void EntityManager::addComponent(Entity& e, IComponent& c)
 {
-	cout << "Adding Component type " << static_cast<int>(c.getType()) << " to Entity#" << e.getID() << endl;
-	entityMap_.find(c.getType())->second.push_back(make_pair(&c, &e));
+	std::cout << "Adding Component type " << c.getTypeValue() << " to Entity#" << e.getID() << endl;
+	entityMap_.find(c.getTypeValue())->second.push_back(make_pair(&c, &e));
 }
 
 /*
@@ -80,13 +93,13 @@ void EntityManager::addComponent(Entity& e, IComponent& c)
  */
 void EntityManager::removeComponent(Entity& e, IComponent& c)
 {
-	auto list = entityMap_.find(c.getType())->second;
+	auto list = entityMap_.find(c.getTypeValue())->second;
 	auto it = find_if(list.begin(), list.end(), [&e, &c](pair<IComponent*, Entity*> p){
 		return (e == *p.second) && (&c == p.first);
 	});
 	if (it != list.end())
 	{
-		cout << "Deleting " << typeid(it->first).name() << " Component from Entity#" << it->second->getID() << endl;
+		std::cout << "Deleting " << typeid(it->first).name() << " Component from Entity#" << it->second->getID() << endl;
 		delete it->first;
 		list.erase(it);
 	}
@@ -96,7 +109,7 @@ void EntityManager::removeComponent(Entity& e, IComponent& c)
 	}
 }
 
-vector<pair<IComponent*, Entity*>>* EntityManager::getComponentList(IComponent::Type type)
+ComponentVector* EntityManager::getComponentList(IComponent::Type type)
 {
-	return &(entityMap_.find(type)->second);
+	return &(entityMap_.find(static_cast<int>(type))->second);
 }

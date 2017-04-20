@@ -8,6 +8,7 @@ public:
 	/* The IComponent::Type of this component. */
 	static const IComponent::Type typeID = IComponent::Type::Position;
 	Type getType() override { return typeID; }
+	const int getTypeValue() override { return static_cast<int>(typeID); }
 
 	Position(sf::Vector3f& pos) : position_(&pos) {}
 	Position(float x, float y, float z) : position_(new sf::Vector3f(x, y, z)) {}

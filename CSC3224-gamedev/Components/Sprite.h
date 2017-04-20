@@ -8,12 +8,13 @@ public:
 	/* The IComponent::Type of this component. */
 	static const IComponent::Type typeID = IComponent::Type::Renderable;
 	Type getType() override { return typeID; }
+	const int getTypeValue() override { return static_cast<int>(typeID); }
 
 	Sprite(sf::Texture texture, sf::IntRect rect) : texture_(texture), rect_(rect) {};
 	sf::Texture& getTexture() { return texture_; };
-	sf::IntRect& getRect() { return rect_; };
+	sf::FloatRect& getRect() { return rect_; };
 
 private:
 	sf::Texture texture_;
-	sf::IntRect rect_;
+	sf::FloatRect rect_;
 };

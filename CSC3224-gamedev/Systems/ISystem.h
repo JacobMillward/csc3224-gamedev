@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
 
+#define MAX_SYSTEMS 1024
+
 class World;
 
 class ISystem

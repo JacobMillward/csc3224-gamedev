@@ -5,16 +5,16 @@
 #include <SFML\Window\Event.hpp>
 
 
-MyGame::MyGame(FreeListAllocator* alloc) : GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "Woo!"), alloc)
+MyGame::MyGame() : GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "Woo!"))
 {
-	world_ = new (alloc->allocate(sizeof(World), 8)) World();
+	world_ = new World();
 }
 
 
 MyGame::~MyGame()
 {
 	/* Destroy world (Mwahaha) */
-	//TODO: Construct world destroying function
+	delete world_;
 }
 
 void MyGame::init()
@@ -22,11 +22,10 @@ void MyGame::init()
 	/* Set up world */
 	//TODO: Load world setup from file
 
-	player = world_->getEntityManager().createEntity();
 	sf::IntRect rect(0, 0, 160, 160);
 	playerTexture.loadFromFile("player.png");
-	playerSprite = new Sprite(playerTexture, rect);
-	player->addComponent(*playerSprite);
+	Sprite* playerSprite = new Sprite(playerTexture, rect);
+	world_->getEntityManager().createEntity()->addComponent(*playerSprite);
 
 	/* Set up world subsystems */
 	auto r = new RenderableBuildSystem(*this->world_);
@@ -86,7 +85,5 @@ void MyGame::run()
 void MyGame::shutdown()
 {
 	cout << "Shutting down" << endl;
-	this->world_->getEntityManager().destroyEntity(player);
 	window_->close();
-	memAllocator_->deallocate(world_);
 }

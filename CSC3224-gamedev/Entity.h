@@ -4,6 +4,8 @@
 #include "Components/IComponent.h"
 #include "Components/Position.h"
 
+#define MAX_ENTITIES 1024
+
 class EntityManager;
 
 class Entity

@@ -1,12 +1,15 @@
 #pragma once
-#include <unordered_map>
+#include <EASTL\fixed_hash_map.h>
+#include <EASTL\fixed_vector.h>
 #include <vector>
 #include <typeindex>
 #include "Entity.h"
 
 using namespace std;
 
-typedef unordered_map<IComponent::Type, vector<pair<IComponent*, Entity*>>> EntityMap;
+typedef eastl::fixed_vector<pair<IComponent*, Entity*>, MAX_COMPONENTS> ComponentVector;
+//TODO: Consider a multimap here instead
+typedef eastl::fixed_hash_map<int, ComponentVector, static_cast<int>(IComponent::Type::TYPE_END) + 1> EntityMap;
 
 class EntityManager
 {
@@ -18,7 +21,7 @@ public:
 	void destroyEntity(Entity* entity);
 	void addComponent(Entity& e, IComponent& c);
 	void removeComponent(Entity& e, IComponent& c);
-	vector<pair<IComponent*, Entity*>>* getComponentList(IComponent::Type type);
+	ComponentVector* getComponentList(IComponent::Type type);
 
 private:
 	EntityMap entityMap_;
