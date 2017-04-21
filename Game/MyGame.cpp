@@ -31,11 +31,12 @@ void MyGame::init()
 	Sprite* player2Sprite = new Sprite(playerTexture, rect);
 	auto p = world_->getEntityManager().createEntity();
 	p->addComponent(*playerSprite);
-	auto p2 = world_->getEntityManager().createEntity();
-	p2->addComponent(*player2Sprite);
-	p2->getTransform()->move(100, 100);
-	p2->getTransform()->setZOrder(10);
-	
+	wheel = world_->getEntityManager().createEntity();
+	wheel->addComponent(*player2Sprite);
+	auto transform = wheel->getTransform();
+	//transform->move(200, 0);
+	transform->setZOrder(10);
+	transform->setOrigin(300, 300);
 	/* Set up world subsystems */
 	auto r = new RenderableBuildSystem(*this->world_);
 	this->world_->addSystem(*r);
@@ -70,6 +71,7 @@ void MyGame::run()
 			//Main loop
 			intentHandler_.processIntents();
 			world_->step(gameClock_.getElapsedTime());
+			wheel->getTransform()->rotate(1);
 			window_->clear(sf::Color::Cyan);
 			world_->draw(*window_);
 			window_->display();

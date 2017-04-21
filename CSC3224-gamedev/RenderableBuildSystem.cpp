@@ -2,6 +2,9 @@
 #include "World.h"
 #include "Components/Sprite.h"
 #include <EASTL\sort.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 RenderableBuildSystem::RenderableBuildSystem(World & w) : ISystem(w)
 {
 	vArray_ = sf::VertexArray(sf::Quads);
@@ -15,21 +18,38 @@ RenderableBuildSystem::~RenderableBuildSystem()
 void RenderableBuildSystem::step(const sf::Time & dt)
 {
 	auto list = this->world_->getEntityManager().getComponentList(IComponent::Type::Renderable);
+	/* Sort list by z layering */
 	eastl::quick_sort(list->begin(), list->end(), [](ComponentVector::value_type a, ComponentVector::value_type b) {
 		return a.second->getTransform()->getZOrder() < b.second->getTransform()->getZOrder();
 	});
 	vArray_.resize(list->size() * 4);
 
+	/* Create quads */
 	int quadIndex = 0;
 	for (auto pair : *list)
 	{
 		auto rect = static_cast<Sprite*>(pair.first)->getRect();
 		auto pos = pair.second->getTransform()->getPosition();
-		/* Create quad vertices */
-		vArray_[quadIndex].position = sf::Vector2f(pos.x + rect.left, pos.y + rect.top);
-		vArray_[quadIndex + 1].position = sf::Vector2f(pos.x + rect.left + rect.width, pos.y + rect.top);
-		vArray_[quadIndex + 2].position = sf::Vector2f(pos.x + rect.left + rect.width, pos.y + rect.top + rect.height);
-		vArray_[quadIndex + 3].position = sf::Vector2f(pos.x + rect.left, pos.y + rect.top + rect.height);
+		auto origin = pair.second->getTransform()->getOrigin();
+		auto rotation = pair.second->getTransform()->getRotation();
+
+		/* Calculate positions*/
+		auto topLeft = sf::Vector2f(pos.x - origin.x + rect.left,
+			pos.y - origin.y + rect.top);
+		auto topRight = sf::Vector2f(pos.x - origin.x + rect.left + rect.width,
+			pos.y - origin.y + rect.top);
+		auto bottomLeft = sf::Vector2f(pos.x - origin.x + rect.left + rect.width,
+			pos.y - origin.y + rect.top + rect.height);
+		auto bottomRight = sf::Vector2f(pos.x - origin.x + rect.left,
+			pos.y - origin.y + rect.top + rect.height);
+		
+		auto absoluteOrigin = topLeft + origin;
+
+		/* Create quad vertices and rotate points if needed*/
+		vArray_[quadIndex].position = rotatePoint(topLeft, absoluteOrigin, rotation);
+		vArray_[quadIndex + 1].position = rotatePoint(topRight, absoluteOrigin, rotation);
+		vArray_[quadIndex + 2].position = rotatePoint(bottomLeft, absoluteOrigin, rotation);
+		vArray_[quadIndex + 3].position = rotatePoint(bottomRight, absoluteOrigin, rotation);
 
 		/* Create quad texture coordinates (non-normalised) */
 		vArray_[quadIndex].texCoords = sf::Vector2f(rect.left, rect.top);
@@ -41,8 +61,24 @@ void RenderableBuildSystem::step(const sf::Time & dt)
 		quadIndex += 4;
 	}
 	
+	/* Replace drawables list with new one */
+	//TODO: Optimise all this copying every frame
 	this->world_->clearDrawables();
 	vector<pair<sf::VertexArray, sf::Texture>> m;
 	m.push_back(make_pair(vArray_, static_cast<Sprite*>(list->at(0).first)->getTexture()));
 	this->world_->addDrawables(m);
+}
+
+sf::Vector2f RenderableBuildSystem::rotatePoint(sf::Vector2f & point, sf::Vector2f & origin, float angle)
+{
+	if (angle == 0)
+	{
+		return point;
+	}
+
+	angle = angle * (M_PI / 180.0f); // Convert to radians
+	auto rotatedX = cosf(angle) * (point.x - origin.x) - sinf(angle) * (point.y - origin.y) + origin.x;
+	auto rotatedY = sinf(angle) * (point.x - origin.x) + cosf(angle) * (point.y - origin.y) + origin.y;
+
+	return sf::Vector2f(rotatedX, rotatedY);
 }

@@ -19,5 +19,6 @@ private:
 	World* world_;
 
 	sf::Texture playerTexture;
+	Entity* wheel;
 };
 

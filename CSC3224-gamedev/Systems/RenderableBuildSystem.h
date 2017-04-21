@@ -12,4 +12,6 @@ public:
 
 protected:
 	sf::VertexArray vArray_;
+
+	sf::Vector2f rotatePoint(sf::Vector2f& point, sf::Vector2f& origin, float angle);
 };
