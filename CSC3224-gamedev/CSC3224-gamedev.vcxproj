@@ -206,15 +206,6 @@
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\EASTL\source\allocator_eastl.cpp" />
-    <ClCompile Include="..\EASTL\source\assert.cpp" />
-    <ClCompile Include="..\EASTL\source\fixed_pool.cpp" />
-    <ClCompile Include="..\EASTL\source\hashtable.cpp" />
-    <ClCompile Include="..\EASTL\source\intrusive_list.cpp" />
-    <ClCompile Include="..\EASTL\source\numeric_limits.cpp" />
-    <ClCompile Include="..\EASTL\source\red_black_tree.cpp" />
-    <ClCompile Include="..\EASTL\source\string.cpp" />
-    <ClCompile Include="..\EASTL\source\thread_support.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="IntentHandler.cpp" />

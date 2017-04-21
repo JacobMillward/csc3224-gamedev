@@ -22,9 +22,6 @@
     <Filter Include="Source Files\Systems">
       <UniqueIdentifier>{90485078-5955-49b0-9e30-cc7bee480197}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\EASTL">
-      <UniqueIdentifier>{8d081ddd-7a8d-4d4b-a587-bf5e50c263a7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Intents">
       <UniqueIdentifier>{23d05758-5c3c-4ac5-9fdc-b74445b2b30b}</UniqueIdentifier>
     </Filter>
@@ -76,33 +73,6 @@
     </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\EASTL\source\allocator_eastl.cpp">
-      <Filter>Source Files\EASTL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\EASTL\source\assert.cpp">
-      <Filter>Source Files\EASTL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\EASTL\source\fixed_pool.cpp">
-      <Filter>Source Files\EASTL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\EASTL\source\hashtable.cpp">
-      <Filter>Source Files\EASTL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\EASTL\source\intrusive_list.cpp">
-      <Filter>Source Files\EASTL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\EASTL\source\numeric_limits.cpp">
-      <Filter>Source Files\EASTL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\EASTL\source\red_black_tree.cpp">
-      <Filter>Source Files\EASTL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\EASTL\source\string.cpp">
-      <Filter>Source Files\EASTL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\EASTL\source\thread_support.cpp">
-      <Filter>Source Files\EASTL</Filter>
     </ClCompile>
     <ClCompile Include="IntentHandler.cpp">
       <Filter>Source Files</Filter>
