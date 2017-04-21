@@ -16,7 +16,7 @@ void RenderableBuildSystem::step(const sf::Time & dt)
 {
 	auto list = this->world_->getEntityManager().getComponentList(IComponent::Type::Renderable);
 	eastl::quick_sort(list->begin(), list->end(), [](ComponentVector::value_type a, ComponentVector::value_type b) {
-		return a.second->getTransform()->get().z < b.second->getTransform()->get().z;
+		return a.second->getTransform()->getZOrder() < b.second->getTransform()->getZOrder();
 	});
 	vArray_.resize(list->size() * 4);
 
@@ -24,7 +24,7 @@ void RenderableBuildSystem::step(const sf::Time & dt)
 	for (auto pair : *list)
 	{
 		auto rect = static_cast<Sprite*>(pair.first)->getRect();
-		auto pos = pair.second->getTransform()->get();
+		auto pos = pair.second->getTransform()->getPosition();
 		/* Create quad vertices */
 		vArray_[quadIndex].position = sf::Vector2f(pos.x + rect.left, pos.y + rect.top);
 		vArray_[quadIndex + 1].position = sf::Vector2f(pos.x + rect.left + rect.width, pos.y + rect.top);

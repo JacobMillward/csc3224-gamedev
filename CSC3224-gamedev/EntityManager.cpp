@@ -43,7 +43,7 @@ EntityManager::~EntityManager()
  */
 Entity* EntityManager::createEntity()
 {
-	Transform *p = new Transform(0, 0, 0);
+	Transform *p = new Transform();
 	Entity *e = new Entity(getNextID(), *this, *p);
 	std::cout << "Creating Entity#" << e->getID() << endl;
 	entityMap_.find(static_cast<int>(IComponent::Type::TRANSFORM))->second.push_back(make_pair(p, e));

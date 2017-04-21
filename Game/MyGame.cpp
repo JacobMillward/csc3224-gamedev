@@ -33,7 +33,8 @@ void MyGame::init()
 	p->addComponent(*playerSprite);
 	auto p2 = world_->getEntityManager().createEntity();
 	p2->addComponent(*player2Sprite);
-	p2->getTransform()->get() = sf::Vector3f(100, 100, 10);
+	p2->getTransform()->move(100, 100);
+	p2->getTransform()->setZOrder(10);
 	
 	/* Set up world subsystems */
 	auto r = new RenderableBuildSystem(*this->world_);
