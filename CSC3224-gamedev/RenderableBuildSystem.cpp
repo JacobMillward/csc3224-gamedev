@@ -16,7 +16,7 @@ void RenderableBuildSystem::step(const sf::Time & dt)
 {
 	auto list = this->world_->getEntityManager().getComponentList(IComponent::Type::Renderable);
 	eastl::quick_sort(list->begin(), list->end(), [](ComponentVector::value_type a, ComponentVector::value_type b) {
-		return a.second->getPosition()->Z() < b.second->getPosition()->Z();
+		return a.second->getTransform()->get().z < b.second->getTransform()->get().z;
 	});
 	vArray_.resize(list->size() * 4);
 
@@ -24,12 +24,12 @@ void RenderableBuildSystem::step(const sf::Time & dt)
 	for (auto pair : *list)
 	{
 		auto rect = static_cast<Sprite*>(pair.first)->getRect();
-		auto pos = pair.second->getPosition();
+		auto pos = pair.second->getTransform()->get();
 		/* Create quad vertices */
-		vArray_[quadIndex].position = sf::Vector2f(pos->X() + rect.left, pos->Y() + rect.top);
-		vArray_[quadIndex + 1].position = sf::Vector2f(pos->X() + rect.left + rect.width, pos->Y() + rect.top);
-		vArray_[quadIndex + 2].position = sf::Vector2f(pos->X() + rect.left + rect.width, pos->Y() + rect.top + rect.height);
-		vArray_[quadIndex + 3].position = sf::Vector2f(pos->X() + rect.left, pos->Y() + rect.top + rect.height);
+		vArray_[quadIndex].position = sf::Vector2f(pos.x + rect.left, pos.y + rect.top);
+		vArray_[quadIndex + 1].position = sf::Vector2f(pos.x + rect.left + rect.width, pos.y + rect.top);
+		vArray_[quadIndex + 2].position = sf::Vector2f(pos.x + rect.left + rect.width, pos.y + rect.top + rect.height);
+		vArray_[quadIndex + 3].position = sf::Vector2f(pos.x + rect.left, pos.y + rect.top + rect.height);
 
 		/* Create quad texture coordinates (non-normalised) */
 		vArray_[quadIndex].texCoords = sf::Vector2f(rect.left, rect.top);

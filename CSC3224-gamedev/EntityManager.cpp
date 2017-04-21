@@ -1,7 +1,7 @@
 #include <string>
 #include "EntityManager.h"
 #include <typeindex>
-#include "Components/Position.h"
+#include "Components/Transform.h"
 #include <algorithm>
 #include <iostream>
 #include <EASTL\hash_set.h>
@@ -43,10 +43,10 @@ EntityManager::~EntityManager()
  */
 Entity* EntityManager::createEntity()
 {
-	Position *p = new Position(0, 0, 0);
+	Transform *p = new Transform(0, 0, 0);
 	Entity *e = new Entity(getNextID(), *this, *p);
 	std::cout << "Creating Entity#" << e->getID() << endl;
-	entityMap_.find(static_cast<int>(IComponent::Type::Position))->second.push_back(make_pair(p, e));
+	entityMap_.find(static_cast<int>(IComponent::Type::TRANSFORM))->second.push_back(make_pair(p, e));
 	return e;
 }
 
