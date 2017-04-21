@@ -1,5 +1,4 @@
 #include "MyGame.h"
-#include "Systems/RenderableBuildSystem.h"
 #include "Components/Sprite.h"
 #include "Components/Tag.h"
 #include "PlayerControlSystem.h"
@@ -40,7 +39,6 @@ void MyGame::init()
 
 	/* Set up world subsystems */
 	this->world_->addSystem(new PlayerControlSystem(*this->world_, intentHandler_));
-	this->world_->addSystem(new RenderableBuildSystem(*this->world_));
 }
 
 void MyGame::run()
