@@ -34,9 +34,10 @@ void MyGame::init()
 	wheel = world_->getEntityManager().createEntity();
 	wheel->addComponent(*player2Sprite);
 	auto transform = wheel->getTransform();
-	//transform->move(200, 0);
+	transform->move(300, 300);
 	transform->setZOrder(10);
 	transform->setOrigin(300, 300);
+	transform->setScale(0.5, 0.5);
 	/* Set up world subsystems */
 	auto r = new RenderableBuildSystem(*this->world_);
 	this->world_->addSystem(*r);

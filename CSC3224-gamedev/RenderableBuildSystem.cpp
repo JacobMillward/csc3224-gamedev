@@ -28,22 +28,30 @@ void RenderableBuildSystem::step(const sf::Time & dt)
 	int quadIndex = 0;
 	for (auto pair : *list)
 	{
+		auto transform = pair.second->getTransform();
 		auto rect = static_cast<Sprite*>(pair.first)->getRect();
-		auto pos = pair.second->getTransform()->getPosition();
-		auto origin = pair.second->getTransform()->getOrigin();
-		auto rotation = pair.second->getTransform()->getRotation();
+		auto pos = transform->getPosition();
+		auto origin = transform->getOrigin();
+		auto rotation = transform->getRotation();
+		auto scale = transform->getScale();
 
 		/* Calculate positions*/
-		auto topLeft = sf::Vector2f(pos.x - origin.x + rect.left,
-			pos.y - origin.y + rect.top);
-		auto topRight = sf::Vector2f(pos.x - origin.x + rect.left + rect.width,
-			pos.y - origin.y + rect.top);
-		auto bottomLeft = sf::Vector2f(pos.x - origin.x + rect.left + rect.width,
-			pos.y - origin.y + rect.top + rect.height);
-		auto bottomRight = sf::Vector2f(pos.x - origin.x + rect.left,
-			pos.y - origin.y + rect.top + rect.height);
+		auto topLeft = sf::Vector2f(pos.x + rect.left,
+			pos.y + rect.top) - origin;
+		auto topRight = sf::Vector2f(pos.x + rect.left + rect.width,
+			pos.y + rect.top) - origin;
+		auto bottomLeft = sf::Vector2f(pos.x + rect.left + rect.width,
+			pos.y + rect.top + rect.height) - origin;
+		auto bottomRight = sf::Vector2f(pos.x + rect.left,
+			pos.y + rect.top + rect.height) - origin;
 		
 		auto absoluteOrigin = topLeft + origin;
+
+		/* Apply scaling */
+		topLeft = sf::Vector2f((absoluteOrigin.x + topLeft.x)*scale.x, (absoluteOrigin.y + topLeft.y)*scale.y);
+		topRight = sf::Vector2f((absoluteOrigin.x + topRight.x)*scale.x, (absoluteOrigin.y + topRight.y)*scale.y);
+		bottomLeft = sf::Vector2f((absoluteOrigin.x + bottomLeft.x)*scale.x, (absoluteOrigin.y + bottomLeft.y)*scale.y);
+		bottomRight = sf::Vector2f((absoluteOrigin.x + bottomRight.x)*scale.x, (absoluteOrigin.y + bottomRight.y)*scale.y);
 
 		/* Create quad vertices and rotate points if needed*/
 		vArray_[quadIndex].position = rotatePoint(topLeft, absoluteOrigin, rotation);
