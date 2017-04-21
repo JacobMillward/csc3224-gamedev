@@ -94,8 +94,8 @@ void EntityManager::addComponent(Entity& e, IComponent& c)
 void EntityManager::removeComponent(Entity& e, IComponent& c)
 {
 	auto list = entityMap_.find(c.getTypeValue())->second;
-	auto it = find_if(list.begin(), list.end(), [&e, &c](pair<IComponent*, Entity*> p){
-		return (e == *p.second) && (&c == p.first);
+	auto it = eastl::find_if(list.begin(), list.end(), [&e, &c](pair<IComponent*, Entity*> p){
+		return (e == *(p.second)) && (&c == p.first);
 	});
 	if (it != list.end())
 	{

@@ -2,7 +2,7 @@
 #include <EASTL\fixed_hash_map.h>
 #include <EASTL\fixed_vector.h>
 #include <vector>
-#include <typeindex>
+#include <type_traits>
 #include "Entity.h"
 
 using namespace std;
@@ -22,6 +22,8 @@ public:
 	void addComponent(Entity& e, IComponent& c);
 	void removeComponent(Entity& e, IComponent& c);
 	ComponentVector* getComponentList(IComponent::Type type);
+	template <typename T>
+	T* getComponent(Entity* e);
 
 private:
 	EntityMap entityMap_;
@@ -29,3 +31,19 @@ private:
 
 	uint32_t getNextID();
 };
+
+template<typename T>
+inline T * EntityManager::getComponent(Entity * e)
+{
+	static_assert(std::is_base_of<IComponent, T>::value, "T must inherit from IComponent");
+	int comType = static_cast<int>(T::typeID);
+	auto list = entityMap_.find(comType)->second;
+	auto it = eastl::find_if(list.begin(), list.end(), [e](pair<IComponent*, Entity*> p) {
+		return (e == p.second);
+	});
+	if (it != list.end())
+	{
+		return static_cast<T*>(it->first);
+	}
+	throw exception("No such component on entity.");
+}

@@ -18,11 +18,10 @@ PlayerControlSystem::~PlayerControlSystem()
 void PlayerControlSystem::step(const sf::Time & dt)
 {
 	auto list = this->world_->getEntityManager().getComponentList(IComponent::Type::TAG);
-	/* Scale the movement with deltatime and move the entity */
-	//TODO: Limit movement to only the player object!
-	//std::cout << '\r' << moveX * dt.asSeconds();
 	for (auto pair : *list)
 	{
+		/* Scale the movement with deltatime and move the entity */
+
 		auto component = static_cast<Tag*>(pair.first);
 		if (component->getTag() == "player") {
 			pair.second->getTransform()->move(moveX * dt.asSeconds(), moveY * dt.asSeconds());

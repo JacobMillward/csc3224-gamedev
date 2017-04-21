@@ -1,6 +1,6 @@
-#include "Systems/RenderableBuildSystem.h"
-#include "World.h"
-#include "Components/Sprite.h"
+#include "RenderableBuildSystem.h"
+#include "..\World.h"
+#include "..\Components/Sprite.h"
 #include <EASTL\sort.h>
 #define _USE_MATH_DEFINES
 #include <math.h>

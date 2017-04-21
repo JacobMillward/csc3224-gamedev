@@ -17,6 +17,8 @@ public:
 	void addComponent(IComponent& c);
 	void removeComponent(IComponent& c);
 	Transform* getTransform() const;
+	template <typename T>
+	T* getComponent();
 
 	bool operator==(const Entity& other) const;
 private:
@@ -27,3 +29,9 @@ private:
 	friend class EntityManager;
 	bool isDeleted = false;
 };
+
+template<typename T>
+inline T * Entity::getComponent()
+{
+	return entityManager_->getComponent<T>(this);
+}

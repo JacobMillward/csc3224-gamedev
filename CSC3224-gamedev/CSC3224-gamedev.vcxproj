@@ -218,7 +218,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="IntentHandler.cpp" />
-    <ClCompile Include="RenderableBuildSystem.cpp" />
+    <ClCompile Include="Systems\RenderableBuildSystem.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

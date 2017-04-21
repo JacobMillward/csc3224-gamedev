@@ -77,9 +77,6 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderableBuildSystem.cpp">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="..\EASTL\source\allocator_eastl.cpp">
       <Filter>Source Files\EASTL</Filter>
     </ClCompile>
@@ -109,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="IntentHandler.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\RenderableBuildSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
