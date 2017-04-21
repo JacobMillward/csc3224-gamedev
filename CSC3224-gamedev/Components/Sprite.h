@@ -6,7 +6,7 @@ class Sprite : public IComponent
 {
 public:
 	/* The IComponent::Type of this component. */
-	static const IComponent::Type typeID = IComponent::Type::Renderable;
+	static const IComponent::Type typeID = IComponent::Type::RENDERABLE;
 	Type getType() override { return typeID; }
 	const int getTypeValue() override { return static_cast<int>(typeID); }
 

@@ -1,6 +1,7 @@
 #include "MyGame.h"
 #include "Systems\RenderableBuildSystem.h"
 #include "Components\Sprite.h"
+#include "Components\Tag.h"
 #include "PlayerControlSystem.h"
 #include <iostream>
 #include <SFML\Window\Event.hpp>
@@ -31,6 +32,7 @@ void MyGame::init()
 	Sprite* playerSprite = new Sprite(playerTexture, rect);
 	wheel = this->world_->getEntityManager().createEntity();
 	wheel->addComponent(*playerSprite);
+	wheel->addComponent(*(new Tag("player")));
 	auto transform = wheel->getTransform();
 	transform->move(300, 300);
 	transform->setOrigin(300, 300);
@@ -77,7 +79,9 @@ void MyGame::run()
 			++frameCount;
 			totalTime += dt;
 			if (totalTime.asSeconds() > 1) {
-				std::cout << '\r' << frameCount / totalTime.asSeconds() << "FPS";
+				std::cout << "\r\t\t\r" << frameCount / totalTime.asSeconds() << " FPS";
+				totalTime = sf::Time::Zero;
+				frameCount = 0;
 			}
 			world_->step(dt);
 			window_->clear(sf::Color::Cyan);
