@@ -1,18 +1,22 @@
 #include "World.h"
 #include <iostream>
 
-World::World(float timeScale) : state_(State::Init), entityManager_(EntityManager()), systemList_(vector<ISystem*>()),timeScale_(timeScale)
+World::World(float timeScale) : state_(State::Init), entityManager_(EntityManager()), systemList_(eastl::fixed_vector<ISystem*, MAX_SYSTEMS>()), timeScale_(timeScale)
 {
 }
 
 
 World::~World()
 {
+	for (auto system : systemList_)
+	{
+		delete system;
+	}
 }
 
-void World::addSystem(ISystem& system)
+void World::addSystem(ISystem* system)
 {
-	systemList_.push_back(&system);
+	systemList_.push_back(system);
 }
 
 void World::step(const sf::Time & gameDelta)

@@ -20,7 +20,7 @@ public:
 	~World();
 	void changeState(State s) { state_ = s; };
 	State getState() const { return state_; };
-	void addSystem(ISystem& system);
+	void addSystem(ISystem* system);
 	void step(const sf::Time& gameDelta);
 	void draw(sf::RenderWindow& w);
 
@@ -31,7 +31,7 @@ public:
 protected:
 	State state_;
 	EntityManager entityManager_;
-	vector<ISystem*> systemList_;
+	eastl::fixed_vector<ISystem*, MAX_SYSTEMS> systemList_;
 	vector<pair<sf::VertexArray, sf::Texture>> drawables_;
 	float timeScale_;
 };

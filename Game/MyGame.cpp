@@ -1,6 +1,7 @@
 #include "MyGame.h"
 #include "Systems\RenderableBuildSystem.h"
 #include "Components\Sprite.h"
+#include "PlayerControlSystem.h"
 #include <iostream>
 #include <SFML\Window\Event.hpp>
 
@@ -24,27 +25,28 @@ void MyGame::init()
 	intentHandler_.loadIntentsFromFile("KeyMap.txt");
 	intentHandler_.printKeyMaps();
 
-	/* Create two overlapping objects */
+	/* Create objects */
 	sf::IntRect rect(0, 0, 600, 600);
 	playerTexture.loadFromFile("player.png");
 	Sprite* playerSprite = new Sprite(playerTexture, rect);
-	Sprite* player2Sprite = new Sprite(playerTexture, rect);
-	auto p = world_->getEntityManager().createEntity();
-	p->addComponent(*playerSprite);
-	wheel = world_->getEntityManager().createEntity();
-	wheel->addComponent(*player2Sprite);
+	wheel = this->world_->getEntityManager().createEntity();
+	wheel->addComponent(*playerSprite);
 	auto transform = wheel->getTransform();
 	transform->move(300, 300);
-	transform->setZOrder(10);
 	transform->setOrigin(300, 300);
 	transform->setScale(0.5, 0.5);
+
+
 	/* Set up world subsystems */
-	auto r = new RenderableBuildSystem(*this->world_);
-	this->world_->addSystem(*r);
+	this->world_->addSystem(new PlayerControlSystem(*this->world_, intentHandler_));
+	this->world_->addSystem(new RenderableBuildSystem(*this->world_));
 }
 
 void MyGame::run()
 {
+	sf::Time dt;
+	sf::Time totalTime;
+	int frameCount = 0;
 	bool loop = true;
 	while (loop)
 	{
@@ -71,8 +73,13 @@ void MyGame::run()
 		case World::State::Running:
 			//Main loop
 			intentHandler_.processIntents();
-			world_->step(gameClock_.getElapsedTime());
-			wheel->getTransform()->rotate(1);
+			dt = gameClock_.restart();
+			++frameCount;
+			totalTime += dt;
+			if (totalTime.asSeconds() > 1) {
+				std::cout << '\r' << frameCount / totalTime.asSeconds() << "FPS";
+			}
+			world_->step(dt);
 			window_->clear(sf::Color::Cyan);
 			world_->draw(*window_);
 			window_->display();
