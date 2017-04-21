@@ -48,7 +48,7 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 			case 0:
 				if (keyCode > sf::Keyboard::KeyCount || keyCode < 0)
 				{
-					std::cout << "IntentMap: Keyboard code out of range" << std::endl;
+					std::cout << "IntentMap: Keyboard code out of range. Line (" << lineNum << ")" << std::endl;
 					continue;
 				}
 				keyboardMap.erase(sf::Keyboard::Key(keyCode));
@@ -59,7 +59,7 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 			case 1:
 				if (keyCode > sf::Mouse::ButtonCount || keyCode < 0)
 				{
-					std::cout << "IntentMap: Mouse code out of range" << std::endl;
+					std::cout << "IntentMap: Mouse code out of range. Line ("  << lineNum << ")" << std::endl;
 					continue;
 				}
 				mouseMap.erase(sf::Mouse::Button(keyCode));
@@ -68,7 +68,7 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 
 			/* Invalid mapNumber */
 			default:
-				std::cout << "IntentMap: Invalid map number on line (" << lineNum << ")" << std::endl;
+				std::cout << "IntentMap: Invalid map number. Line (" << lineNum << ")" << std::endl;
 				continue;
 			}
 		}
