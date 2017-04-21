@@ -1,6 +1,7 @@
 #pragma once
 #include "Systems/ISystem.h"
-#include "IntentHandler.h"
+#include "Intents/IntentObserver.h"
+#include "Intents/IntentHandler.h"
 
 class PlayerControlSystem : public ISystem, public IntentObserver
 {

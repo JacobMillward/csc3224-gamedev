@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include "IntentHandler.h"
+#include "Intents/IntentHandler.h"
 
 class GameBase
 {

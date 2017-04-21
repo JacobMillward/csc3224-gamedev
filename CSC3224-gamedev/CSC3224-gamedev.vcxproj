@@ -199,8 +199,8 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameBase.h" />
-    <ClInclude Include="IntentHandler.h" />
-    <ClInclude Include="IntentObserver.h" />
+    <ClInclude Include="Intents\IntentHandler.h" />
+    <ClInclude Include="Intents\IntentObserver.h" />
     <ClInclude Include="Systems\ISystem.h" />
     <ClInclude Include="Systems\RenderableBuildSystem.h" />
     <ClInclude Include="World.h" />
@@ -208,7 +208,7 @@
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
-    <ClCompile Include="IntentHandler.cpp" />
+    <ClCompile Include="Intents\IntentHandler.cpp" />
     <ClCompile Include="Systems\RenderableBuildSystem.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>

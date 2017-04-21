@@ -51,17 +51,17 @@
     <ClInclude Include="Systems\RenderableBuildSystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="IntentHandler.h">
-      <Filter>Header Files\Intents</Filter>
-    </ClInclude>
-    <ClInclude Include="IntentObserver.h">
-      <Filter>Header Files\Intents</Filter>
-    </ClInclude>
     <ClInclude Include="Components\Transform.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Components\Tag.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Intents\IntentHandler.h">
+      <Filter>Header Files\Intents</Filter>
+    </ClInclude>
+    <ClInclude Include="Intents\IntentObserver.h">
+      <Filter>Header Files\Intents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +74,11 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IntentHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\RenderableBuildSystem.cpp">
       <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Intents\IntentHandler.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
