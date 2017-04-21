@@ -2,7 +2,10 @@
 #include <string>
 
 struct IntentEvent {
-	std::string Intent;
+	int type;
+	std::string name;
+	bool isDown;
+	sf::Vector2i pos;
 };
 
 class IntentObserver

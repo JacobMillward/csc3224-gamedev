@@ -31,7 +31,7 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 		if (!line.empty())
 		{
 			std::stringstream ss(line);
-			//We only care about the first 3 tokens - lets attempt to parse them into the correct format
+			//We only care about the first 4 tokens - lets attempt to parse them into the correct format
 			if (((ss >> mapNumber).fail())
 				|| (ss >> keyCode).fail()
 				|| (ss >> intent).fail())
@@ -53,7 +53,6 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 				}
 				keyboardIntentMap.erase(sf::Keyboard::Key(keyCode));
 				keyboardIntentMap.emplace(sf::Keyboard::Key(keyCode), intent);
-				keyboardStateMap.emplace(sf::Keyboard::Key(keyCode), KeyState::UP);
 				break;
 			
 			/* Mouse */
@@ -65,7 +64,6 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 				}
 				mouseIntentMap.erase(sf::Mouse::Button(keyCode));
 				mouseIntentMap.emplace(sf::Mouse::Button(keyCode), intent);
-				mouseStateMap.emplace(sf::Mouse::Button(keyCode), KeyState::UP);
 				break;
 
 			/* Invalid mapNumber */
@@ -81,16 +79,16 @@ void IntentHandler::printKeyMaps()
 {
 	std::cout << "Keyboard" << std::endl;
 	std::cout << "KeyCode\tIntent" << std::endl;
-	for (auto key : keyboardIntentMap)
+	for (auto pair : keyboardIntentMap)
 	{
-		std::cout << key.first << "\t" << key.second << std::endl;
+		std::cout << pair.first << "\t" << pair.second << std::endl;
 	}
 
 	std::cout << "\nMouse" << std::endl;
 	std::cout << "KeyCode\tIntent" << std::endl;
-	for (auto key : mouseIntentMap)
+	for (auto pair : mouseIntentMap)
 	{
-		std::cout << key.first << "\t" << key.second << std::endl;
+		std::cout << pair.first << "\t" << pair.second << std::endl;
 	}
 }
 
@@ -106,90 +104,31 @@ void IntentHandler::removeObserver(IntentObserver * observer)
 
 void IntentHandler::processIntents()
 {
-	updateState();
-
-	/* Notify observers of state */
-	std::cout << keyboardStateMap.find(sf::Keyboard::Space)->second << std::endl;
-}
-
-void IntentHandler::updateState()
-{
-	/* Update state of bound keys */
+	/* Keyboard intents */
 	for (auto pair : keyboardIntentMap)
 	{
-		sf::Keyboard::Key key = pair.first;
-		KeyState currentState = keyboardStateMap.find(key)->second;
-		KeyState newState;
-		if (sf::Keyboard::isKeyPressed(key))
-		{
-			switch (currentState)
-			{
-			case KeyState::RELEASED:
-			case KeyState::UP:
-				newState = KeyState::PRESSED;
-				break;
-			case KeyState::DOWN:
-			case KeyState::PRESSED:
-				newState = KeyState::DOWN;
-				break;
-			}
-		}
-		else
-		{
-			switch (currentState)
-			{
-			case KeyState::DOWN:
-			case KeyState::PRESSED:
-				newState = KeyState::RELEASED;
-				break;
-			case KeyState::RELEASED:
-			case KeyState::UP:
-				newState = KeyState::UP;
-				break;
-			
-			}
-		}
-		
-		keyboardStateMap.erase(key);
-		keyboardStateMap.emplace(key, newState);
+		IntentEvent intent;
+		intent.type = 0;
+		intent.name = pair.second;
+		intent.isDown = sf::Keyboard::isKeyPressed(pair.first);
+		sendIntent(intent);
 	}
-
-	/* And again for mouse buttons */
+	/* Mouse intents */
 	for (auto pair : mouseIntentMap)
 	{
-		sf::Mouse::Button key = pair.first;
-		KeyState currentState = mouseStateMap.find(key)->second;
-		KeyState newState;
-		if (sf::Mouse::isButtonPressed(key))
-		{
-			switch (currentState)
-			{
-			case KeyState::RELEASED:
-			case KeyState::UP:
-				newState = KeyState::PRESSED;
-				break;
-			case KeyState::DOWN:
-			case KeyState::PRESSED:
-				newState = KeyState::DOWN;
-				break;
-			}
-		}
-		else
-		{
-			switch (currentState)
-			{
-			case KeyState::DOWN:
-			case KeyState::PRESSED:
-				newState = KeyState::RELEASED;
-				break;
-			case KeyState::RELEASED:
-			case KeyState::UP:
-				newState = KeyState::UP;
-				break;
+		IntentEvent intent;
+		intent.type = 1;
+		intent.name = pair.second;
+		intent.isDown = sf::Mouse::isButtonPressed(pair.first);
+		intent.pos = sf::Mouse::getPosition();
+		sendIntent(intent);
+	}
+}
 
-			}
-		}
-		mouseStateMap.erase(key);
-		mouseStateMap.emplace(key, newState);
+void IntentHandler::sendIntent(IntentEvent intent)
+{
+	for (auto it = observerList.begin(), end = observerList.end(); it != end; ++it)
+	{
+		(*it)->onNotify(intent);
 	}
 }

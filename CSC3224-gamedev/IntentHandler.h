@@ -10,7 +10,6 @@
 class IntentHandler
 {
 public:
-	enum KeyState { PRESSED, DOWN, RELEASED, UP };
 	IntentHandler();
 	~IntentHandler();
 	void loadIntentsFromFile(std::string filePath);
@@ -23,10 +22,7 @@ public:
 
 protected:
 	eastl::vector_map<sf::Keyboard::Key, std::string> keyboardIntentMap;
-	eastl::hash_map<int, KeyState> keyboardStateMap;
 	eastl::vector_map<sf::Mouse::Button, std::string> mouseIntentMap;
-	eastl::hash_map<int, KeyState> mouseStateMap;
 	eastl::slist<IntentObserver*> observerList;
-
-	void updateState();
+	void sendIntent(IntentEvent intent);
 };
