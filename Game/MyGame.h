@@ -1,7 +1,7 @@
 #pragma once
 #include "GameBase.h"
 #include "World.h"
-#include "Components\Sprite.h"
+#include "Components/Sprite.h"
 
 class MyGame : public GameBase
 {
@@ -21,4 +21,3 @@ private:
 	sf::Texture playerTexture;
 	Entity* wheel;
 };
-

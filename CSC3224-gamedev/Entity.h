@@ -1,6 +1,5 @@
 #pragma once
 #include <cstdint>
-#include <SFML/System/Vector3.hpp>
 #include "Components/IComponent.h"
 #include "Components/Transform.h"
 
@@ -30,8 +29,8 @@ private:
 	bool isDeleted = false;
 };
 
-template<typename T>
-inline T * Entity::getComponent()
+template <typename T>
+T* Entity::getComponent()
 {
 	return entityManager_->getComponent<T>(this);
 }

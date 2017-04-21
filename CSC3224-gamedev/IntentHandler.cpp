@@ -8,7 +8,6 @@ IntentHandler::IntentHandler()
 	/* Set up intent maps */
 	keyboardIntentMap.reserve(sf::Keyboard::KeyCount);
 	mouseIntentMap.reserve(sf::Mouse::ButtonCount);
-
 }
 
 
@@ -24,7 +23,7 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 
 	//Get Line from file
 	std::string line;
-	int lineNum = 0;
+	auto lineNum = 0;
 	while (std::getline(infile, line))
 	{
 		lineNum++;
@@ -44,7 +43,7 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 			//Turn keyCode into correct type
 			switch (mapNumber)
 			{
-			/* Keyboard  */
+				/* Keyboard  */
 			case 0:
 				if (keyCode > sf::Keyboard::KeyCount || keyCode < 0)
 				{
@@ -54,22 +53,21 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 				keyboardIntentMap.erase(sf::Keyboard::Key(keyCode));
 				keyboardIntentMap.emplace(sf::Keyboard::Key(keyCode), intent);
 				break;
-			
-			/* Mouse */
+
+				/* Mouse */
 			case 1:
 				if (keyCode > sf::Mouse::ButtonCount || keyCode < 0)
 				{
-					std::cout << "IntentMap: Mouse code out of range. Line ("  << lineNum << ")" << std::endl;
+					std::cout << "IntentMap: Mouse code out of range. Line (" << lineNum << ")" << std::endl;
 					continue;
 				}
 				mouseIntentMap.erase(sf::Mouse::Button(keyCode));
 				mouseIntentMap.emplace(sf::Mouse::Button(keyCode), intent);
 				break;
 
-			/* Invalid mapNumber */
+				/* Invalid mapNumber */
 			default:
 				std::cout << "IntentMap: Invalid map number. Line (" << lineNum << ")" << std::endl;
-				continue;
 			}
 		}
 	}
@@ -92,12 +90,12 @@ void IntentHandler::printKeyMaps()
 	}
 }
 
-void IntentHandler::addObserver(IntentObserver * observer)
+void IntentHandler::addObserver(IntentObserver* observer)
 {
 	observerList.push_front(observer);
 }
 
-void IntentHandler::removeObserver(IntentObserver * observer)
+void IntentHandler::removeObserver(IntentObserver* observer)
 {
 	observerList.remove(observer);
 }

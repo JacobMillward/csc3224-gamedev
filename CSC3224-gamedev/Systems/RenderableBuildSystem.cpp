@@ -1,31 +1,31 @@
 #include "RenderableBuildSystem.h"
-#include "..\World.h"
-#include "..\Components/Sprite.h"
-#include <EASTL\sort.h>
+#include "../World.h"
+#include "../Components/Sprite.h"
+#include <EASTL/sort.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-RenderableBuildSystem::RenderableBuildSystem(World & w) : ISystem(w)
+RenderableBuildSystem::RenderableBuildSystem(World& w) : ISystem(w)
 {
 	vArray_ = sf::VertexArray(sf::Quads);
 }
 
 RenderableBuildSystem::~RenderableBuildSystem()
 {
-	//delete vArray_;
 }
 
-void RenderableBuildSystem::step(const sf::Time & dt)
+void RenderableBuildSystem::step(const sf::Time& dt)
 {
 	auto list = this->world_->getEntityManager().getComponentList(IComponent::Type::RENDERABLE);
 	/* Sort list by z layering */
-	eastl::quick_sort(list->begin(), list->end(), [](ComponentVector::value_type a, ComponentVector::value_type b) {
-		return a.second->getTransform()->getZOrder() < b.second->getTransform()->getZOrder();
-	});
+	eastl::quick_sort(list->begin(), list->end(), [](ComponentVector::value_type a, ComponentVector::value_type b)
+	                  {
+		                  return a.second->getTransform()->getZOrder() < b.second->getTransform()->getZOrder();
+	                  });
 	vArray_.resize(list->size() * 4);
 
 	/* Create quads */
-	int quadIndex = 0;
+	auto quadIndex = 0;
 	for (auto pair : *list)
 	{
 		auto transform = pair.second->getTransform();
@@ -37,21 +37,21 @@ void RenderableBuildSystem::step(const sf::Time & dt)
 
 		/* Calculate positions*/
 		auto topLeft = sf::Vector2f(pos.x + rect.left,
-			pos.y + rect.top) - origin;
+		                            pos.y + rect.top) - origin;
 		auto topRight = sf::Vector2f(pos.x + rect.left + rect.width,
-			pos.y + rect.top) - origin;
+		                             pos.y + rect.top) - origin;
 		auto bottomLeft = sf::Vector2f(pos.x + rect.left + rect.width,
-			pos.y + rect.top + rect.height) - origin;
+		                               pos.y + rect.top + rect.height) - origin;
 		auto bottomRight = sf::Vector2f(pos.x + rect.left,
-			pos.y + rect.top + rect.height) - origin;
-		
+		                                pos.y + rect.top + rect.height) - origin;
+
 		auto absoluteOrigin = topLeft + origin;
 
 		/* Apply scaling */
-		topLeft = sf::Vector2f((absoluteOrigin.x + topLeft.x)*scale.x, (absoluteOrigin.y + topLeft.y)*scale.y);
-		topRight = sf::Vector2f((absoluteOrigin.x + topRight.x)*scale.x, (absoluteOrigin.y + topRight.y)*scale.y);
-		bottomLeft = sf::Vector2f((absoluteOrigin.x + bottomLeft.x)*scale.x, (absoluteOrigin.y + bottomLeft.y)*scale.y);
-		bottomRight = sf::Vector2f((absoluteOrigin.x + bottomRight.x)*scale.x, (absoluteOrigin.y + bottomRight.y)*scale.y);
+		topLeft = sf::Vector2f((absoluteOrigin.x + topLeft.x) * scale.x, (absoluteOrigin.y + topLeft.y) * scale.y);
+		topRight = sf::Vector2f((absoluteOrigin.x + topRight.x) * scale.x, (absoluteOrigin.y + topRight.y) * scale.y);
+		bottomLeft = sf::Vector2f((absoluteOrigin.x + bottomLeft.x) * scale.x, (absoluteOrigin.y + bottomLeft.y) * scale.y);
+		bottomRight = sf::Vector2f((absoluteOrigin.x + bottomRight.x) * scale.x, (absoluteOrigin.y + bottomRight.y) * scale.y);
 
 		/* Create quad vertices and rotate points if needed*/
 		vArray_[quadIndex].position = rotatePoint(topLeft, absoluteOrigin, rotation);
@@ -68,7 +68,7 @@ void RenderableBuildSystem::step(const sf::Time & dt)
 		/* To the next quad! */
 		quadIndex += 4;
 	}
-	
+
 	/* Replace drawables list with new one */
 	//TODO: Optimise all this copying every frame
 	this->world_->clearDrawables();
@@ -77,7 +77,7 @@ void RenderableBuildSystem::step(const sf::Time & dt)
 	this->world_->addDrawables(m);
 }
 
-sf::Vector2f RenderableBuildSystem::rotatePoint(sf::Vector2f & point, sf::Vector2f & origin, float angle)
+sf::Vector2f RenderableBuildSystem::rotatePoint(sf::Vector2f& point, sf::Vector2f& origin, float angle)
 {
 	if (angle == 0)
 	{

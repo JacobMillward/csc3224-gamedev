@@ -4,13 +4,13 @@
 #include "Components/Transform.h"
 #include <algorithm>
 #include <iostream>
-#include <EASTL\hash_set.h>
+#include <EASTL/hash_set.h>
 using namespace std;
 
 EntityManager::EntityManager() : entityMap_(EntityMap()), entityID_(0)
 {
 	/* Initiaslise map with lists of all component types to save checks for creation later on */
-	for(int i = 0; i < static_cast<int>(IComponent::Type::TYPE_END); ++i)
+	for (auto i = 0; i < static_cast<int>(IComponent::Type::TYPE_END); ++i)
 	{
 		entityMap_.emplace(i, ComponentVector());
 	}
@@ -43,8 +43,8 @@ EntityManager::~EntityManager()
  */
 Entity* EntityManager::createEntity()
 {
-	Transform *p = new Transform();
-	Entity *e = new Entity(getNextID(), *this, *p);
+	auto p = new Transform();
+	auto e = new Entity(getNextID(), *this, *p);
 	std::cout << "Creating Entity#" << e->getID() << endl;
 	entityMap_.find(static_cast<int>(IComponent::Type::TRANSFORM))->second.push_back(make_pair(p, e));
 	return e;
@@ -53,13 +53,13 @@ Entity* EntityManager::createEntity()
 /*
  * Destroys all components that belong to the specified entity. Also deletes the entity.
  */
-void EntityManager::destroyEntity(Entity *entity)
+void EntityManager::destroyEntity(Entity* entity)
 {
 	entity->isDeleted = true;
 	for (auto comType : entityMap_)
 	{
 		pair<IComponent*, Entity*>* matches[MAX_COMPONENTS];
-		int numMatches = 0;
+		auto numMatches = 0;
 		for (auto it = comType.second.begin(); it != comType.second.end(); ++it)
 		{
 			if (entity == it->second)
@@ -73,7 +73,6 @@ void EntityManager::destroyEntity(Entity *entity)
 			delete e->first;
 			comType.second.erase(e);
 		}
-		
 	}
 	std::cout << "Destroyed Entity#" << entity->getID() << endl;
 	delete entity;
@@ -94,9 +93,10 @@ void EntityManager::addComponent(Entity& e, IComponent& c)
 void EntityManager::removeComponent(Entity& e, IComponent& c)
 {
 	auto list = entityMap_.find(c.getTypeValue())->second;
-	auto it = eastl::find_if(list.begin(), list.end(), [&e, &c](pair<IComponent*, Entity*> p){
-		return (e == *(p.second)) && (&c == p.first);
-	});
+	auto it = eastl::find_if(list.begin(), list.end(), [&e, &c](pair<IComponent*, Entity*> p)
+	                         {
+		                         return (e == *(p.second)) && (&c == p.first);
+	                         });
 	if (it != list.end())
 	{
 		std::cout << "Deleting " << typeid(it->first).name() << " Component from Entity#" << it->second->getID() << endl;

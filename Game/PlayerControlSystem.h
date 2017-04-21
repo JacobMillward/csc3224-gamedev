@@ -1,5 +1,5 @@
 #pragma once
-#include "Systems\ISystem.h"
+#include "Systems/ISystem.h"
 #include "IntentHandler.h"
 
 class PlayerControlSystem : public ISystem, public IntentObserver
@@ -9,10 +9,10 @@ public:
 	~PlayerControlSystem();
 
 	// Inherited via ISystem
-	virtual void step(const sf::Time & dt) override;
+	void step(const sf::Time& dt) override;
 
 	// Inherited via IntentObserver
-	virtual void onNotify(IntentEvent event) override;
+	void onNotify(IntentEvent event) override;
 
 protected:
 	IntentHandler* intentHandler;
@@ -20,4 +20,3 @@ protected:
 	float moveX = 0;
 	float moveY = 0;
 };
-

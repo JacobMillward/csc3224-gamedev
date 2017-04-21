@@ -1,8 +1,7 @@
 #include "Entity.h"
 #include "EntityManager.h"
-#include <iostream>
 
-Entity::Entity(uint32_t id, EntityManager & entityManager, Transform& pos)
+Entity::Entity(uint32_t id, EntityManager& entityManager, Transform& pos)
 {
 	id_ = id;
 	entityManager_ = &entityManager;
@@ -32,12 +31,12 @@ void Entity::removeComponent(IComponent& c)
 	entityManager_->removeComponent(*this, c);
 }
 
-Transform * Entity::getTransform() const
+Transform* Entity::getTransform() const
 {
 	return transform_;
 }
 
-bool Entity::operator==(const Entity & other) const
+bool Entity::operator==(const Entity& other) const
 {
 	return this->id_ == other.getID();
 }

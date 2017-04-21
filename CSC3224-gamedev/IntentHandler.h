@@ -1,11 +1,10 @@
 #pragma once
 #include "IntentObserver.h"
-#include <EASTL\vector_map.h>
-#include <EASTL\hash_map.h>
-#include <EASTL\slist.h>
+#include <EASTL/vector_map.h>
+#include <EASTL/slist.h>
 #include <string>
-#include <SFML\Window\Keyboard.hpp>
-#include <SFML\Window\Mouse.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 class IntentHandler
 {

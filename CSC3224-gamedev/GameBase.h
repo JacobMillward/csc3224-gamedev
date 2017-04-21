@@ -6,20 +6,30 @@
 class GameBase
 {
 public:
-	
-	GameBase(sf::RenderWindow* window) : gameClock_(sf::Clock()), window_(window), intentHandler_() {};
+
+	explicit GameBase(sf::RenderWindow* window) : gameClock_(sf::Clock()), window_(window), intentHandler_()
+	{
+	};
+
 	virtual ~GameBase()
 	{
 		delete window_;
 	};
 
-	virtual void run() {};
+	virtual void run()
+	{
+	};
 
 protected:
 	sf::Clock gameClock_;
 	sf::RenderWindow* window_;
 	IntentHandler intentHandler_;
 
-	virtual void init() {};
-	virtual void shutdown() {};
+	virtual void init()
+	{
+	};
+
+	virtual void shutdown()
+	{
+	};
 };

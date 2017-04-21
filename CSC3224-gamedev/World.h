@@ -1,8 +1,8 @@
 #pragma once
-#include <SFML\System\Clock.hpp>
-#include <SFML\Graphics\RenderWindow.hpp>
-#include <SFML\Graphics\VertexArray.hpp>
-#include <SFML\Graphics\Texture.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/VertexArray.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include "EntityManager.h"
 #include "Systems/ISystem.h"
 
@@ -16,7 +16,8 @@ public:
 		Quitting,
 		Shutdown
 	};
-	World(float timeScale = 1);
+
+	explicit World(float timeScale = 1);
 	~World();
 	void changeState(State s) { state_ = s; };
 	State getState() const { return state_; };
@@ -25,7 +26,7 @@ public:
 	void draw(sf::RenderWindow& w);
 
 	EntityManager& getEntityManager();
-	void addDrawables(vector<pair<sf::VertexArray, sf::Texture>> &drawableList);
+	void addDrawables(vector<pair<sf::VertexArray, sf::Texture>>& drawableList);
 	void clearDrawables();
 
 protected:
@@ -35,4 +36,3 @@ protected:
 	vector<pair<sf::VertexArray, sf::Texture>> drawables_;
 	float timeScale_;
 };
-

@@ -3,7 +3,7 @@
 
 int main()
 {
-	MyGame* app = new MyGame();
+	auto app = new MyGame();
 	app->run();
 
 	delete app;

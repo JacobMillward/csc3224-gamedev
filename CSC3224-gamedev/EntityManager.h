@@ -1,14 +1,12 @@
 #pragma once
-#include <EASTL\fixed_hash_map.h>
-#include <EASTL\fixed_vector.h>
-#include <vector>
+#include <EASTL/fixed_hash_map.h>
+#include <EASTL/fixed_vector.h>
 #include <type_traits>
 #include "Entity.h"
 
 using namespace std;
 
 typedef eastl::fixed_vector<pair<IComponent*, Entity*>, MAX_COMPONENTS> ComponentVector;
-//TODO: Consider a multimap here instead
 typedef eastl::fixed_hash_map<int, ComponentVector, static_cast<int>(IComponent::Type::TYPE_END) + 1> EntityMap;
 
 class EntityManager
@@ -32,18 +30,19 @@ private:
 	uint32_t getNextID();
 };
 
-template<typename T>
-inline T * EntityManager::getComponent(Entity * e)
+template <typename T>
+T* EntityManager::getComponent(Entity* e)
 {
 	static_assert(std::is_base_of<IComponent, T>::value, "T must inherit from IComponent");
-	int comType = static_cast<int>(T::typeID);
+	auto comType = static_cast<int>(T::typeID);
 	auto list = entityMap_.find(comType)->second;
-	auto it = eastl::find_if(list.begin(), list.end(), [e](pair<IComponent*, Entity*> p) {
-		return (e == p.second);
-	});
+	auto it = eastl::find_if(list.begin(), list.end(), [e](pair<IComponent*, Entity*> p)
+	                         {
+		                         return (e == p.second);
+	                         });
 	if (it != list.end())
 	{
 		return static_cast<T*>(it->first);
 	}
-	throw exception("No such component on entity.");
+	throw "No such component on entity.";
 }

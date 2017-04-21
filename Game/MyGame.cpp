@@ -1,15 +1,16 @@
 #include "MyGame.h"
-#include "Systems\RenderableBuildSystem.h"
-#include "Components\Sprite.h"
-#include "Components\Tag.h"
+#include "Systems/RenderableBuildSystem.h"
+#include "Components/Sprite.h"
+#include "Components/Tag.h"
 #include "PlayerControlSystem.h"
 #include <iostream>
-#include <SFML\Window\Event.hpp>
+#include <SFML/Window/Event.hpp>
 
 
 MyGame::MyGame() : GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "Woo!"))
 {
 	world_ = new World();
+	wheel = this->world_->getEntityManager().createEntity();
 }
 
 
@@ -29,9 +30,7 @@ void MyGame::init()
 	/* Create objects */
 	sf::IntRect rect(0, 0, 600, 600);
 	playerTexture.loadFromFile("player.png");
-	Sprite* playerSprite = new Sprite(playerTexture, rect);
-	wheel = this->world_->getEntityManager().createEntity();
-	wheel->addComponent(*playerSprite);
+	wheel->addComponent(*(new Sprite(playerTexture, rect)));
 	wheel->addComponent(*(new Tag("player")));
 	auto transform = wheel->getTransform();
 	transform->move(300, 300);
@@ -48,8 +47,8 @@ void MyGame::run()
 {
 	sf::Time dt;
 	sf::Time totalTime;
-	int frameCount = 0;
-	bool loop = true;
+	auto frameCount = 0;
+	auto loop = true;
 	while (loop)
 	{
 		// Deal with window events
@@ -78,7 +77,8 @@ void MyGame::run()
 			dt = gameClock_.restart();
 			++frameCount;
 			totalTime += dt;
-			if (totalTime.asSeconds() > 1) {
+			if (totalTime.asSeconds() > 1)
+			{
 				std::cout << "\r\t\t\r" << frameCount / totalTime.asSeconds() << " FPS";
 				totalTime = sf::Time::Zero;
 				frameCount = 0;
