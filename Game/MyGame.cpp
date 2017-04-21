@@ -67,6 +67,7 @@ void MyGame::run()
 
 		case World::State::Running:
 			//Main loop
+			intentHandler_.processIntents();
 			world_->step(gameClock_.getElapsedTime());
 			window_->clear(sf::Color::Cyan);
 			world_->draw(*window_);

@@ -3,8 +3,8 @@
 
 struct IntentEvent {
 	std::string Intent;
-
 };
+
 class IntentObserver
 {
 public:

@@ -6,8 +6,8 @@
 IntentHandler::IntentHandler()
 {
 	/* Set up intent maps */
-	keyboardMap.reserve(sf::Keyboard::KeyCount);
-	mouseMap.reserve(sf::Mouse::ButtonCount);
+	keyboardIntentMap.reserve(sf::Keyboard::KeyCount);
+	mouseIntentMap.reserve(sf::Mouse::ButtonCount);
 
 }
 
@@ -51,8 +51,9 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 					std::cout << "IntentMap: Keyboard code out of range. Line (" << lineNum << ")" << std::endl;
 					continue;
 				}
-				keyboardMap.erase(sf::Keyboard::Key(keyCode));
-				keyboardMap.emplace(sf::Keyboard::Key(keyCode), intent);
+				keyboardIntentMap.erase(sf::Keyboard::Key(keyCode));
+				keyboardIntentMap.emplace(sf::Keyboard::Key(keyCode), intent);
+				keyboardStateMap.emplace(sf::Keyboard::Key(keyCode), KeyState::UP);
 				break;
 			
 			/* Mouse */
@@ -62,8 +63,9 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 					std::cout << "IntentMap: Mouse code out of range. Line ("  << lineNum << ")" << std::endl;
 					continue;
 				}
-				mouseMap.erase(sf::Mouse::Button(keyCode));
-				mouseMap.emplace(sf::Mouse::Button(keyCode), intent);
+				mouseIntentMap.erase(sf::Mouse::Button(keyCode));
+				mouseIntentMap.emplace(sf::Mouse::Button(keyCode), intent);
+				mouseStateMap.emplace(sf::Mouse::Button(keyCode), KeyState::UP);
 				break;
 
 			/* Invalid mapNumber */
@@ -79,15 +81,115 @@ void IntentHandler::printKeyMaps()
 {
 	std::cout << "Keyboard" << std::endl;
 	std::cout << "KeyCode\tIntent" << std::endl;
-	for (auto key : keyboardMap)
+	for (auto key : keyboardIntentMap)
 	{
 		std::cout << key.first << "\t" << key.second << std::endl;
 	}
 
 	std::cout << "\nMouse" << std::endl;
 	std::cout << "KeyCode\tIntent" << std::endl;
-	for (auto key : mouseMap)
+	for (auto key : mouseIntentMap)
 	{
 		std::cout << key.first << "\t" << key.second << std::endl;
+	}
+}
+
+void IntentHandler::addObserver(IntentObserver * observer)
+{
+	observerList.push_front(observer);
+}
+
+void IntentHandler::removeObserver(IntentObserver * observer)
+{
+	observerList.remove(observer);
+}
+
+void IntentHandler::processIntents()
+{
+	updateState();
+
+	/* Notify observers of state */
+	std::cout << keyboardStateMap.find(sf::Keyboard::Space)->second << std::endl;
+}
+
+void IntentHandler::updateState()
+{
+	/* Update state of bound keys */
+	for (auto pair : keyboardIntentMap)
+	{
+		sf::Keyboard::Key key = pair.first;
+		KeyState currentState = keyboardStateMap.find(key)->second;
+		KeyState newState;
+		if (sf::Keyboard::isKeyPressed(key))
+		{
+			switch (currentState)
+			{
+			case KeyState::RELEASED:
+			case KeyState::UP:
+				newState = KeyState::PRESSED;
+				break;
+			case KeyState::DOWN:
+			case KeyState::PRESSED:
+				newState = KeyState::DOWN;
+				break;
+			}
+		}
+		else
+		{
+			switch (currentState)
+			{
+			case KeyState::DOWN:
+			case KeyState::PRESSED:
+				newState = KeyState::RELEASED;
+				break;
+			case KeyState::RELEASED:
+			case KeyState::UP:
+				newState = KeyState::UP;
+				break;
+			
+			}
+		}
+		
+		keyboardStateMap.erase(key);
+		keyboardStateMap.emplace(key, newState);
+	}
+
+	/* And again for mouse buttons */
+	for (auto pair : mouseIntentMap)
+	{
+		sf::Mouse::Button key = pair.first;
+		KeyState currentState = mouseStateMap.find(key)->second;
+		KeyState newState;
+		if (sf::Mouse::isButtonPressed(key))
+		{
+			switch (currentState)
+			{
+			case KeyState::RELEASED:
+			case KeyState::UP:
+				newState = KeyState::PRESSED;
+				break;
+			case KeyState::DOWN:
+			case KeyState::PRESSED:
+				newState = KeyState::DOWN;
+				break;
+			}
+		}
+		else
+		{
+			switch (currentState)
+			{
+			case KeyState::DOWN:
+			case KeyState::PRESSED:
+				newState = KeyState::RELEASED;
+				break;
+			case KeyState::RELEASED:
+			case KeyState::UP:
+				newState = KeyState::UP;
+				break;
+
+			}
+		}
+		mouseStateMap.erase(key);
+		mouseStateMap.emplace(key, newState);
 	}
 }

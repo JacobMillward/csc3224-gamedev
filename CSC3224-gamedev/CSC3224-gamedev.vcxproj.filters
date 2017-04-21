@@ -25,6 +25,9 @@
     <Filter Include="Source Files\EASTL">
       <UniqueIdentifier>{8d081ddd-7a8d-4d4b-a587-bf5e50c263a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Intents">
+      <UniqueIdentifier>{23d05758-5c3c-4ac5-9fdc-b74445b2b30b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EntityManager.h">
@@ -55,10 +58,10 @@
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
     <ClInclude Include="IntentHandler.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Intents</Filter>
     </ClInclude>
     <ClInclude Include="IntentObserver.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Intents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
