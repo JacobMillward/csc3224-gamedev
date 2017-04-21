@@ -54,6 +54,12 @@
     <ClInclude Include="Systems\RenderableBuildSystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="IntentHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IntentObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntityManager.cpp">
@@ -94,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="..\EASTL\source\thread_support.cpp">
       <Filter>Source Files\EASTL</Filter>
+    </ClCompile>
+    <ClCompile Include="IntentHandler.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

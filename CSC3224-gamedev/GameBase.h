@@ -1,12 +1,13 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include "IntentHandler.h"
 
 class GameBase
 {
 public:
 	
-	GameBase(sf::RenderWindow* window) : gameClock_(sf::Clock()), window_(window) {};
+	GameBase(sf::RenderWindow* window) : gameClock_(sf::Clock()), window_(window), intentHandler_() {};
 	virtual ~GameBase()
 	{
 		delete window_;
@@ -17,6 +18,7 @@ public:
 protected:
 	sf::Clock gameClock_;
 	sf::RenderWindow* window_;
+	IntentHandler intentHandler_;
 
 	virtual void init() {};
 	virtual void shutdown() {};

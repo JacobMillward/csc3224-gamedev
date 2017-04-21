@@ -19,9 +19,12 @@ MyGame::~MyGame()
 
 void MyGame::init()
 {
-	/* Set up world */
-	//TODO: Load world setup from file
+	/* Load intents from file */
+	std::cout << "Loading keymap" << std::endl;
+	intentHandler_.loadIntentsFromFile("KeyMap.txt");
+	intentHandler_.printKeyMaps();
 
+	/* Create two overlapping objects */
 	sf::IntRect rect(0, 0, 600, 600);
 	playerTexture.loadFromFile("player.png");
 	Sprite* playerSprite = new Sprite(playerTexture, rect);
@@ -31,6 +34,7 @@ void MyGame::init()
 	auto p2 = world_->getEntityManager().createEntity();
 	p2->addComponent(*player2Sprite);
 	p2->getPosition()->getPosition() = sf::Vector3f(100, 100, 10);
+	
 	/* Set up world subsystems */
 	auto r = new RenderableBuildSystem(*this->world_);
 	this->world_->addSystem(*r);
