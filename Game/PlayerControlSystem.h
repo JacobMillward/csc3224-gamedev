@@ -7,7 +7,6 @@ class PlayerControlSystem : public ISystem, public IntentObserver
 {
 public:
 	PlayerControlSystem(World& world, IntentHandler& intentHandler);
-	~PlayerControlSystem();
 
 	// Inherited via ISystem
 	void step(const sf::Time& dt) override;
@@ -16,7 +15,6 @@ public:
 	void onNotify(IntentEvent event) override;
 
 protected:
-	IntentHandler* intentHandler;
 	float moveForce = 25.0f;
 	float moveX = 0;
 	float moveY = 0;

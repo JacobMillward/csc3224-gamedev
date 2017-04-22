@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
 #include <SFML/System/Vector2.hpp>
+#include "IntentHandler.h"
 
-struct IntentEvent {
+struct IntentEvent
+{
 	int type;
 	std::string name;
 	bool isDown;
@@ -12,8 +14,12 @@ struct IntentEvent {
 class IntentObserver
 {
 public:
-	virtual ~IntentObserver() {}
+	explicit IntentObserver(IntentHandler& intentHandler) : intentHandler_(&intentHandler) { intentHandler_->addObserver(this); };
+	virtual ~IntentObserver() { intentHandler_->removeObserver(this); };
 	virtual void onNotify(IntentEvent intent) = 0;
+
+protected:
+	IntentHandler* intentHandler_;
 };
 
 /* Compile-time string hashing */

@@ -4,15 +4,8 @@
 #include "World.h"
 #include "Components/RigidBody.h"
 
-PlayerControlSystem::PlayerControlSystem(World& world, IntentHandler& intentHandler) : ISystem(world)
+PlayerControlSystem::PlayerControlSystem(World& world, IntentHandler& intentHandler) : ISystem(world), IntentObserver(intentHandler)
 {
-	this->intentHandler = &intentHandler;
-	intentHandler.addObserver(this);
-}
-
-PlayerControlSystem::~PlayerControlSystem()
-{
-	this->intentHandler->removeObserver(this);
 }
 
 void PlayerControlSystem::step(const sf::Time& dt)

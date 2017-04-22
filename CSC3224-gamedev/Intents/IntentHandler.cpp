@@ -1,4 +1,5 @@
 #include "IntentHandler.h"
+#include "IntentObserver.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>

@@ -1,10 +1,12 @@
 #pragma once
-#include "IntentObserver.h"
 #include <EASTL/vector_map.h>
 #include <EASTL/slist.h>
 #include <string>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
+
+struct IntentEvent;
+class IntentObserver;
 
 class IntentHandler
 {
