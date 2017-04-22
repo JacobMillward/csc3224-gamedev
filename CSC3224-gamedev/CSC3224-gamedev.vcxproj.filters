@@ -69,6 +69,9 @@
     <ClInclude Include="Components\RigidBody.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntityManager.cpp">
@@ -88,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="Systems\PhysicsSystem.cpp">
       <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
