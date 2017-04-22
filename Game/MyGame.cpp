@@ -25,7 +25,7 @@ void MyGame::init()
 	intentHandler_.printKeyMaps();
 
 	/* Create object */
-	auto texture = textureManager_.loadTexture("wheel", "player.png");
+	auto texture = textureManager_.loadTexture("player.png", "player.png");
 
 	wheel->addComponent(*(new Sprite(*texture, sf::IntRect(0, 0, 600, 600))));
 	wheel->addComponent(*(new Tag("player")));

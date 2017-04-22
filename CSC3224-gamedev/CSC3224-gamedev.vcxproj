@@ -202,6 +202,8 @@
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="Intents\IntentHandler.h" />
     <ClInclude Include="Intents\IntentObserver.h" />
+    <ClInclude Include="json\json-forwards.h" />
+    <ClInclude Include="json\json.h" />
     <ClInclude Include="Systems\ISystem.h" />
     <ClInclude Include="Systems\PhysicsSystem.h" />
     <ClInclude Include="Systems\RenderableBuildSystem.h" />
@@ -213,6 +215,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="Intents\IntentHandler.cpp" />
+    <ClCompile Include="jsoncpp.cpp" />
     <ClCompile Include="Systems\PhysicsSystem.cpp" />
     <ClCompile Include="Systems\RenderableBuildSystem.cpp" />
     <ClCompile Include="TextureManager.cpp" />
