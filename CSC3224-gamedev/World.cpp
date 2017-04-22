@@ -1,8 +1,9 @@
 #include "World.h"
 #include "Systems/RenderableBuildSystem.h"
 
-World::World(float timeScale) : state_(State::Init), entityManager_(EntityManager()), systemList_(eastl::fixed_vector<ISystem*, MAX_SYSTEMS>()), timeScale_(timeScale)
+World::World(float timeScale) : state_(State::Init), entityManager_(EntityManager()), physics_system_(new PhysicsSystem(*this, b2Vec2(0.f, 9.8f))), systemList_(eastl::fixed_vector<ISystem*, MAX_SYSTEMS>()), timeScale_(timeScale)
 {
+	addSystem(physics_system_);
 	addSystem(new RenderableBuildSystem(*this));
 }
 

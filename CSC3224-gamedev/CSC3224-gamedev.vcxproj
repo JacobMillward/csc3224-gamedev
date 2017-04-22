@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\EASTL\include;..\SFML\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\EASTL\include;..\SFML\include;..\Box2D</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -104,7 +104,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\EASTL\include;..\SFML\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\EASTL\include;..\SFML\include;..\Box2D</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -136,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\EASTL\include;..\SFML\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\EASTL\include;..\SFML\include;..\Box2D</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -168,7 +168,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\EASTL\include;..\SFML\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\EASTL\include;..\SFML\include;..\Box2D</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -202,6 +202,7 @@
     <ClInclude Include="Intents\IntentHandler.h" />
     <ClInclude Include="Intents\IntentObserver.h" />
     <ClInclude Include="Systems\ISystem.h" />
+    <ClInclude Include="Systems\PhysicsSystem.h" />
     <ClInclude Include="Systems\RenderableBuildSystem.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
@@ -209,6 +210,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Intents\IntentHandler.cpp" />
+    <ClCompile Include="Systems\PhysicsSystem.cpp" />
     <ClCompile Include="Systems\RenderableBuildSystem.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
