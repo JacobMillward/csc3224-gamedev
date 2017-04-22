@@ -7,7 +7,7 @@
 #include <EASTL/hash_set.h>
 using namespace std;
 
-EntityManager::EntityManager() : entityMap_(EntityMap()), entityID_(0)
+EntityManager::EntityManager() : entityMap_(), entityID_(0)
 {
 	/* Initiaslise map with lists of all component types to save checks for creation later on */
 	for (auto i = 0; i < static_cast<int>(IComponent::Type::TYPE_END); ++i)

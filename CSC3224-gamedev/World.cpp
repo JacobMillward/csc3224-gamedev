@@ -1,5 +1,6 @@
 #include "World.h"
 #include "Systems/RenderableBuildSystem.h"
+#include "Box2D/Common/b2Math.h"
 
 World::World(float timeScale) : state_(Init), entityManager_(EntityManager()), physics_system_(new PhysicsSystem(*this, b2Vec2(0.f, 9.8f))), systemList_(eastl::fixed_vector<ISystem*, MAX_SYSTEMS>()), timeScale_(timeScale)
 {
@@ -44,7 +45,7 @@ EntityManager& World::getEntityManager()
 	return entityManager_;
 }
 
-PhysicsSystem* World::getPhysicsSystem()
+PhysicsSystem* World::getPhysicsSystem() const
 {
 	return physics_system_;
 }

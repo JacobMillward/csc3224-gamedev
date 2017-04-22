@@ -27,7 +27,7 @@ public:
 	void draw(sf::RenderWindow& w);
 
 	EntityManager& getEntityManager();
-	PhysicsSystem* getPhysicsSystem();
+	PhysicsSystem* getPhysicsSystem() const;
 	void addDrawables(vector<pair<sf::VertexArray, sf::Texture>>& drawableList);
 	void clearDrawables();
 

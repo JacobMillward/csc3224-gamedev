@@ -9,15 +9,16 @@ using namespace std;
 /* Based on the texture manager provided at https://github.com/netpoetica/sfml-texture-manager by Keith Rosenberg */
 class TextureManager
 {
+protected:
 	// The textures that are loaded
 	eastl::fixed_map<string, sf::Texture*, MAX_TEXTURES> textures;
 
 	// Manually keep track of the order in which textures were loaded, so you can get by index.
 	eastl::fixed_vector<string, MAX_TEXTURES> order;
-
-	// Constructor that is not used
-	TextureManager();
+	
 public:
+
+	TextureManager();
 	// Destructor which deletes the textures previously loaded
 	~TextureManager();
 
