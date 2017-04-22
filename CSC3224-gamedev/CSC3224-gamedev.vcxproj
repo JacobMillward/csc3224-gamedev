@@ -211,6 +211,7 @@
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="Intents\IntentHandler.cpp" />
     <ClCompile Include="Systems\PhysicsSystem.cpp" />
     <ClCompile Include="Systems\RenderableBuildSystem.cpp" />

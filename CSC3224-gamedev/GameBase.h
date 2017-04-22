@@ -3,35 +3,32 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "Intents/IntentHandler.h"
 #include "TextureManager.h"
+#include "World.h"
 
 class GameBase
 {
 public:
 
-	explicit GameBase(sf::RenderWindow* window) : gameClock_(sf::Clock()), window_(window), intentHandler_(), textureManager_()
-	{
-	};
+	explicit GameBase(sf::RenderWindow* window);;
 
-	virtual ~GameBase()
-	{
-		delete window_;
-	};
+	virtual ~GameBase();;
 
-	virtual void run()
-	{
-	};
+	void run();
 
 protected:
 	sf::Clock gameClock_;
 	sf::RenderWindow* window_;
 	IntentHandler intentHandler_;
 	TextureManager textureManager_;
+	World* world_;
 
 	virtual void init()
 	{
 	};
 
-	virtual void shutdown()
+	virtual void quit()
 	{
 	};
+
+	void shutdown() const;
 };
