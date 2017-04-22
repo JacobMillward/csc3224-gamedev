@@ -17,7 +17,7 @@ public:
 
 protected:
 	IntentHandler* intentHandler;
-	float moveSpeed = 100.0f;
+	float moveForce = 25.0f;
 	float moveX = 0;
 	float moveY = 0;
 };

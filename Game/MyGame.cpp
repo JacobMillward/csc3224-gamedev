@@ -34,8 +34,12 @@ void MyGame::init()
 	auto transform = wheel->getTransform();
 	transform->setOrigin(300, 300);
 	transform->setScale(0.5, 0.5);
-
-	wheel->addComponent(*(new RigidBody(world_->getPhysicsSystem(), transform->getPosition().x, transform->getPosition().y)));
+	auto rigidbody = new RigidBody(world_->getPhysicsSystem(), transform->getPosition().x, transform->getPosition().y);
+	wheel->addComponent(*rigidbody);
+	b2FixtureDef fixtureDef;
+	fixtureDef.density = 1.f;
+	fixtureDef.friction = 0.7f;
+	rigidbody->addBoxCollider(fixtureDef, 150, 150);
 
 	/* Set up world subsystems */
 	this->world_->addSystem(new PlayerControlSystem(*this->world_, intentHandler_));

@@ -2,8 +2,8 @@
 #include "IComponent.h"
 #include "Box2D/Dynamics/b2Body.h"
 #include "../Systems/PhysicsSystem.h"
-
-#define PIXELS_TO_UNITS_SCALE 30.f
+#include "Box2D/Collision/Shapes/b2PolygonShape.h"
+#include "Box2D/Dynamics/b2Fixture.h"
 
 class RigidBody : public IComponent
 {
@@ -21,6 +21,14 @@ public:
 	};
 
 	b2Body* getBody() const { return body_; }
+
+	void addBoxCollider(b2FixtureDef& fixturedef, float width, float height) const
+	{
+		b2PolygonShape shape;
+		shape.SetAsBox((width / 2) / PIXELS_TO_UNITS_SCALE, (height / 2) / PIXELS_TO_UNITS_SCALE);
+		fixturedef.shape = &shape;
+		body_->CreateFixture(&fixturedef);
+	}
 
 protected:
 	b2Body* body_;
