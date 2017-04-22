@@ -10,6 +10,7 @@ public:
 		TRANSFORM,
 		RENDERABLE,
 		TAG,
+		RIGIDBODY,
 		TYPE_END
 	};
 

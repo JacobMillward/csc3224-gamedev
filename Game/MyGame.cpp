@@ -4,6 +4,7 @@
 #include "PlayerControlSystem.h"
 #include <iostream>
 #include <SFML/Window/Event.hpp>
+#include "Components/RigidBody.h"
 
 
 MyGame::MyGame() : GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "Woo!"))
@@ -22,20 +23,19 @@ MyGame::~MyGame()
 void MyGame::init()
 {
 	/* Load intents from file */
-	std::cout << "Loading keymap" << std::endl;
+	cout << "Loading keymap" << endl;
 	intentHandler_.loadIntentsFromFile("KeyMap.txt");
 	intentHandler_.printKeyMaps();
 
-	/* Create objects */
-	sf::IntRect rect(0, 0, 600, 600);
+	/* Create object */
 	playerTexture.loadFromFile("player.png");
-	wheel->addComponent(*(new Sprite(playerTexture, rect)));
+	wheel->addComponent(*(new Sprite(playerTexture, sf::IntRect(0, 0, 600, 600))));
 	wheel->addComponent(*(new Tag("player")));
 	auto transform = wheel->getTransform();
-	transform->move(300, 300);
 	transform->setOrigin(300, 300);
 	transform->setScale(0.5, 0.5);
 
+	wheel->addComponent(*(new RigidBody(world_->getPhysicsSystem(), transform->getPosition().x, transform->getPosition().y)));
 
 	/* Set up world subsystems */
 	this->world_->addSystem(new PlayerControlSystem(*this->world_, intentHandler_));
@@ -77,7 +77,7 @@ void MyGame::run()
 			totalTime += dt;
 			if (totalTime.asSeconds() > 1)
 			{
-				std::cout << "\r\t\t\r" << frameCount / totalTime.asSeconds() << " FPS";
+				cout << "\r\t\t\r" << frameCount / totalTime.asSeconds() << " FPS";
 				totalTime = sf::Time::Zero;
 				frameCount = 0;
 			}

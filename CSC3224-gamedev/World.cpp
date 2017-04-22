@@ -1,7 +1,7 @@
 #include "World.h"
 #include "Systems/RenderableBuildSystem.h"
 
-World::World(float timeScale) : state_(State::Init), entityManager_(EntityManager()), physics_system_(new PhysicsSystem(*this, b2Vec2(0.f, 9.8f))), systemList_(eastl::fixed_vector<ISystem*, MAX_SYSTEMS>()), timeScale_(timeScale)
+World::World(float timeScale) : state_(Init), entityManager_(EntityManager()), physics_system_(new PhysicsSystem(*this, b2Vec2(0.f, 9.8f))), systemList_(eastl::fixed_vector<ISystem*, MAX_SYSTEMS>()), timeScale_(timeScale)
 {
 	addSystem(physics_system_);
 	addSystem(new RenderableBuildSystem(*this));
@@ -42,6 +42,11 @@ void World::draw(sf::RenderWindow& w)
 EntityManager& World::getEntityManager()
 {
 	return entityManager_;
+}
+
+PhysicsSystem* World::getPhysicsSystem()
+{
+	return physics_system_;
 }
 
 void World::addDrawables(vector<pair<sf::VertexArray, sf::Texture>>& drawableList)
