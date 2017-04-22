@@ -61,6 +61,7 @@ void GameBase::run()
 
 		case World::State::Quitting:
 			//Cleanup
+			quit();
 			world_->changeState(World::State::Shutdown);
 			break;
 

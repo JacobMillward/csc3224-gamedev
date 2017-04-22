@@ -45,4 +45,5 @@ void MyGame::init()
 
 void MyGame::quit()
 {
+	std::cout << "Cleaning up resources" << std::endl;
 }
