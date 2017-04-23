@@ -14,6 +14,8 @@ RenderableBuildSystem::~RenderableBuildSystem()
 {
 }
 
+/* At the moment this just assumes every sprite is using the same texture. */
+//TODO: Fix this to use multiple textures
 void RenderableBuildSystem::step(const sf::Time& dt)
 {
 	auto list = this->world_->getEntityManager().getComponentList(ComponentType::RENDERABLE);
@@ -70,14 +72,11 @@ void RenderableBuildSystem::step(const sf::Time& dt)
 	}
 
 	/* Replace drawables list with new one */
-	//TODO: Optimise all this copying every frame
-	this->world_->clearDrawables();
-	vector<pair<sf::VertexArray, sf::Texture>> m;
+	this->world_->drawables_.clear();
 	if (list->size() > 0)
 	{
-		m.push_back(make_pair(vArray_, static_cast<Sprite*>(list->at(0).first)->getTexture()));
+		this->world_->drawables_.push_back(make_pair(vArray_, static_cast<Sprite*>(list->at(0).first)->getTexture()));
 	}
-	this->world_->addDrawables(m);
 }
 
 sf::Vector2f RenderableBuildSystem::rotatePoint(sf::Vector2f& point, sf::Vector2f& origin, float angle)

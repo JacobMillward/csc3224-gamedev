@@ -6,6 +6,7 @@
 #include "EntityManager.h"
 #include "Systems/ISystem.h"
 #include "Systems/PhysicsSystem.h"
+#include "Systems/RenderableBuildSystem.h"
 
 class World
 {
@@ -28,14 +29,16 @@ public:
 
 	EntityManager& getEntityManager();
 	PhysicsSystem* getPhysicsSystem() const;
-	void addDrawables(vector<pair<sf::VertexArray, sf::Texture>>& drawableList);
-	void clearDrawables();
 
 protected:
 	State state_;
 	EntityManager entityManager_;
 	PhysicsSystem* physics_system_;
 	eastl::fixed_vector<ISystem*, MAX_SYSTEMS> systemList_;
-	vector<pair<sf::VertexArray, sf::Texture>> drawables_;
+
+	/* Let the render system access the list of drawables */
+	friend void RenderableBuildSystem::step(const sf::Time& dt);
+	eastl::vector<pair<sf::VertexArray, sf::Texture>> drawables_;
+
 	float timeScale_;
 };

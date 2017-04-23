@@ -49,16 +49,3 @@ PhysicsSystem* World::getPhysicsSystem() const
 {
 	return physics_system_;
 }
-
-void World::addDrawables(vector<pair<sf::VertexArray, sf::Texture>>& drawableList)
-{
-	for (auto drawable : drawableList)
-	{
-		drawables_.push_back(drawable);
-	}
-}
-
-void World::clearDrawables()
-{
-	drawables_.clear();
-}
