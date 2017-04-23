@@ -73,7 +73,10 @@ void RenderableBuildSystem::step(const sf::Time& dt)
 	//TODO: Optimise all this copying every frame
 	this->world_->clearDrawables();
 	vector<pair<sf::VertexArray, sf::Texture>> m;
-	m.push_back(make_pair(vArray_, static_cast<Sprite*>(list->at(0).first)->getTexture()));
+	if (list->size() > 0)
+	{
+		m.push_back(make_pair(vArray_, static_cast<Sprite*>(list->at(0).first)->getTexture()));
+	}
 	this->world_->addDrawables(m);
 }
 
