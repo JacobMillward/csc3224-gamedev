@@ -28,6 +28,8 @@ public:
 	int getZOrder() const { return zorder_; }
 	void setZOrder(int z) { zorder_ = z; }
 
+	std::string toJson() override;
+
 protected:
 	int zorder_;
 };
@@ -36,4 +38,9 @@ inline Transform* Transform::buildFromJson(std::string jsonString)
 {
 	//TODO: Implement buildFromJson
 	return nullptr;
+}
+
+inline std::string Transform::toJson()
+{
+	return {};
 }

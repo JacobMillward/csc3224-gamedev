@@ -18,6 +18,8 @@ public:
 	sf::Texture& getTexture() { return texture_; };
 	sf::FloatRect& getRect() { return rect_; };
 
+	string toJson() override;
+
 private:
 	sf::Texture texture_;
 	sf::FloatRect rect_;
@@ -27,4 +29,9 @@ inline Sprite* Sprite::buildFromJson(std::string jsonString)
 {
 	//TODO: Implement buildFromJson
 	return nullptr;
+}
+
+inline string Sprite::toJson()
+{
+	return {};
 }

@@ -18,6 +18,8 @@ public:
 	std::string getTag() const { return tagName; };
 	void setTag(std::string& name) { tagName = name; };
 
+	std::string toJson() override;
+
 protected:
 	std::string tagName;
 };
@@ -26,4 +28,9 @@ inline Tag* Tag::buildFromJson(std::string jsonString)
 {
 	//TODO: Implement buildFromJson
 	return nullptr;
+}
+
+inline std::string Tag::toJson()
+{
+	return {};
 }

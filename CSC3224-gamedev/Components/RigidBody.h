@@ -12,7 +12,7 @@ public:
 	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
 
-	static RigidBody* buildFromJson(std::string jsonString);
+	static RigidBody* buildFromJson(string jsonString);
 
 	explicit RigidBody(PhysicsSystem* physicsSystem, float X = 0.f, float Y = 0.f)
 	{
@@ -32,12 +32,19 @@ public:
 		body_->CreateFixture(&fixturedef);
 	}
 
+	string toJson() override;
+
 protected:
 	b2Body* body_;
 };
 
-inline RigidBody* RigidBody::buildFromJson(std::string jsonString)
+inline RigidBody* RigidBody::buildFromJson(string jsonString)
 {
 	//TODO: Implement buildFromJson
 	return nullptr;
+}
+
+inline string RigidBody::toJson()
+{
+	return {};
 }
