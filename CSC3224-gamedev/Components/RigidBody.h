@@ -5,12 +5,14 @@
 #include "Box2D/Collision/Shapes/b2PolygonShape.h"
 #include "Box2D/Dynamics/b2Fixture.h"
 
-class RigidBody : public IComponent
+class RigidBody : public IComponent<RigidBody>
 {
 public:
-	static const Type typeID = Type::RIGIDBODY;
-	Type getType() override { return typeID; }
+	static const ComponentType typeID = ComponentType::RIGIDBODY;
+	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
+
+	static RigidBody* buildFromJson(std::string jsonString);
 
 	explicit RigidBody(PhysicsSystem* physicsSystem, float X = 0.f, float Y = 0.f)
 	{
@@ -33,3 +35,9 @@ public:
 protected:
 	b2Body* body_;
 };
+
+inline RigidBody* RigidBody::buildFromJson(std::string jsonString)
+{
+	//TODO: Implement buildFromJson
+	return nullptr;
+}

@@ -10,7 +10,7 @@ PlayerControlSystem::PlayerControlSystem(World& world, IntentHandler& intentHand
 
 void PlayerControlSystem::step(const sf::Time& dt)
 {
-	auto list = this->world_->getEntityManager().getComponentList(IComponent::Type::TAG);
+	auto list = this->world_->getEntityManager().getComponentList(ComponentType::TAG);
 	for (auto pair : *list)
 	{
 		/* Scale the movement with deltatime and move the entity */

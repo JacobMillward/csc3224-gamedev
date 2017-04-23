@@ -5,12 +5,13 @@
 #include <algorithm>
 #include <iostream>
 #include <EASTL/hash_set.h>
+#include "Components/IComponent.h"
 using namespace std;
 
 EntityManager::EntityManager() : entityMap_(), entityID_(0)
 {
 	/* Initiaslise map with lists of all component types to save checks for creation later on */
-	for (auto i = 0; i < static_cast<int>(IComponent::Type::TYPE_END); ++i)
+	for (auto i = 0; i < static_cast<int>(ComponentType::TYPE_END); ++i)
 	{
 		entityMap_.emplace(i, ComponentVector());
 	}
@@ -43,10 +44,10 @@ EntityManager::~EntityManager()
  */
 Entity* EntityManager::createEntity()
 {
-	auto p = new Transform();
-	auto e = new Entity(getNextID(), *this, *p);
+	ComponentBase* p = new Transform();
+	auto e = new Entity(getNextID(), *this, *(static_cast<Transform*>(p)));
 	std::cout << "Creating Entity#" << e->getID() << endl;
-	entityMap_.find(static_cast<int>(IComponent::Type::TRANSFORM))->second.push_back(make_pair(p, e));
+	entityMap_.find(static_cast<int>(ComponentType::TRANSFORM))->second.push_back(make_pair(p, e));
 	return e;
 }
 
@@ -58,7 +59,7 @@ void EntityManager::destroyEntity(Entity* entity)
 	entity->isDeleted = true;
 	for (auto comType : entityMap_)
 	{
-		pair<IComponent*, Entity*>* matches[MAX_COMPONENTS];
+		pair<ComponentBase*, Entity*>* matches[MAX_COMPONENTS];
 		auto numMatches = 0;
 		for (auto it = comType.second.begin(); it != comType.second.end(); ++it)
 		{
@@ -81,7 +82,7 @@ void EntityManager::destroyEntity(Entity* entity)
 /*
  * Adds the specifed component to the entity.
  */
-void EntityManager::addComponent(Entity& e, IComponent& c)
+void EntityManager::addComponent(Entity& e, ComponentBase& c)
 {
 	std::cout << "Adding Component type " << c.getTypeValue() << " to Entity#" << e.getID() << endl;
 	entityMap_.find(c.getTypeValue())->second.push_back(make_pair(&c, &e));
@@ -90,10 +91,10 @@ void EntityManager::addComponent(Entity& e, IComponent& c)
 /*
  * Removes the specified component from the entity.
  */
-void EntityManager::removeComponent(Entity& e, IComponent& c)
+void EntityManager::removeComponent(Entity& e, ComponentBase& c)
 {
 	auto list = entityMap_.find(c.getTypeValue())->second;
-	auto it = eastl::find_if(list.begin(), list.end(), [&e, &c](pair<IComponent*, Entity*> p)
+	auto it = eastl::find_if(list.begin(), list.end(), [&e, &c](pair<ComponentBase*, Entity*> p)
 	                         {
 		                         return (e == *(p.second)) && (&c == p.first);
 	                         });
@@ -109,7 +110,7 @@ void EntityManager::removeComponent(Entity& e, IComponent& c)
 	}
 }
 
-ComponentVector* EntityManager::getComponentList(IComponent::Type type)
+ComponentVector* EntityManager::getComponentList(ComponentType type)
 {
 	return &(entityMap_.find(static_cast<int>(type))->second);
 }

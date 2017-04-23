@@ -2,12 +2,14 @@
 #include <string>
 #include "IComponent.h"
 
-class Tag : public IComponent
+class Tag : public IComponent<Tag>
 {
 public:
-	static const IComponent::Type typeID = IComponent::Type::TAG;
-	Type getType() override { return typeID; }
+	static const ComponentType typeID = ComponentType::TAG;
+	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
+
+	static Tag* buildFromJson(std::string jsonString);
 
 	explicit Tag(std::string tagName) : tagName(tagName)
 	{
@@ -19,3 +21,9 @@ public:
 protected:
 	std::string tagName;
 };
+
+inline Tag* Tag::buildFromJson(std::string jsonString)
+{
+	//TODO: Implement buildFromJson
+	return nullptr;
+}

@@ -16,7 +16,7 @@ RenderableBuildSystem::~RenderableBuildSystem()
 
 void RenderableBuildSystem::step(const sf::Time& dt)
 {
-	auto list = this->world_->getEntityManager().getComponentList(IComponent::Type::RENDERABLE);
+	auto list = this->world_->getEntityManager().getComponentList(ComponentType::RENDERABLE);
 	/* Sort list by z layering */
 	eastl::quick_sort(list->begin(), list->end(), [](ComponentVector::value_type a, ComponentVector::value_type b)
 	                  {

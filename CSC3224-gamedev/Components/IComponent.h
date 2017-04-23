@@ -1,23 +1,39 @@
 #pragma once
+#include <string>
 
 #define MAX_COMPONENTS 1024
 
-struct IComponent
+enum class ComponentType
+{
+	TRANSFORM,
+	RENDERABLE,
+	TAG,
+	RIGIDBODY,
+	TYPE_END
+};
+
+class ComponentBase
 {
 public:
-	enum class Type
-	{
-		TRANSFORM,
-		RENDERABLE,
-		TAG,
-		RIGIDBODY,
-		TYPE_END
-	};
-
-	virtual Type getType() = 0;
+	virtual ~ComponentBase() = default;
+	virtual ComponentType getType() = 0;
 	virtual int getTypeValue() = 0;
+};
+
+template <typename T>
+class IComponent : public ComponentBase
+{
+public:
+	
+	IComponent()
+	{
+		jsonBuild = &T::buildFromJson;
+	};
 
 	virtual ~IComponent()
 	{
 	}
+
+protected:
+	T* (*jsonBuild)(std::string);
 };

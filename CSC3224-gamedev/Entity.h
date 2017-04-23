@@ -13,8 +13,8 @@ public:
 	Entity(uint32_t id, EntityManager& entityManager, Transform& pos);
 	~Entity();
 	uint32_t getID() const;
-	void addComponent(IComponent& c);
-	void removeComponent(IComponent& c);
+	void addComponent(ComponentBase& c);
+	void removeComponent(ComponentBase& c);
 	Transform* getTransform() const;
 	template <typename T>
 	T* getComponent();

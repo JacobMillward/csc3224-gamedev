@@ -21,12 +21,12 @@ uint32_t Entity::getID() const
 	return id_;
 }
 
-void Entity::addComponent(IComponent& c)
+void Entity::addComponent(ComponentBase& c)
 {
 	entityManager_->addComponent(*this, c);
 }
 
-void Entity::removeComponent(IComponent& c)
+void Entity::removeComponent(ComponentBase& c)
 {
 	entityManager_->removeComponent(*this, c);
 }

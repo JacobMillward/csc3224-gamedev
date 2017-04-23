@@ -10,7 +10,7 @@ void PhysicsSystem::step(const sf::Time& dt)
 {
 	physicsWorld_.Step(dt.asSeconds(), 8, 3);
 
-	auto list = world_->getEntityManager().getComponentList(IComponent::Type::RIGIDBODY);
+	auto list = world_->getEntityManager().getComponentList(ComponentType::RIGIDBODY);
 	for (auto pair : *list)
 	{
 		auto transform = pair.second->getTransform();

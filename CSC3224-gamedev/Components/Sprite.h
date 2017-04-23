@@ -2,13 +2,15 @@
 #include <SFML/Graphics/Texture.hpp>
 #include "IComponent.h"
 
-class Sprite : public IComponent
+class Sprite : public IComponent<Sprite>
 {
 public:
-	/* The IComponent::Type of this component. */
-	static const IComponent::Type typeID = IComponent::Type::RENDERABLE;
-	Type getType() override { return typeID; }
+	/* The ComponentType of this component. */
+	static const ComponentType typeID = ComponentType::RENDERABLE;
+	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
+
+	static Sprite* buildFromJson(std::string jsonString);
 
 	Sprite(sf::Texture texture, sf::IntRect rect) : texture_(texture), rect_(rect)
 	{
@@ -20,3 +22,9 @@ private:
 	sf::Texture texture_;
 	sf::FloatRect rect_;
 };
+
+inline Sprite* Sprite::buildFromJson(std::string jsonString)
+{
+	//TODO: Implement buildFromJson
+	return nullptr;
+}
