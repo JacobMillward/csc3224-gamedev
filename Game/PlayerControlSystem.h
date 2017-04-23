@@ -15,7 +15,7 @@ public:
 	void onNotify(IntentEvent event) override;
 
 protected:
-	float moveForce = 25.0f;
+	float moveForce = 1.f;
 	float moveX = 0;
 	float moveY = 0;
 };

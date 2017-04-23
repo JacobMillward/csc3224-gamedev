@@ -5,20 +5,20 @@
 #include "Box2D/Collision/Shapes/b2PolygonShape.h"
 #include "Box2D/Dynamics/b2Fixture.h"
 
-class RigidBody : public IComponent<RigidBody>
+class PhysicsBody : public IComponent<PhysicsBody>
 {
 public:
-	static const ComponentType typeID = ComponentType::RIGIDBODY;
+	static const ComponentType typeID = ComponentType::PHYSICSBODY;
 	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
 
-	static RigidBody* buildFromJson(string jsonString);
+	static PhysicsBody* buildFromJson(string jsonString);
 
-	explicit RigidBody(PhysicsSystem* physicsSystem, float X = 0.f, float Y = 0.f)
+	explicit PhysicsBody(PhysicsSystem* physicsSystem, Transform* transform, b2BodyType bodyType)
 	{
 		b2BodyDef def;
-		def.position = b2Vec2(X / PIXELS_TO_UNITS_SCALE, Y / PIXELS_TO_UNITS_SCALE);
-		def.type = b2_dynamicBody;
+		def.position = b2Vec2( (transform->getPosition().x + transform->getOrigin().x) / PIXELS_TO_UNITS_SCALE, (transform->getPosition().y + transform->getOrigin().y) / PIXELS_TO_UNITS_SCALE);
+		def.type = bodyType;
 		body_ = physicsSystem->createBody(def);
 	};
 
@@ -38,13 +38,13 @@ protected:
 	b2Body* body_;
 };
 
-inline RigidBody* RigidBody::buildFromJson(string jsonString)
+inline PhysicsBody* PhysicsBody::buildFromJson(string jsonString)
 {
 	//TODO: Implement buildFromJson
 	return nullptr;
 }
 
-inline string RigidBody::toJson()
+inline string PhysicsBody::toJson()
 {
 	return {};
 }

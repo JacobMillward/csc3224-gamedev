@@ -8,7 +8,7 @@ enum class ComponentType
 	TRANSFORM,
 	RENDERABLE,
 	TAG,
-	RIGIDBODY,
+	PHYSICSBODY,
 	TYPE_END
 };
 

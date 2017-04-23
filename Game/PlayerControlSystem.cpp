@@ -2,7 +2,7 @@
 #include "Components/IComponent.h"
 #include "Components/Tag.h"
 #include "World.h"
-#include "Components/RigidBody.h"
+#include "Components/PhysicsBody.h"
 
 PlayerControlSystem::PlayerControlSystem(World& world, IntentHandler& intentHandler) : ISystem(world), IntentObserver(intentHandler)
 {
@@ -18,8 +18,8 @@ void PlayerControlSystem::step(const sf::Time& dt)
 		auto component = static_cast<Tag*>(pair.first);
 		if (component->getTag() == "player")
 		{
-			auto body = pair.second->getComponent<RigidBody>()->getBody();
-			body->ApplyLinearImpulseToCenter(b2Vec2(moveX, moveY), true);
+			auto body = pair.second->getComponent<PhysicsBody>()->getBody();
+			body->ApplyForceToCenter(b2Vec2(moveX, moveY), true);
 		}
 	}
 	moveX = moveY = 0;

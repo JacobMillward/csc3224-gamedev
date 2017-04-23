@@ -9,7 +9,7 @@ class GameBase
 {
 public:
 
-	explicit GameBase(sf::RenderWindow* window);;
+	explicit GameBase(sf::RenderWindow* window);
 
 	virtual ~GameBase();;
 

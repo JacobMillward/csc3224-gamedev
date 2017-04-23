@@ -1,15 +1,13 @@
 #include "MyGame.h"
 #include "Components/Sprite.h"
-#include "Components/Tag.h"
 #include "PlayerControlSystem.h"
-#include "Components/RigidBody.h"
 #include <iostream>
+#include "Components/PhysicsBody.h"
 
 
 MyGame::MyGame() : GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "Woo!"))
 {
 	world_ = new World();
-	wheel = this->world_->getEntityManager().createEntity();
 }
 
 
@@ -24,20 +22,34 @@ void MyGame::init()
 	intentHandler_.loadIntentsFromFile("KeyMap.txt");
 	intentHandler_.printKeyMaps();
 
-	/* Create object */
-	auto texture = textureManager_.loadTexture("player.png", "player.png");
+	/* Create boxes */
+	auto texture = textureManager_.loadTexture("box.png", "box.png");
 
-	wheel->addComponent(*(new Sprite(*texture, sf::IntRect(0, 0, 600, 600))));
-	wheel->addComponent(*(new Tag("player")));
-	auto transform = wheel->getTransform();
-	transform->setOrigin(300, 300);
-	transform->setScale(0.5, 0.5);
-	auto rigidbody = new RigidBody(world_->getPhysicsSystem(), transform->getPosition().x, transform->getPosition().y);
-	wheel->addComponent(*rigidbody);
-	b2FixtureDef fixtureDef;
-	fixtureDef.density = 1.f;
-	fixtureDef.friction = 0.7f;
-	rigidbody->addBoxCollider(fixtureDef, 150, 150);
+	for (int i = 0; i < 10; ++i)
+	{
+		auto e = world_->getEntityManager().createEntity();
+		e->addComponent(*(new Sprite(*texture, sf::IntRect(0, 0, 32, 32))));
+		e->getTransform()->move((i + 1) * 10, 50);
+		e->getTransform()->setOrigin(16, 16);
+		//e->getTransform()->setScale(0.2, 0.2);
+		auto r = new PhysicsBody(world_->getPhysicsSystem(), e->getTransform(), b2_dynamicBody);
+		e->addComponent(*r);
+		b2FixtureDef f;
+		f.density = .1f;
+		f.friction = 1.f;
+		r->addBoxCollider(f, 16, 16);
+	}
+
+	/* Create ground */
+	auto ground = world_->getEntityManager().createEntity();
+	ground->addComponent(*(new Sprite(*texture, sf::IntRect(0, 0, 32, 32))));
+	ground->getTransform()->setScale(1.f, 1.f);
+	ground->getTransform()->setOrigin(0, 0);
+	ground->getTransform()->setPosition(10, 250);
+	auto r = new PhysicsBody(world_->getPhysicsSystem(), ground->getTransform(), b2_staticBody);
+	b2FixtureDef f;
+	f.density = 0.f;
+	r->addBoxCollider(f, 320, 16);
 
 	/* Set up world subsystems */
 	this->world_->addSystem(new PlayerControlSystem(*this->world_, intentHandler_));

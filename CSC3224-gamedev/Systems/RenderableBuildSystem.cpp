@@ -49,6 +49,7 @@ void RenderableBuildSystem::step(const sf::Time& dt)
 
 		auto absoluteOrigin = topLeft + origin;
 
+		// XXX: I think this might be borked.
 		/* Apply scaling */
 		topLeft = sf::Vector2f((absoluteOrigin.x + topLeft.x) * scale.x, (absoluteOrigin.y + topLeft.y) * scale.y);
 		topRight = sf::Vector2f((absoluteOrigin.x + topRight.x) * scale.x, (absoluteOrigin.y + topRight.y) * scale.y);

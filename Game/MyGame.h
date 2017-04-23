@@ -10,7 +10,4 @@ public:
 protected:
 	void init() override;
 	void quit() override;
-
-private:
-	Entity* wheel;
 };
