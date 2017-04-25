@@ -32,10 +32,11 @@ void World::step(const sf::Time& gameDelta)
 	}
 }
 
-void World::draw(sf::RenderWindow& w)
+void World::draw(sf::RenderWindow& w, ResourceManager& resourceManager)
 {
 	for (auto sprite : drawables_)
 	{
+		sprite->setTexture(*(resourceManager.getTexture(sprite->getTextureID())));
 		w.draw(*sprite);
 	}
 }

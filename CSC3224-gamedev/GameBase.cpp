@@ -47,7 +47,7 @@ void GameBase::run()
 			update(dt);
 			world_->step(dt);
 			window_->clear(sf::Color::Cyan);
-			world_->draw(*window_);
+			world_->draw(*window_, resourceManager_);
 			window_->display();
 			break;
 

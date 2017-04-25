@@ -1,6 +1,6 @@
 #pragma once
-#include <string>
 #include "IComponent.h"
+#include "../json/json.h"
 
 class Tag : public IComponent<Tag>
 {
@@ -9,7 +9,7 @@ public:
 	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
 
-	static Tag* buildFromJson(std::string jsonString);
+	static Tag* buildFromJson(Json::Value componentRoot);
 
 	explicit Tag(std::string tagName) : tagName(tagName)
 	{
@@ -18,19 +18,25 @@ public:
 	std::string getTag() const { return tagName; };
 	void setTag(std::string& name) { tagName = name; };
 
-	std::string toJson() override;
+	Json::Value toJson() override;
 
 protected:
 	std::string tagName;
 };
 
-inline Tag* Tag::buildFromJson(std::string jsonString)
+inline Tag* Tag::buildFromJson(Json::Value componentRoot)
 {
-	//TODO: Implement buildFromJson
-	return nullptr;
+	std::string tagName = componentRoot.get("TagName", "").asString();
+	if (tagName.empty())
+	{
+		throw "Invalid TagName";
+	}
+	return new Tag(tagName);
 }
 
-inline std::string Tag::toJson()
+inline Json::Value Tag::toJson()
 {
-	return {};
+	Json::Value tag;
+	tag["TagName"] = this->getTag();
+	return tag;
 }

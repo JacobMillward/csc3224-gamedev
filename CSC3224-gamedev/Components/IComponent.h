@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "json/json-forwards.h"
 
 #define MAX_COMPONENTS 1024
 
@@ -36,8 +37,8 @@ public:
 	{
 	}
 
-	virtual std::string toJson() = 0;
+	virtual Json::Value toJson() = 0;
 
 protected:
-	T* (*jsonBuild)(std::string);
+	T* (*jsonBuild)(Json::Value componentRoot);
 };

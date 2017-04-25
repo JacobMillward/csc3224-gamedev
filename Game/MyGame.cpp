@@ -26,7 +26,7 @@ void MyGame::init()
 	/* Create boxes */
 	auto texture = resourceManager_.loadTexture("box", "box.png");
 
-	auto e = world_->getEntityManager().createEntity(texture, sf::IntRect(0, 0, 32, 32));
+	auto e = world_->getEntityManager().createEntity("box", sf::IntRect(0, 0, 32, 32));
 	e->getSprite()->move(60, 0);
 	e->getSprite()->setOrigin(16, 16);
 	auto r = new PhysicsBody(world_->getPhysicsSystem(), e->getSprite(), b2_dynamicBody);
@@ -40,7 +40,7 @@ void MyGame::init()
 	e->addComponent(*(new SoundEffect("beeps")));
 	e->getComponent<SoundEffect>()->play();
 	/* Create box 2 */
-	auto e2 = world_->getEntityManager().createEntity(texture, sf::IntRect(0, 0, 32, 32));
+	auto e2 = world_->getEntityManager().createEntity("box", sf::IntRect(0, 0, 32, 32));
 	e2->getSprite()->setOrigin(16, 16);
 	e2->getSprite()->setPosition(400, 500);
 	e2->getSprite()->setScale(22.f, 1.f);

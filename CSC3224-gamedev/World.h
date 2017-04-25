@@ -25,7 +25,7 @@ public:
 	State getState() const { return state_; };
 	void addSystem(ISystem* system);
 	void step(const sf::Time& gameDelta);
-	void draw(sf::RenderWindow& w);
+	void draw(sf::RenderWindow& w, ResourceManager& resourceManager);
 
 	EntityManager& getEntityManager();
 	PhysicsSystem* getPhysicsSystem() const;

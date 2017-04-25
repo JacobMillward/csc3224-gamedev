@@ -2,6 +2,8 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include "IComponent.h"
 #include <string>
+#include "../json/json.h"
+#include "../ResourceManager.h"
 
 class Sprite : public IComponent<Sprite>, public sf::Sprite
 {
@@ -11,31 +13,39 @@ public:
 	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
 
-	static Sprite* buildFromJson(std::string jsonString);
-	std::string toJson() override;
+	static Sprite*buildFromJson(Json::Value componentRoot);
+	Json::Value toJson() override;
 
-	Sprite(sf::Texture& texture, sf::IntRect rect)
+	Sprite(std::string textureID, sf::IntRect rect)
 	{
-		setTexture(texture);
 		setTextureRect(rect);
 	};
 
 	void setZOrder(int order) { zOrder_ = order; };
 	int getZOrder() const { return zOrder_; };
 
+	std::string getTextureID() const { return textureID_; }
 	
 
 private:
 	int zOrder_;
+	std::string textureID_;
 };
 
-inline Sprite* Sprite::buildFromJson(std::string jsonString)
+inline Sprite* Sprite::buildFromJson(Json::Value componentRoot)
 {
 	//TODO: Implement buildFromJson
 	return nullptr;
 }
 
-inline std::string Sprite::toJson()
+inline Json::Value Sprite::toJson()
 {
-	return {};
+	Json::Value root;
+	root["TextureID"] = textureID_;
+	root["posX"] = getPosition().x;
+	root["posY"] = getPosition().y;
+	root["scaleX"] = getScale().x;
+	root["scaleY"] = getScale().y;
+
+	return root;
 }

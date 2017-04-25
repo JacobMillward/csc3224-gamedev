@@ -2,6 +2,7 @@
 
 #include "IComponent.h"
 #include "../Systems/AudioSystem.h"
+#include "../json/json.h"
 
 class SoundEffect : public IComponent<SoundEffect>
 {
@@ -10,8 +11,8 @@ public:
 	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
 
-	static SoundEffect* buildFromJson(std::string jsonString);
-	std::string toJson() override;
+	static SoundEffect* buildFromJson(Json::Value componentRoot);
+	Json::Value toJson() override;
 	explicit SoundEffect(std::string soundID) : soundId_(soundID) {}
 
 	std::string getSoundID() const { return soundId_; }
@@ -23,13 +24,19 @@ protected:
 	std::string soundId_;
 };
 
-inline SoundEffect* SoundEffect::buildFromJson(std::string jsonString)
+inline SoundEffect* SoundEffect::buildFromJson(Json::Value componentRoot)
 {
-	//TODO: Implement buildFromJson
-	return nullptr;
+	std::string soundName = componentRoot.get("SoundID", "").asString();
+	if (soundName.empty())
+	{
+		throw "Invalid SoundID";
+	}
+	return new SoundEffect(soundName);
 }
 
-inline std::string SoundEffect::toJson()
+inline Json::Value SoundEffect::toJson()
 {
-	return {};
+	Json::Value sound;
+	sound["SoundID"] = this->getSoundID();
+	return sound;
 }
