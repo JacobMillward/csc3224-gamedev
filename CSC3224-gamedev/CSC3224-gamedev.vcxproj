@@ -194,6 +194,7 @@
   <ItemGroup>
     <ClInclude Include="Components\IComponent.h" />
     <ClInclude Include="Components\PhysicsBody.h" />
+    <ClInclude Include="Components\SoundEffect.h" />
     <ClInclude Include="Components\Sprite.h" />
     <ClInclude Include="Components\Tag.h" />
     <ClInclude Include="Entity.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Intents\IntentObserver.h" />
     <ClInclude Include="json\json-forwards.h" />
     <ClInclude Include="json\json.h" />
+    <ClInclude Include="Systems\AudioSystem.h" />
     <ClInclude Include="Systems\ISystem.h" />
     <ClInclude Include="Systems\PhysicsSystem.h" />
     <ClInclude Include="Systems\RenderableBuildSystem.h" />
@@ -210,11 +212,13 @@
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\SoundEffect.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="Intents\IntentHandler.cpp" />
     <ClCompile Include="jsoncpp.cpp" />
+    <ClCompile Include="Systems\AudioSystem.cpp" />
     <ClCompile Include="Systems\PhysicsSystem.cpp" />
     <ClCompile Include="Systems\RenderableBuildSystem.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
