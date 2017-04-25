@@ -6,7 +6,7 @@
 class SoundEffect : public IComponent<SoundEffect>
 {
 public:
-	static const ComponentType typeID = ComponentType::TAG;
+	static const ComponentType typeID = ComponentType::AUDIO;
 	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
 

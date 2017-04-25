@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Components/PhysicsBody.h"
 #include <sstream>
+#include "Components/SoundEffect.h"
 
 
 MyGame::MyGame() : GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "Woo!"))
@@ -34,6 +35,10 @@ void MyGame::init()
 	f.friction = 0.7f;
 	r->addBoxCollider(f, 32, 32);
 	e->addComponent(*r);
+
+	auto beeps = resourceManager_.loadSound("beeps", "sms-alert-4.wav");
+	e->addComponent(*(new SoundEffect("beeps")));
+	e->getComponent<SoundEffect>()->play();
 	/* Create box 2 */
 	auto e2 = world_->getEntityManager().createEntity(texture, sf::IntRect(0, 0, 32, 32));
 	e2->getSprite()->setOrigin(16, 16);

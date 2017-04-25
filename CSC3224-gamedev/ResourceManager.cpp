@@ -1,4 +1,5 @@
 #include "ResourceManager.h"
+#include <SFML/Audio/Sound.hpp>
 
 ResourceManager::ResourceManager() : textures_()
 {
