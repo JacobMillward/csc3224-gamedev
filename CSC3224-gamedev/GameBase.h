@@ -26,6 +26,10 @@ protected:
 	{
 	};
 
+	virtual void update(sf::Time dt)
+	{
+	};
+
 	virtual void quit()
 	{
 	};

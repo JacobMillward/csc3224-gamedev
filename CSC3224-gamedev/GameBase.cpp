@@ -15,9 +15,6 @@ GameBase::~GameBase()
 
 void GameBase::run()
 {
-	sf::Time dt;
-	sf::Time totalTime;
-	auto frameCount = 0;
 	auto loop = true;
 	while (loop)
 	{
@@ -29,6 +26,8 @@ void GameBase::run()
 			if (event.type == sf::Event::Closed)
 				world_->changeState(World::State::Quitting);
 		}
+
+		auto dt = gameClock_.restart();
 
 		// Move the world state machine forward
 		switch (world_->getState())
@@ -44,15 +43,7 @@ void GameBase::run()
 		case World::State::Running:
 			//Main loop
 			intentHandler_.processIntents();
-			dt = gameClock_.restart();
-			++frameCount;
-			totalTime += dt;
-			if (totalTime.asSeconds() > 1)
-			{
-				cout << "\r\t\t\r" << frameCount / totalTime.asSeconds() << " FPS";
-				totalTime = sf::Time::Zero;
-				frameCount = 0;
-			}
+			update(dt);
 			world_->step(dt);
 			window_->clear(sf::Color::Cyan);
 			world_->draw(*window_);

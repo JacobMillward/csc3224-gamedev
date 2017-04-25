@@ -9,5 +9,8 @@ public:
 
 protected:
 	void init() override;
+	void update(sf::Time dt) override;
 	void quit() override;
+
+	sf::Time elapsedTime;
 };
