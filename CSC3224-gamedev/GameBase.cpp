@@ -2,13 +2,14 @@
 #include "World.h"
 #include <iostream>
 
-GameBase::GameBase(sf::RenderWindow* window): gameClock_(sf::Clock()), window_(window), intentHandler_(), textureManager_(), world_()
+GameBase::GameBase(sf::RenderWindow* window): gameClock_(sf::Clock()), window_(window), intentHandler_(), resourceManager_(), world_(new World(resourceManager_))
 {
 }
 
 GameBase::~GameBase()
 {
 	delete window_;
+
 	/* Destroy world (Mwahaha) */
 	delete world_;
 }

@@ -19,7 +19,7 @@ protected:
 	sf::Clock gameClock_;
 	sf::RenderWindow* window_;
 	IntentHandler intentHandler_;
-	ResourceManager textureManager_;
+	ResourceManager resourceManager_;
 	World* world_;
 
 	virtual void init()

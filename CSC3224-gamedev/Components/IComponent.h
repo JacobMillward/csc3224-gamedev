@@ -8,19 +8,20 @@ enum class ComponentType
 	SPRITE,
 	TAG,
 	PHYSICSBODY,
+	AUDIO,
 	TYPE_END
 };
 
-class ComponentBase
+class Component
 {
 public:
-	virtual ~ComponentBase() = default;
+	virtual ~Component() = default;
 	virtual ComponentType getType() = 0;
 	virtual int getTypeValue() = 0;
 };
 
 template <typename T>
-class IComponent : public ComponentBase
+class IComponent : public Component
 {
 public:
 

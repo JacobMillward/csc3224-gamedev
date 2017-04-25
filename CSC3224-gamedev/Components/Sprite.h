@@ -12,6 +12,7 @@ public:
 	int getTypeValue() override { return static_cast<int>(typeID); }
 
 	static Sprite* buildFromJson(std::string jsonString);
+	std::string toJson() override;
 
 	Sprite(sf::Texture& texture, sf::IntRect rect)
 	{
@@ -22,7 +23,7 @@ public:
 	void setZOrder(int order) { zOrder_ = order; };
 	int getZOrder() const { return zOrder_; };
 
-	std::string toJson() override;
+	
 
 private:
 	int zOrder_;

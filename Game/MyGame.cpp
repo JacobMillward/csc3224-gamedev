@@ -8,7 +8,6 @@
 
 MyGame::MyGame() : GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "Woo!"))
 {
-	world_ = new World();
 }
 
 
@@ -24,7 +23,7 @@ void MyGame::init()
 	intentHandler_.printKeyMaps();
 
 	/* Create boxes */
-	auto texture = textureManager_.loadTexture("box", "box.png");
+	auto texture = resourceManager_.loadTexture("box", "box.png");
 
 	auto e = world_->getEntityManager().createEntity(texture, sf::IntRect(0, 0, 32, 32));
 	e->getSprite()->move(60, 0);

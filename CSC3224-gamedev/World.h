@@ -5,6 +5,7 @@
 #include "Systems/ISystem.h"
 #include "Systems/PhysicsSystem.h"
 #include "Systems/RenderableBuildSystem.h"
+#include "ResourceManager.h"
 
 
 class World
@@ -18,7 +19,7 @@ public:
 		Shutdown
 	};
 
-	explicit World(float timeScale = 1);
+	explicit World(ResourceManager& resourceManager, float timeScale = 1);
 	~World();
 	void changeState(State s) { state_ = s; };
 	State getState() const { return state_; };
