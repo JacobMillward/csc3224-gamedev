@@ -24,7 +24,7 @@ void MyGame::init()
 	intentHandler_.printKeyMaps();
 
 	/* Create boxes */
-	auto texture = textureManager_.loadTexture("box.png");
+	auto texture = textureManager_.loadTexture("box", "box.png");
 
 	auto e = world_->getEntityManager().createEntity(texture, sf::IntRect(0, 0, 32, 32));
 	e->getSprite()->move(60, 0);

@@ -41,9 +41,9 @@ EntityManager::~EntityManager()
 /*
  * Creates an entity at position (0, 0, 0)
  */
-Entity* EntityManager::createEntity(unsigned int textureID, sf::IntRect rect)
+Entity* EntityManager::createEntity(sf::Texture* texture, sf::IntRect rect)
 {
-	ComponentBase* p = new Sprite(textureID, rect);
+	ComponentBase* p = new Sprite(*texture, rect);
 	auto e = new Entity(getNextID(), *this, *(static_cast<Sprite*>(p)));
 	std::cout << "Creating Entity#" << e->getID() << endl;
 	entityMap_.find(static_cast<int>(ComponentType::SPRITE))->second.push_back(make_pair(p, e));

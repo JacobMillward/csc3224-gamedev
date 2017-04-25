@@ -12,7 +12,7 @@ RenderableBuildSystem::~RenderableBuildSystem()
 }
 
 /* At the moment this just assumes every sprite is using the same texture. */
-//TODO: Fix this to use multiple textures
+//TODO: Fix this to use multiple textures_
 void RenderableBuildSystem::step(const sf::Time& dt)
 {
 	auto list = this->world_->getEntityManager().getComponentList(ComponentType::SPRITE);

@@ -13,19 +13,18 @@ public:
 
 	static Sprite* buildFromJson(std::string jsonString);
 
-	Sprite(unsigned int textureID, sf::IntRect rect) : textureID_(textureID)
+	Sprite(sf::Texture& texture, sf::IntRect rect)
 	{
+		setTexture(texture);
 		setTextureRect(rect);
 	};
 
-	unsigned int getTextureID() const { return textureID_; };
 	void setZOrder(int order) { zOrder_ = order; };
 	int getZOrder() const { return zOrder_; };
 
 	std::string toJson() override;
 
 private:
-	unsigned int textureID_;
 	int zOrder_;
 };
 

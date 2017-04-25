@@ -2,8 +2,8 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "Intents/IntentHandler.h"
-#include "TextureManager.h"
 #include "World.h"
+#include "ResourceManager.h"
 
 class GameBase
 {
@@ -19,7 +19,7 @@ protected:
 	sf::Clock gameClock_;
 	sf::RenderWindow* window_;
 	IntentHandler intentHandler_;
-	TextureManager textureManager_;
+	ResourceManager textureManager_;
 	World* world_;
 
 	virtual void init()

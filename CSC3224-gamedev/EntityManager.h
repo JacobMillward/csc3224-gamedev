@@ -19,7 +19,7 @@ public:
 	EntityManager();
 	~EntityManager();
 
-	Entity* createEntity(unsigned int textureID, sf::IntRect rect);
+	Entity* createEntity(sf::Texture* texture, sf::IntRect rect);
 	void destroyEntity(Entity* entity);
 	void addComponent(Entity& e, ComponentBase& c);
 	void removeComponent(Entity& e, ComponentBase& c);

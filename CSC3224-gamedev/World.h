@@ -1,11 +1,11 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include "TextureManager.h"
 #include "EntityManager.h"
 #include "Systems/ISystem.h"
 #include "Systems/PhysicsSystem.h"
 #include "Systems/RenderableBuildSystem.h"
+
 
 class World
 {
@@ -24,7 +24,7 @@ public:
 	State getState() const { return state_; };
 	void addSystem(ISystem* system);
 	void step(const sf::Time& gameDelta);
-	void draw(sf::RenderWindow& w, TextureManager& textureManager);
+	void draw(sf::RenderWindow& w);
 
 	EntityManager& getEntityManager();
 	PhysicsSystem* getPhysicsSystem() const;
