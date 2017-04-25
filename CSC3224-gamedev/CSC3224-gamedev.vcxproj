@@ -194,7 +194,6 @@
   <ItemGroup>
     <ClInclude Include="Components\IComponent.h" />
     <ClInclude Include="Components\PhysicsBody.h" />
-    <ClInclude Include="Components\Transform.h" />
     <ClInclude Include="Components\Sprite.h" />
     <ClInclude Include="Components\Tag.h" />
     <ClInclude Include="Entity.h" />

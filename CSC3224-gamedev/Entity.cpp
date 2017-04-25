@@ -1,11 +1,11 @@
 #include "Entity.h"
 #include "EntityManager.h"
 
-Entity::Entity(uint32_t id, EntityManager& entityManager, Transform& pos)
+Entity::Entity(uint32_t id, EntityManager& entityManager, Sprite& pos)
 {
 	id_ = id;
 	entityManager_ = &entityManager;
-	transform_ = &pos;
+	sprite_ = &pos;
 }
 
 Entity::~Entity()
@@ -31,9 +31,9 @@ void Entity::removeComponent(ComponentBase& c)
 	entityManager_->removeComponent(*this, c);
 }
 
-Transform* Entity::getTransform() const
+Sprite* Entity::getSprite() const
 {
-	return transform_;
+	return sprite_;
 }
 
 bool Entity::operator==(const Entity& other) const

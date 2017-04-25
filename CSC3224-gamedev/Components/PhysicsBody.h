@@ -14,10 +14,10 @@ public:
 
 	static PhysicsBody* buildFromJson(string jsonString);
 
-	explicit PhysicsBody(PhysicsSystem* physicsSystem, Transform* transform, b2BodyType bodyType)
+	explicit PhysicsBody(PhysicsSystem* physicsSystem, Sprite* sprite, b2BodyType bodyType)
 	{
 		b2BodyDef def;
-		def.position = b2Vec2( (transform->getPosition().x + transform->getOrigin().x) / PIXELS_TO_UNITS_SCALE, (transform->getPosition().y + transform->getOrigin().y) / PIXELS_TO_UNITS_SCALE);
+		def.position = b2Vec2( (sprite->getPosition().x + sprite->getOrigin().x) / PIXELS_TO_UNITS_SCALE, (sprite->getPosition().y + sprite->getOrigin().y) / PIXELS_TO_UNITS_SCALE);
 		def.type = bodyType;
 		body_ = physicsSystem->createBody(def);
 	};

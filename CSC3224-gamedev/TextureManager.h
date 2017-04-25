@@ -11,10 +11,9 @@ class TextureManager
 {
 protected:
 	// The textures that are loaded
-	eastl::fixed_map<string, sf::Texture*, MAX_TEXTURES> textures;
+	eastl::fixed_map<unsigned int, sf::Texture*, MAX_TEXTURES> textures;
 
-	// Manually keep track of the order in which textures were loaded, so you can get by index.
-	eastl::fixed_vector<string, MAX_TEXTURES> order;
+	unsigned int textureID = 0;
 	
 public:
 
@@ -25,13 +24,10 @@ public:
 	int getLength() const;
 
 	// Get texture by name specified in loadTexture
-	sf::Texture* getTexture(string name);
-
-	// Get texutre by index in map
-	sf::Texture* getTexture(int index);
+	sf::Texture* getTexture(unsigned int id);
 
 	// Loads the texture and returns a pointer to it
 	// If it is already loaded, this function just returns it
 	// If it cannot find the file, returns nullptr
-	sf::Texture* loadTexture(string name, string path);
+	unsigned int loadTexture(string path);
 };

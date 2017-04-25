@@ -4,6 +4,10 @@
 #include <type_traits>
 #include "Entity.h"
 
+namespace sf {
+	class Texture;
+}
+
 using namespace std;
 
 typedef eastl::fixed_vector<pair<ComponentBase*, Entity*>, MAX_COMPONENTS> ComponentVector;
@@ -15,7 +19,7 @@ public:
 	EntityManager();
 	~EntityManager();
 
-	Entity* createEntity();
+	Entity* createEntity(unsigned int textureID, sf::IntRect rect);
 	void destroyEntity(Entity* entity);
 	void addComponent(Entity& e, ComponentBase& c);
 	void removeComponent(Entity& e, ComponentBase& c);

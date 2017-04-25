@@ -5,8 +5,7 @@
 
 enum class ComponentType
 {
-	TRANSFORM,
-	RENDERABLE,
+	SPRITE,
 	TAG,
 	PHYSICSBODY,
 	TYPE_END

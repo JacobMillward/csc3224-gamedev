@@ -1,8 +1,7 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/VertexArray.hpp>
-#include <SFML/Graphics/Texture.hpp>
+#include "TextureManager.h"
 #include "EntityManager.h"
 #include "Systems/ISystem.h"
 #include "Systems/PhysicsSystem.h"
@@ -25,7 +24,7 @@ public:
 	State getState() const { return state_; };
 	void addSystem(ISystem* system);
 	void step(const sf::Time& gameDelta);
-	void draw(sf::RenderWindow& w);
+	void draw(sf::RenderWindow& w, TextureManager& textureManager);
 
 	EntityManager& getEntityManager();
 	PhysicsSystem* getPhysicsSystem() const;
@@ -38,7 +37,7 @@ protected:
 
 	/* Let the render system access the list of drawables */
 	friend void RenderableBuildSystem::step(const sf::Time& dt);
-	eastl::vector<pair<sf::VertexArray, sf::Texture>> drawables_;
+	eastl::vector<Sprite*> drawables_;
 
 	float timeScale_;
 };

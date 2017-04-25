@@ -1,6 +1,6 @@
 #include "TextureManager.h"
 
-TextureManager::TextureManager() : textures(), order()
+TextureManager::TextureManager() : textures()
 {
 }
 
@@ -11,9 +11,9 @@ int TextureManager::getLength() const
 }
 
 // Get Texture by Name
-sf::Texture* TextureManager::getTexture(string name)
+sf::Texture* TextureManager::getTexture(unsigned int id)
 {
-	auto textureIt = textures.find(name);
+	auto textureIt = textures.find(id);
 	// See if we have already loaded this texture
 	if (textureIt != textures.end())
 	{
@@ -22,26 +22,17 @@ sf::Texture* TextureManager::getTexture(string name)
 	throw "No such texture exists";
 }
 
-// Get Texture by Index
-sf::Texture* TextureManager::getTexture(int index)
-{
-	// Stay DRY and reuse get by name, but get string name from vector with index
-	return getTexture(order.at(index));
-}
-
 // Assign a Texture a Name (for accessing via get) and path (to load from)
-sf::Texture* TextureManager::loadTexture(string name, string path)
+unsigned int TextureManager::loadTexture(string path)
 {
 	// Haven't loaded it yet, time to create it
 	auto texture = new sf::Texture();
 
 	if (texture->loadFromFile(path))
 	{
-		textures.emplace(name, texture);
-
-		// Push to vector the order in which items were loaded into map, for accessing via index.
-		order.push_back(name);
-		return texture;
+		auto id = textureID++;
+		textures.emplace(id, texture);
+		return id;
 	}
 
 	// Could not load the file

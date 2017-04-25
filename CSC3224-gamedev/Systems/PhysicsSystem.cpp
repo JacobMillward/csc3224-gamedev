@@ -15,11 +15,8 @@ void PhysicsSystem::step(const sf::Time& dt)
 	{
 		auto body = static_cast<PhysicsBody*>(pair.first)->getBody();
 
-		if (body->GetType() != b2_staticBody)
-		{
-			auto transform = pair.second->getTransform();
-			transform->setPosition(body->GetPosition().x * PIXELS_TO_UNITS_SCALE, body->GetPosition().y * PIXELS_TO_UNITS_SCALE);
-			transform->setRotation(180.f / b2_pi * body->GetAngle());
-		}
+		auto sprite = pair.second->getSprite();
+		sprite->setPosition(body->GetPosition().x * PIXELS_TO_UNITS_SCALE, body->GetPosition().y * PIXELS_TO_UNITS_SCALE);
+		sprite->setRotation((180.f / b2_pi) * body->GetAngle());
 	}
 }

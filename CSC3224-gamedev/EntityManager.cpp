@@ -1,7 +1,6 @@
 #include <string>
 #include "EntityManager.h"
 #include <typeindex>
-#include "Components/Transform.h"
 #include <algorithm>
 #include <iostream>
 #include <EASTL/hash_set.h>
@@ -42,12 +41,12 @@ EntityManager::~EntityManager()
 /*
  * Creates an entity at position (0, 0, 0)
  */
-Entity* EntityManager::createEntity()
+Entity* EntityManager::createEntity(unsigned int textureID, sf::IntRect rect)
 {
-	ComponentBase* p = new Transform();
-	auto e = new Entity(getNextID(), *this, *(static_cast<Transform*>(p)));
+	ComponentBase* p = new Sprite(textureID, rect);
+	auto e = new Entity(getNextID(), *this, *(static_cast<Sprite*>(p)));
 	std::cout << "Creating Entity#" << e->getID() << endl;
-	entityMap_.find(static_cast<int>(ComponentType::TRANSFORM))->second.push_back(make_pair(p, e));
+	entityMap_.find(static_cast<int>(ComponentType::SPRITE))->second.push_back(make_pair(p, e));
 	return e;
 }
 

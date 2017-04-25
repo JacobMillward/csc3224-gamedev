@@ -1,28 +1,32 @@
 #pragma once
-#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include "IComponent.h"
+#include <string>
 
-class Sprite : public IComponent<Sprite>
+class Sprite : public IComponent<Sprite>, public sf::Sprite
 {
 public:
 	/* The ComponentType of this component. */
-	static const ComponentType typeID = ComponentType::RENDERABLE;
+	static const ComponentType typeID = ComponentType::SPRITE;
 	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
 
 	static Sprite* buildFromJson(std::string jsonString);
 
-	Sprite(sf::Texture texture, sf::IntRect rect) : texture_(texture), rect_(rect)
+	Sprite(unsigned int textureID, sf::IntRect rect) : textureID_(textureID)
 	{
+		setTextureRect(rect);
 	};
-	sf::Texture& getTexture() { return texture_; };
-	sf::FloatRect& getRect() { return rect_; };
 
-	string toJson() override;
+	unsigned int getTextureID() const { return textureID_; };
+	void setZOrder(int order) { zOrder_ = order; };
+	int getZOrder() const { return zOrder_; };
+
+	std::string toJson() override;
 
 private:
-	sf::Texture texture_;
-	sf::FloatRect rect_;
+	unsigned int textureID_;
+	int zOrder_;
 };
 
 inline Sprite* Sprite::buildFromJson(std::string jsonString)
@@ -31,7 +35,7 @@ inline Sprite* Sprite::buildFromJson(std::string jsonString)
 	return nullptr;
 }
 
-inline string Sprite::toJson()
+inline std::string Sprite::toJson()
 {
 	return {};
 }

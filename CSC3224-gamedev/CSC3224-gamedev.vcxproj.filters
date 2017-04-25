@@ -51,9 +51,6 @@
     <ClInclude Include="Systems\RenderableBuildSystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Transform.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Components\Tag.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>

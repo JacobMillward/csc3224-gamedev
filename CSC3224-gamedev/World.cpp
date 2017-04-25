@@ -30,13 +30,13 @@ void World::step(const sf::Time& gameDelta)
 	}
 }
 
-void World::draw(sf::RenderWindow& w)
+void World::draw(sf::RenderWindow& w, TextureManager& textureManager)
 {
 	sf::RenderStates states;
-	for (auto vArray : drawables_)
+	for (auto sprite : drawables_)
 	{
-		states.texture = &vArray.second;
-		w.draw(vArray.first, states);
+		sprite->setTexture(*textureManager.getTexture(sprite->getTextureID()));
+		w.draw(*sprite);
 	}
 }
 
