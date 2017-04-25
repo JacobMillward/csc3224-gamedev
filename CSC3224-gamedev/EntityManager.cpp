@@ -43,7 +43,7 @@ EntityManager::~EntityManager()
  */
 Entity* EntityManager::createEntity(sf::Texture* texture, sf::IntRect rect)
 {
-	ComponentBase* p = new Sprite(*texture, rect);
+	Component* p = new Sprite(*texture, rect);
 	auto e = new Entity(getNextID(), *this, *(static_cast<Sprite*>(p)));
 	std::cout << "Creating Entity#" << e->getID() << endl;
 	entityMap_.find(static_cast<int>(ComponentType::SPRITE))->second.push_back(make_pair(p, e));
@@ -58,7 +58,7 @@ void EntityManager::destroyEntity(Entity* entity)
 	entity->isDeleted = true;
 	for (auto comType : entityMap_)
 	{
-		pair<ComponentBase*, Entity*>* matches[MAX_COMPONENTS];
+		pair<Component*, Entity*>* matches[MAX_COMPONENTS];
 		auto numMatches = 0;
 		for (auto it = comType.second.begin(); it != comType.second.end(); ++it)
 		{
@@ -81,7 +81,7 @@ void EntityManager::destroyEntity(Entity* entity)
 /*
  * Adds the specifed component to the entity.
  */
-void EntityManager::addComponent(Entity& e, ComponentBase& c)
+void EntityManager::addComponent(Entity& e, Component& c)
 {
 	std::cout << "Adding Component type " << c.getTypeValue() << " to Entity#" << e.getID() << endl;
 	entityMap_.find(c.getTypeValue())->second.push_back(make_pair(&c, &e));
@@ -90,10 +90,10 @@ void EntityManager::addComponent(Entity& e, ComponentBase& c)
 /*
  * Removes the specified component from the entity.
  */
-void EntityManager::removeComponent(Entity& e, ComponentBase& c)
+void EntityManager::removeComponent(Entity& e, Component& c)
 {
 	auto list = entityMap_.find(c.getTypeValue())->second;
-	auto it = eastl::find_if(list.begin(), list.end(), [&e, &c](pair<ComponentBase*, Entity*> p)
+	auto it = eastl::find_if(list.begin(), list.end(), [&e, &c](pair<Component*, Entity*> p)
 	                         {
 		                         return (e == *(p.second)) && (&c == p.first);
 	                         });

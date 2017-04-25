@@ -10,7 +10,7 @@ namespace sf {
 
 using namespace std;
 
-typedef eastl::fixed_vector<pair<ComponentBase*, Entity*>, MAX_COMPONENTS> ComponentVector;
+typedef eastl::fixed_vector<pair<Component*, Entity*>, MAX_COMPONENTS> ComponentVector;
 typedef eastl::fixed_hash_map<int, ComponentVector, static_cast<int>(ComponentType::TYPE_END) + 1> EntityMap;
 
 class EntityManager
@@ -21,8 +21,8 @@ public:
 
 	Entity* createEntity(sf::Texture* texture, sf::IntRect rect);
 	void destroyEntity(Entity* entity);
-	void addComponent(Entity& e, ComponentBase& c);
-	void removeComponent(Entity& e, ComponentBase& c);
+	void addComponent(Entity& e, Component& c);
+	void removeComponent(Entity& e, Component& c);
 	ComponentVector* getComponentList(ComponentType type);
 	template <typename T>
 	T* getComponent(Entity* e);
@@ -37,10 +37,10 @@ private:
 template <typename T>
 T* EntityManager::getComponent(Entity* e)
 {
-	static_assert(std::is_base_of<ComponentBase, T>::value, "T must inherit from ComponentBase");
+	static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component");
 	auto comType = static_cast<int>(T::typeID);
 	auto list = entityMap_.find(comType)->second;
-	auto it = eastl::find_if(list.begin(), list.end(), [e](pair<ComponentBase*, Entity*> p)
+	auto it = eastl::find_if(list.begin(), list.end(), [e](pair<Component*, Entity*> p)
 	                         {
 		                         return (e == p.second);
 	                         });

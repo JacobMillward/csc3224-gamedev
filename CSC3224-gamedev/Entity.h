@@ -12,8 +12,8 @@ class Entity
 public:
 	~Entity();
 	uint32_t getID() const;
-	void addComponent(ComponentBase& c);
-	void removeComponent(ComponentBase& c);
+	void addComponent(Component& c);
+	void removeComponent(Component& c);
 	Sprite* getSprite() const;
 	template <typename T>
 	T* getComponent();
