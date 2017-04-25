@@ -78,11 +78,11 @@
     <ClInclude Include="Components\SoundEffect.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\AudioSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileLoader.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\AudioSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

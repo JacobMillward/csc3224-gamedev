@@ -16,7 +16,7 @@ public:
 	static Sprite*buildFromJson(Json::Value componentRoot);
 	Json::Value toJson() override;
 
-	Sprite(std::string textureID, sf::IntRect rect)
+	Sprite(std::string textureID, sf::IntRect rect) : textureID_(textureID)
 	{
 		setTextureRect(rect);
 	};
