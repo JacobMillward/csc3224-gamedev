@@ -22,6 +22,7 @@ void RenderableBuildSystem::step(const sf::Time& dt)
 		                  return a.second->getSprite()->getZOrder() < b.second->getSprite()->getZOrder();
 	                  });
 
+	this->world_->drawables_.clear();
 	for (auto pair : *list)
 	{
 		auto sprite = static_cast<Sprite*>(pair.first);
