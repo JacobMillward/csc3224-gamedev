@@ -13,7 +13,7 @@ public:
 	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
 
-	static Sprite* buildFromJson(Json::Value componentRoot);
+	static Sprite* buildFromJson(Json::Value componentRoot, ...);
 	Json::Value toJson() override;
 
 	Sprite(std::string textureID, sf::IntRect rect) : textureID_(textureID)
@@ -32,7 +32,7 @@ private:
 	std::string textureID_;
 };
 
-inline Sprite* Sprite::buildFromJson(Json::Value componentRoot)
+inline Sprite* Sprite::buildFromJson(Json::Value componentRoot, ...)
 {
 	//TODO: Implement buildFromJson
 	std::string textureID = componentRoot.get("TextureID", "").asString();

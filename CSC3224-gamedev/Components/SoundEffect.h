@@ -11,7 +11,7 @@ public:
 	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
 
-	static SoundEffect* buildFromJson(Json::Value componentRoot);
+	static SoundEffect* buildFromJson(Json::Value componentRoot, ...);
 	Json::Value toJson() override;
 	explicit SoundEffect(std::string soundID) : soundId_(soundID) {}
 
@@ -24,7 +24,7 @@ protected:
 	std::string soundId_;
 };
 
-inline SoundEffect* SoundEffect::buildFromJson(Json::Value componentRoot)
+inline SoundEffect* SoundEffect::buildFromJson(Json::Value componentRoot, ...)
 {
 	std::string soundName = componentRoot.get("SoundID", "").asString();
 	if (soundName.empty())

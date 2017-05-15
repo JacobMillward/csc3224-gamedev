@@ -40,5 +40,5 @@ public:
 	virtual Json::Value toJson() = 0;
 
 protected:
-	T* (*jsonBuild)(Json::Value componentRoot);
+	T* (*jsonBuild)(Json::Value componentRoot, ...);
 };

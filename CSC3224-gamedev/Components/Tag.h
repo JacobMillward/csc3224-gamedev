@@ -9,7 +9,7 @@ public:
 	ComponentType getType() override { return typeID; }
 	int getTypeValue() override { return static_cast<int>(typeID); }
 
-	static Tag* buildFromJson(Json::Value componentRoot);
+	static Tag* buildFromJson(Json::Value componentRoot, ...);
 
 	explicit Tag(std::string tagName) : tagName(tagName)
 	{
@@ -24,7 +24,7 @@ protected:
 	std::string tagName;
 };
 
-inline Tag* Tag::buildFromJson(Json::Value componentRoot)
+inline Tag* Tag::buildFromJson(Json::Value componentRoot, ...)
 {
 	std::string tagName = componentRoot.get("TagName", "").asString();
 	if (tagName.empty())
