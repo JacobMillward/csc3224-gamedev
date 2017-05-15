@@ -3,6 +3,8 @@
 #include "Components/Tag.h"
 #include "World.h"
 #include "Components/PhysicsBody.h"
+#include <iostream>
+#include "Components/SoundEffect.h"
 
 PlayerControlSystem::PlayerControlSystem(World& world, IntentHandler& intentHandler) : ISystem(world), IntentObserver(intentHandler)
 {
@@ -20,6 +22,12 @@ void PlayerControlSystem::step(const sf::Time& dt)
 		{
 			auto body = pair.second->getComponent<PhysicsBody>()->getBody();
 			body->ApplyForceToCenter(b2Vec2(moveX, moveY), true);
+			if (play)
+			{
+				cout << "playing";
+				pair.second->getComponent<SoundEffect>()->play();
+				play = false;
+			}
 		}
 	}
 	moveX = moveY = 0;
@@ -27,37 +35,56 @@ void PlayerControlSystem::step(const sf::Time& dt)
 
 void PlayerControlSystem::onNotify(IntentEvent intent)
 {
-	switch (str2int(intent.name.c_str()))
+	if (intent.isDown)
 	{
-	case str2int("Left"):
-		if (intent.isDown)
+		switch (str2int(intent.name.c_str()))
 		{
-			moveX -= moveForce;
-		}
-		break;
+		case str2int("Left"):
+			{
+				moveX -= moveForce;
 
-	case str2int("Right"):
-		if (intent.isDown)
+				break;
+			}
+
+		case str2int("Right"):
+			{
+				moveX += moveForce;
+
+				break;
+			}
+
+		case str2int("Up"):
+			{
+				moveY -= moveForce;
+
+				break;
+			}
+
+		case str2int("Down"):
+			{
+				moveY += moveForce;
+
+				break;
+			}
+		case str2int("Jump"):
+			{
+				if (intent.isDown && !wasDownLast)
+				{
+					play = true;
+					wasDownLast = true;
+				}
+
+				break;
+			}
+		default:
+			break;
+		}
+	}
+	else
+	{
+		if(wasDownLast && intent.name == "Jump")
 		{
-			moveX += moveForce;
+			wasDownLast = false;
 		}
-		break;
-
-	case str2int("Up"):
-		if (intent.isDown)
-		{
-			moveY -= moveForce;
-		}
-		break;
-
-	case str2int("Down"):
-		if (intent.isDown)
-		{
-			moveY += moveForce;
-		}
-		break;
-
-	default:
-		break;
 	}
 }

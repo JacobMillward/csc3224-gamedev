@@ -15,7 +15,10 @@ public:
 	void onNotify(IntentEvent event) override;
 
 protected:
-	float moveForce = 1.f;
+	float moveForce = 40.f;
 	float moveX = 0;
 	float moveY = 0;
+
+	bool wasDownLast = false;
+	bool play = false;
 };
