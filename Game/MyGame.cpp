@@ -55,6 +55,9 @@ void MyGame::init()
 
 	/* Set up world subsystems */
 	this->world_->addSystem(new PlayerControlSystem(*this->world_, intentHandler_));
+
+	std::cout << "Original:\n" << e->getSprite()->toJson().toStyledString() << std::endl;
+	std::cout << "After:\n" << Sprite::buildFromJson(e->getSprite()->toJson())->toJson().toStyledString() << std::endl;
 }
 
 void MyGame::update(sf::Time dt)
