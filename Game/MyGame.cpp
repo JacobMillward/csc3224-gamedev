@@ -1,5 +1,4 @@
 #include "MyGame.h"
-#include "Components/Sprite.h"
 #include "PlayerControlSystem.h"
 #include <iostream>
 #include "Components/PhysicsBody.h"
@@ -25,7 +24,7 @@ void MyGame::init()
 	intentHandler_.printKeyMaps();
 
 	/* Create boxes */
-	auto texture = resourceManager_.loadTexture("box", "box.png");
+	resourceManager_.loadTexture("box", "box.png");
 
 	auto e = world_->getEntityManager().createEntity("box", sf::IntRect(0, 0, 32, 32));
 	e->getSprite()->move(60, 0);
@@ -39,7 +38,7 @@ void MyGame::init()
 
 	e->addComponent(*new Tag("player"));
 
-	auto beeps = resourceManager_.loadSound("beeps", "sms-alert-4.wav");
+	resourceManager_.loadSound("beeps", "sms-alert-4.wav");
 	e->addComponent(*(new SoundEffect("beeps")));
 	e->getComponent<SoundEffect>()->play();
 
