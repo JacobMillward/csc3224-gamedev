@@ -19,6 +19,7 @@ ScoreSystem::~ScoreSystem()
 
 void ScoreSystem::step(const sf::Time& dt)
 {
+	if (gameOver) return;
 	/* Grab a reference to the player */
 	if (!playerEntity)
 	{
@@ -41,11 +42,18 @@ void ScoreSystem::step(const sf::Time& dt)
 		highScore = score;
 	}
 
-	if(playerEntity->getComponent<Tag>()->getTag() != "dead")
+	stringstream ss;
+	if (playerEntity->getComponent<Tag>()->getTag() != "dead")
 	{
-		std::stringstream ss;
 		ss << "Highscore: " << highScore << endl << "Height: " << floor(-playerHeight + baseline);
 		world_->DebugText.setString(ss.str());
 	}
-	
+	else
+	{
+		ss << "Game Over" << endl << "Final Score: " << highScore;
+		auto pos = world_->DebugText.getPosition();
+		world_->DebugText.move(250, 300);
+		gameOver = true;
+	}
+	world_->DebugText.setString(ss.str());
 }

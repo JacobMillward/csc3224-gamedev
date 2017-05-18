@@ -30,6 +30,7 @@ void PlayerControlSystem::step(const sf::Time& dt)
 			}
 		}
 	}
+	else if (playerEntity->getComponent<Tag>()->getTag() == "dead") return;
 
 	/* Move the player */
 	auto body = playerEntity->getComponent<PhysicsBody>()->getBody();

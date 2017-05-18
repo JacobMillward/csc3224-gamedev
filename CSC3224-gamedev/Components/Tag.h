@@ -16,7 +16,7 @@ public:
 	};
 
 	std::string getTag() const { return tagName; };
-	void setTag(std::string& name) { tagName = name; };
+	void setTag(std::string name) { tagName = name; };
 
 	Json::Value toJson() override;
 

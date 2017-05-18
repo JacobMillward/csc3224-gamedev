@@ -3,6 +3,7 @@
 #include "Systems/PhysicsSystem.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
+#include "Entity.h"
 
 
 class MovingCameraSystem : public ISystem
@@ -15,6 +16,7 @@ public:
 protected:
 	sf::RenderWindow* window_;
 	sf::View camera_;
+	Entity* playerEntity;
 	const float delayInMilliseconds = 800;
 	float currentdelay = 0;
 	const float moveSpeed = 1 / PIXELS_TO_UNITS_SCALE;

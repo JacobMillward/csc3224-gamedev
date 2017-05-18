@@ -12,5 +12,6 @@ protected:
 	Entity* playerEntity;
 	const float baseline = 500.f;
 	int highScore;
+	bool gameOver = false;
 };
 
