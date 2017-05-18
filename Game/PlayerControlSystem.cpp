@@ -41,6 +41,7 @@ void PlayerControlSystem::step(const sf::Time& dt)
 	if (jump)
 	{
 		body->ApplyLinearImpulseToCenter(b2Vec2(0, -(body->GetMass() * (jumpVel - body->GetLinearVelocity().y))), true);
+		playerEntity->getComponent<SoundEffect>()->play();
 		jump = false;
 	}
 

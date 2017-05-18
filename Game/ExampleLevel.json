@@ -13,9 +13,19 @@
 			"Path": "cloud.png"
 		}
 	],
+	"Sounds" : [
+		{
+			"Identifier" : "hop",
+			"Path": "hop.wav"
+		}
+	],
 	"Entities":[
 		{
 			"Components" : [
+				{
+					"ComType" : 3,
+					"SoundID" : "hop"
+				},
 				{
 					"BodyType" : 2,
 					"ComType" : 2,
