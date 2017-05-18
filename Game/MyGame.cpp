@@ -7,6 +7,7 @@
 #include "Components/Tag.h"
 #include "FileLoader.h"
 #include "ScoreSystem.h"
+#include "MovingCameraSystem.h"
 
 
 MyGame::MyGame() : GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "Woo!"))
@@ -20,6 +21,8 @@ MyGame::~MyGame()
 
 void MyGame::init()
 {
+
+	window_->setFramerateLimit(60);
 	/* Load intents from file */
 	cout << "Loading keymap" << endl;
 	intentHandler_.loadIntentsFromFile("KeyMap.txt");
@@ -32,6 +35,7 @@ void MyGame::init()
 	/* Set up world subsystems */
 	this->world_->addSystem(new PlayerControlSystem(*this->world_, intentHandler_));
 	this->world_->addSystem(new ScoreSystem(*this->world_));
+	this->world_->addSystem(new MovingCameraSystem(*this->world_, window_));
 
 	/* Load entities from file */
 	FileLoader::LoadEntitiesFromFile(world_->getEntityManager(), world_->getPhysicsSystem(), "ExampleLevel.json");
