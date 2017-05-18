@@ -4,6 +4,7 @@
 #include "Intents/IntentHandler.h"
 #include "Box2D/Dynamics/b2WorldCallbacks.h"
 #include "Entity.h"
+#include "Components/PhysicsBody.h"
 
 class PlayerControlSystem : public ISystem, public IntentObserver, public b2ContactListener
 {
@@ -20,7 +21,8 @@ public:
 	void EndContact(b2Contact* contact) override;
 protected:
 	Entity* playerEntity;
-	const float jumpVel = 8;
+	PhysicsBody* playerPhysics;
+	const float jumpVel = 10;
 	const float moveVel = 8;
 	float desiredVel = 0;
 

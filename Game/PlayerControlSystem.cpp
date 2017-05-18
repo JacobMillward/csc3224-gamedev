@@ -6,6 +6,7 @@
 #include "Components/SoundEffect.h"
 #include "Box2D/Dynamics/Contacts/b2Contact.h"
 #include <iostream>
+#include "ScoreSystem.h"
 
 PlayerControlSystem::PlayerControlSystem(World& world, IntentHandler& intentHandler) : ISystem(world), IntentObserver(intentHandler), playerEntity(nullptr)
 {
@@ -24,6 +25,7 @@ void PlayerControlSystem::step(const sf::Time& dt)
 			if (component->getTag() == "player")
 			{
 				playerEntity = pair.second;
+				playerPhysics = playerEntity->getComponent<PhysicsBody>();
 				break;
 			}
 		}
@@ -37,7 +39,7 @@ void PlayerControlSystem::step(const sf::Time& dt)
 
 	if (jump)
 	{
-		body->ApplyLinearImpulseToCenter(b2Vec2(0, body->GetMass() * (-jumpVel - body->GetLinearVelocity().y)), true);
+		body->ApplyLinearImpulseToCenter(b2Vec2(0, -(body->GetMass() * (jumpVel - body->GetLinearVelocity().y))), true);
 		jump = false;
 	}
 
@@ -82,7 +84,7 @@ void PlayerControlSystem::BeginContact(b2Contact* contact)
 	void* bodyBUserData = fixB->GetBody()->GetUserData();
 	if (bodyAUserData && bodyBUserData)
 	{
-		auto playerPhysics = playerEntity->getComponent<PhysicsBody>();
+		
 		auto udA = static_cast<PhysicsBody*>(bodyAUserData);
 		auto udB = static_cast<PhysicsBody*>(bodyBUserData);
 		if ((udA == playerPhysics || udB == playerPhysics)
@@ -102,7 +104,6 @@ void PlayerControlSystem::EndContact(b2Contact* contact)
 	void* bodyBUserData = fixB->GetBody()->GetUserData();
 	if (bodyAUserData && bodyBUserData)
 	{
-		auto playerPhysics = playerEntity->getComponent<PhysicsBody>();
 		auto udA = static_cast<PhysicsBody*>(bodyAUserData);
 		auto udB = static_cast<PhysicsBody*>(bodyBUserData);
 		if ((udA == playerPhysics || udB == playerPhysics)
