@@ -19,6 +19,8 @@ public:
 	virtual ~Component() = default;
 	virtual ComponentType getType() = 0;
 	virtual int getTypeValue() = 0;
+
+	virtual Json::Value toJson() = 0;
 };
 
 template <typename T>
@@ -36,8 +38,6 @@ public:
 	virtual ~IComponent()
 	{
 	}
-
-	virtual Json::Value toJson() = 0;
 
 protected:
 	T* (*jsonBuild)(Json::Value componentRoot, ...);
