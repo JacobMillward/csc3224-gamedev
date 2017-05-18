@@ -88,8 +88,7 @@ void PlayerControlSystem::BeginContact(b2Contact* contact)
 		
 		auto udA = static_cast<PhysicsBody*>(bodyAUserData);
 		auto udB = static_cast<PhysicsBody*>(bodyBUserData);
-		if ((udA == playerPhysics || udB == playerPhysics)
-			&& (fixB->GetBody()->GetType() == b2_staticBody || fixA->GetBody()->GetType() == b2_staticBody))
+		if (udA == playerPhysics || udB == playerPhysics)
 		{
 			grounded = true;
 		}
@@ -107,8 +106,7 @@ void PlayerControlSystem::EndContact(b2Contact* contact)
 	{
 		auto udA = static_cast<PhysicsBody*>(bodyAUserData);
 		auto udB = static_cast<PhysicsBody*>(bodyBUserData);
-		if ((udA == playerPhysics || udB == playerPhysics)
-			&& (fixB->GetBody()->GetType() == b2_staticBody || fixA->GetBody()->GetType() == b2_staticBody))
+		if (udA == playerPhysics || udB == playerPhysics)
 		{
 			grounded = false;
 		}
