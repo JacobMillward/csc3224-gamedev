@@ -4,7 +4,7 @@
 #include "Systems/AudioSystem.h"
 #include "Components/Sprite.h"
 
-World::World(ResourceManager& resourceManager, float timeScale) : state_(Init), entityManager_(EntityManager()), physics_system_(new PhysicsSystem(*this, b2Vec2(0.f, 9.8f))), systemList_(eastl::fixed_vector<ISystem*, MAX_SYSTEMS>()), timeScale_(timeScale)
+World::World(ResourceManager& resourceManager, float timeScale) : state_(Init), entityManager_(EntityManager()), physics_system_(new PhysicsSystem(*this, b2Vec2(0.f, 15.f))), systemList_(eastl::fixed_vector<ISystem*, MAX_SYSTEMS>()), timeScale_(timeScale)
 {
 	addSystem(physics_system_);
 	addSystem(new RenderableBuildSystem(*this));

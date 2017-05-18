@@ -61,6 +61,7 @@ inline PhysicsBody* PhysicsBody::buildFromJson(Json::Value componentRoot, ...)
 	// Default to 2 (Dynamic body) on failure
 	b2BodyType type = b2BodyType(componentRoot.get("BodyType", 2).asInt());
 	auto b = new PhysicsBody(p, s, type);
+	b->getBody()->SetFixedRotation(componentRoot.get("FixedRotation", false).asBool());
 
 	auto fixtures = componentRoot.get("Fixtures", "");
 	for(auto f : fixtures)
@@ -68,7 +69,7 @@ inline PhysicsBody* PhysicsBody::buildFromJson(Json::Value componentRoot, ...)
 		b2FixtureDef def;
 		def.density = f.get("Density", 1).asFloat();
 		def.friction = f.get("Friction", 0.5).asFloat();
-		def.restitution = f.get("Restitution", 0.5).asFloat();
+		def.restitution = f.get("Restitution", 0.0).asFloat();
 		auto width = f.get("Width", 1).asFloat();
 		auto height = f.get("Height", 1).asFloat();
 
@@ -82,6 +83,7 @@ inline Json::Value PhysicsBody::toJson()
 	Json::Value root;
 	root["ComType"] = static_cast<int>(this->getType());
 	root["BodyType"] = body_->GetType();
+	root["FixedRotation"] = body_->IsFixedRotation();
 
 	auto index = 0;
 	for (b2Fixture* f = body_->GetFixtureList(); f; f = f->GetNext())
