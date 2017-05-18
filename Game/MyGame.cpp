@@ -6,6 +6,7 @@
 #include "Components/SoundEffect.h"
 #include "Components/Tag.h"
 #include "FileLoader.h"
+#include "ScoreSystem.h"
 
 
 MyGame::MyGame() : GameBase(new sf::RenderWindow(sf::VideoMode(800, 600), "Woo!"))
@@ -30,6 +31,7 @@ void MyGame::init()
 
 	/* Set up world subsystems */
 	this->world_->addSystem(new PlayerControlSystem(*this->world_, intentHandler_));
+	this->world_->addSystem(new ScoreSystem(*this->world_));
 
 	/* Load entities from file */
 	FileLoader::LoadEntitiesFromFile(world_->getEntityManager(), world_->getPhysicsSystem(), "ExampleLevel.json");

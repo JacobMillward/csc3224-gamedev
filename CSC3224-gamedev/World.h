@@ -26,7 +26,8 @@ public:
 	void addSystem(ISystem* system);
 	void step(const sf::Time& gameDelta);
 	void draw(sf::RenderWindow& w, ResourceManager& resourceManager);
-
+	void enableDebugText(bool enable) { debug = enable; }
+	sf::Text DebugText;
 	EntityManager& getEntityManager();
 	PhysicsSystem& getPhysicsSystem() const;
 
@@ -41,4 +42,8 @@ protected:
 	eastl::vector<Sprite*> drawables_;
 
 	float timeScale_;
+
+	/* Debug drawing */
+	bool debug = false;
+	sf::Font debugFont;
 };
