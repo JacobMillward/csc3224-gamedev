@@ -27,6 +27,6 @@
 		"TextureRectLeft" : 0,
 		"TextureRectTop" : 0,
 		"TextureRectWidth" : 200,
-		"Z-Order" : -1
+		"Z-Order" : 5
 	}
 }

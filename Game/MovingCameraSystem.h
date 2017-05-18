@@ -14,8 +14,9 @@ class MovingCameraSystem : public ISystem
 public:
 	MovingCameraSystem(World& w, sf::RenderWindow* window, Json::Value platformConfig);
 	~MovingCameraSystem();
+	void moveClouds() const;
 	void step(const sf::Time& dt) override;
-
+	void advancePlatforms();
 protected:
 	sf::RenderWindow* window_;
 	sf::View camera_;

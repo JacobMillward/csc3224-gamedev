@@ -7,6 +7,10 @@
 		{
 			"Identifier" : "platform",
 			"Path": "platform.png"
+		},
+		{
+			"Identifier" : "cloud",
+			"Path": "cloud.png"
 		}
 	],
 	"Entities":[
@@ -44,7 +48,7 @@
 				"TextureRectLeft" : 0,
 				"TextureRectTop" : 0,
 				"TextureRectWidth" : 32,
-				"Z-Order" : 0
+				"Z-Order" : 10
 			}
 		},
 		{
@@ -76,6 +80,52 @@
 				"TextureRectLeft" : 0,
 				"TextureRectTop" : 0,
 				"TextureRectWidth" : 32,
+				"Z-Order" : 0
+			}
+		},
+		{
+			"Components" : [
+				{
+					"ComType" : 1,
+					"TagName" : "cloud"
+				}
+			],
+			"Sprite" : {
+				"ComType" : 0,
+				"OriginX" : 130.0,
+				"OriginY" : 67.5,
+				"PosX" : 100.0,
+				"PosY" : 40.0,
+				"ScaleX" : 1.0,
+				"ScaleY" : 1.0,
+				"TextureID" : "cloud",
+				"TextureRectHeight" : 135,
+				"TextureRectLeft" : 0,
+				"TextureRectTop" : 0,
+				"TextureRectWidth" : 260,
+				"Z-Order" : 0
+			}
+		},
+		{
+			"Components" : [
+				{
+					"ComType" : 1,
+					"TagName" : "cloud"
+				}
+			],
+			"Sprite" : {
+				"ComType" : 0,
+				"OriginX" : 130.0,
+				"OriginY" : 67.5,
+				"PosX" : 500.0,
+				"PosY" : 300.0,
+				"ScaleX" : 1.0,
+				"ScaleY" : 1.0,
+				"TextureID" : "cloud",
+				"TextureRectHeight" : 135,
+				"TextureRectLeft" : 0,
+				"TextureRectTop" : 0,
+				"TextureRectWidth" : 260,
 				"Z-Order" : 0
 			}
 		}
