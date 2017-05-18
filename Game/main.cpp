@@ -3,6 +3,7 @@
 
 int main()
 {
+	srand(time(0));
 	auto app = new MyGame();
 	app->run();
 
