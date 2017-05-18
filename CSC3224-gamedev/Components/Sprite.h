@@ -42,12 +42,15 @@ inline Sprite* Sprite::buildFromJson(Json::Value componentRoot, ...)
 	                                       componentRoot.get("textureRectHeight", 32).asInt());
 	float posX = componentRoot.get("posX", 0).asFloat();
 	float posY = componentRoot.get("posY", 0).asFloat();
+	auto originX = componentRoot.get("originX", 0).asFloat();
+	auto originY = componentRoot.get("originY", 0).asFloat();
 	float scaleX = componentRoot.get("scaleX", 1).asFloat();
 	float scaleY = componentRoot.get("scaleY", 1).asFloat();
 	int zOrder = componentRoot.get("z-order", 0).asInt();
 
 	Sprite* s = new Sprite(textureID, textureRect);
 	s->setPosition(posX, posY);
+	s->setOrigin(originX, originY);
 	s->setScale(scaleX, scaleY);
 	s->setZOrder(zOrder);
 
@@ -65,6 +68,8 @@ inline Json::Value Sprite::toJson()
 	root["textureRectHeight"] = getTextureRect().height;
 	root["posX"] = getPosition().x;
 	root["posY"] = getPosition().y;
+	root["originX"] = getOrigin().x;
+	root["originY"] = getOrigin().y;
 	root["scaleX"] = getScale().x;
 	root["scaleY"] = getScale().y;
 	root["z-order"] = getZOrder();
