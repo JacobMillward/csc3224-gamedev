@@ -7,6 +7,8 @@
             "Fixtures" : [
                {
                   "Density" : 1.0,
+                  "Friction" : 0.3,
+                  "Restitution" : 0.2,
                   "Height" : 32.0,
                   "Width" : 32.0
                }
@@ -45,6 +47,8 @@
             "Fixtures" : [
                {
                   "Density" : 0.0,
+                  "Friction" : 0.3,
+                  "Restitution" : 0.4,
                   "Height" : 32.0,
                   "Width" : 704.0
                }

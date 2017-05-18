@@ -66,7 +66,9 @@ inline PhysicsBody* PhysicsBody::buildFromJson(Json::Value componentRoot, ...)
 	for(auto f : fixtures)
 	{
 		b2FixtureDef def;
-		def.density = f.get("Density", 1).asFloat();;
+		def.density = f.get("Density", 1).asFloat();
+		def.friction = f.get("Friction", 0.5).asFloat();
+		def.restitution = f.get("Restitution", 0.5).asFloat();
 		auto width = f.get("Width", 1).asFloat();
 		auto height = f.get("Height", 1).asFloat();
 
@@ -86,6 +88,8 @@ inline Json::Value PhysicsBody::toJson()
 	{
 		Json::Value data;
 		data["Density"] = f->GetDensity();
+		data["Friction"] = f->GetFriction();
+		data["Restitution"] = f->GetRestitution();
 		data["Width"] = fixtureSizes.at(index).first;
 		data["Height"] = fixtureSizes.at(index).second;
 
