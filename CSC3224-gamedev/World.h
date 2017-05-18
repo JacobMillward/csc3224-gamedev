@@ -7,7 +7,6 @@
 #include "Systems/RenderableBuildSystem.h"
 #include "ResourceManager.h"
 
-
 class World
 {
 public:
@@ -24,9 +23,11 @@ public:
 	void changeState(State s) { state_ = s; };
 	State getState() const { return state_; };
 	void addSystem(ISystem* system);
+	void sendSystemMessage(const SystemMessage& m);
 	void step(const sf::Time& gameDelta);
 	void draw(sf::RenderWindow& w, ResourceManager& resourceManager);
-
+	void enableDebugText(bool enable) { debug = enable; }
+	sf::Text DebugText;
 	EntityManager& getEntityManager();
 	PhysicsSystem& getPhysicsSystem() const;
 
@@ -41,4 +42,8 @@ protected:
 	eastl::vector<Sprite*> drawables_;
 
 	float timeScale_;
+
+	/* Debug drawing */
+	bool debug = false;
+	sf::Font debugFont;
 };

@@ -2,8 +2,11 @@
 #include "Systems/ISystem.h"
 #include "Intents/IntentObserver.h"
 #include "Intents/IntentHandler.h"
+#include "Box2D/Dynamics/b2WorldCallbacks.h"
+#include "Entity.h"
+#include "Components/PhysicsBody.h"
 
-class PlayerControlSystem : public ISystem, public IntentObserver
+class PlayerControlSystem : public ISystem, public IntentObserver, public b2ContactListener
 {
 public:
 	PlayerControlSystem(World& world, IntentHandler& intentHandler);
@@ -14,10 +17,16 @@ public:
 	// Inherited via IntentObserver
 	void onNotify(IntentEvent event) override;
 
+	void BeginContact(b2Contact* contact) override;
+	void EndContact(b2Contact* contact) override;
+	void recieveMessage(const SystemMessage& m) override;
 protected:
-	float moveForce = 40.f;
-	float moveX = 0;
-	float moveY = 0;
+	Entity* playerEntity;
+	PhysicsBody* playerPhysics;
+	const float jumpVel = 15.0;
+	const float moveVel = 8;
+	float desiredVel = 0;
 
-	bool play = false;
+	bool jump = false;
+	bool grounded = false;
 };

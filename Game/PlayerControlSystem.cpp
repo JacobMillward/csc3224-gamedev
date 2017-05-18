@@ -3,33 +3,49 @@
 #include "Components/Tag.h"
 #include "World.h"
 #include "Components/PhysicsBody.h"
-#include <iostream>
 #include "Components/SoundEffect.h"
+#include "Box2D/Dynamics/Contacts/b2Contact.h"
+#include "ScoreSystem.h"
 
-PlayerControlSystem::PlayerControlSystem(World& world, IntentHandler& intentHandler) : ISystem(world), IntentObserver(intentHandler)
+PlayerControlSystem::PlayerControlSystem(World& world, IntentHandler& intentHandler) : ISystem(world), IntentObserver(intentHandler), playerEntity(nullptr)
 {
+	world.getPhysicsSystem().setContactListener(this);
 }
 
 void PlayerControlSystem::step(const sf::Time& dt)
 {
-	auto list = this->world_->getEntityManager().getComponentList(ComponentType::TAG);
-	for (auto pair : *list)
+	/* Grab a reference to the player */
+	if (!playerEntity)
 	{
-		/* Scale the movement with deltatime and move the entity */
-
-		auto component = static_cast<Tag*>(pair.first);
-		if (component->getTag() == "player")
+		auto list = this->world_->getEntityManager().getComponentList(ComponentType::TAG);
+		for (auto pair : *list)
 		{
-			auto body = pair.second->getComponent<PhysicsBody>()->getBody();
-			body->ApplyForceToCenter(b2Vec2(moveX, moveY), true);
-			if (play)
+			auto component = static_cast<Tag*>(pair.first);
+			if (component->getTag() == "player")
 			{
-				pair.second->getComponent<SoundEffect>()->play();
-				play = false;
+				playerEntity = pair.second;
+				playerPhysics = playerEntity->getComponent<PhysicsBody>();
+				playerPhysics->getBody()->SetGravityScale(1.5f);
+				break;
 			}
 		}
 	}
-	moveX = moveY = 0;
+	else if (playerEntity->getComponent<Tag>()->getTag() == "dead") return;
+
+	/* Move the player */
+	auto body = playerEntity->getComponent<PhysicsBody>()->getBody();
+	float velChange = desiredVel - body->GetLinearVelocity().x;
+	float impulse = body->GetMass() * velChange;
+	body->ApplyLinearImpulseToCenter(b2Vec2(impulse, 0), true);
+
+	if (jump)
+	{
+		body->ApplyLinearImpulseToCenter(b2Vec2(0, -(body->GetMass() * (jumpVel - body->GetLinearVelocity().y))), true);
+		playerEntity->getComponent<SoundEffect>()->play();
+		jump = false;
+	}
+
+	desiredVel = 0;
 }
 
 void PlayerControlSystem::onNotify(IntentEvent intent)
@@ -40,29 +56,13 @@ void PlayerControlSystem::onNotify(IntentEvent intent)
 		{
 		case str2int("Left"):
 			{
-				moveX -= moveForce;
-
+				desiredVel -= moveVel;
 				break;
 			}
 
 		case str2int("Right"):
 			{
-				moveX += moveForce;
-
-				break;
-			}
-
-		case str2int("Up"):
-			{
-				moveY -= moveForce;
-
-				break;
-			}
-
-		case str2int("Down"):
-			{
-				moveY += moveForce;
-
+				desiredVel += moveVel;
 				break;
 			}
 		default:
@@ -70,9 +70,51 @@ void PlayerControlSystem::onNotify(IntentEvent intent)
 		}
 	}
 
-	//Play sound
-	if(intent.name == "Jump" && intent.state == State::RELEASED)
+	//Jump
+	if (intent.name == "Jump" && intent.state == State::PRESSED && grounded)
 	{
-		play = true;
+		jump = true;
 	}
+}
+
+void PlayerControlSystem::BeginContact(b2Contact* contact)
+{
+	//check if either fixture was the player
+	auto fixA = contact->GetFixtureA();
+	auto fixB = contact->GetFixtureB();
+	void* bodyAUserData = fixA->GetBody()->GetUserData();
+	void* bodyBUserData = fixB->GetBody()->GetUserData();
+	if (bodyAUserData && bodyBUserData)
+	{
+		
+		auto udA = static_cast<PhysicsBody*>(bodyAUserData);
+		auto udB = static_cast<PhysicsBody*>(bodyBUserData);
+		if (udA == playerPhysics || udB == playerPhysics)
+		{
+			grounded = true;
+		}
+	}
+}
+
+void PlayerControlSystem::EndContact(b2Contact* contact)
+{
+	//check if either fixture was the player
+	auto fixA = contact->GetFixtureA();
+	auto fixB = contact->GetFixtureB();
+	void* bodyAUserData = fixA->GetBody()->GetUserData();
+	void* bodyBUserData = fixB->GetBody()->GetUserData();
+	if (bodyAUserData && bodyBUserData)
+	{
+		auto udA = static_cast<PhysicsBody*>(bodyAUserData);
+		auto udB = static_cast<PhysicsBody*>(bodyBUserData);
+		if (udA == playerPhysics || udB == playerPhysics)
+		{
+			grounded = false;
+		}
+	}
+}
+
+void PlayerControlSystem::recieveMessage(const SystemMessage& m)
+{
+
 }

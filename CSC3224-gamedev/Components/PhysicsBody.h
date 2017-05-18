@@ -22,6 +22,7 @@ public:
 		def.position = b2Vec2( (sprite->getPosition().x + sprite->getOrigin().x) / PIXELS_TO_UNITS_SCALE, (sprite->getPosition().y + sprite->getOrigin().y) / PIXELS_TO_UNITS_SCALE);
 		def.type = bodyType;
 		body_ = physicsSystem->createBody(def);
+		body_->SetUserData(this);
 	};
 
 	b2Body* getBody() const { return body_; }

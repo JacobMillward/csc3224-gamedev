@@ -1,0 +1,32 @@
+{
+	"Components" : [
+		{
+			"BodyType" : 1,
+			"ComType" : 2,
+			"Fixtures" : [
+				{
+					"Density" : 0.0,
+					"Friction" : 0.3,
+					"Restitution" : 0.0,
+					"Height" : 25.0,
+					"Width" : 50.0
+				}
+			]
+		}
+	],
+	"Sprite" : {
+		"ComType" : 0,
+		"OriginX" : 100.0,
+		"OriginY" : 50.0,
+		"PosX" : 350.0,
+		"PosY" : 500.0,
+		"ScaleX" : 0.25,
+		"ScaleY" : 0.25,
+		"TextureID" : "platform",
+		"TextureRectHeight" : 100,
+		"TextureRectLeft" : 0,
+		"TextureRectTop" : 0,
+		"TextureRectWidth" : 200,
+		"Z-Order" : 5
+	}
+}

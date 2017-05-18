@@ -3,7 +3,7 @@
 #include "Box2D/Dynamics/b2World.h"
 #include "Box2D/Dynamics/b2Body.h"
 
-#define PIXELS_TO_UNITS_SCALE 30.f
+#define PIXELS_TO_UNITS_SCALE 20.f
 
 class PhysicsSystem : public ISystem
 {
@@ -15,6 +15,12 @@ public:
 	{
 		return physicsWorld_.CreateBody(&bodydef);
 	};
+
+	void setContactListener(b2ContactListener* listener);
+
+	void recieveMessage(const SystemMessage& m) override
+	{
+	}
 
 protected:
 	b2World physicsWorld_;

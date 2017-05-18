@@ -1,5 +1,5 @@
 0 57 Jump
-0 22 Up
+0 22 Jump
 0 0 Left
 0 18 Down
 0 3 Right

@@ -64,6 +64,7 @@ sf::SoundBuffer* ResourceManager::loadSound(std::string name, std::string path)
 	auto soundBuffer = new sf::SoundBuffer();
 	if (soundBuffer->loadFromFile(path))
 	{
+		std::cout << "Loaded Sound" << std::endl;
 		sounds_.emplace(name, soundBuffer);
 		return soundBuffer;
 	}

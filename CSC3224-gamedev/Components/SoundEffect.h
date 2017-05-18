@@ -3,6 +3,7 @@
 #include "IComponent.h"
 #include "../Systems/AudioSystem.h"
 #include "../json/json.h"
+#include <iostream>
 
 class SoundEffect : public IComponent<SoundEffect>
 {

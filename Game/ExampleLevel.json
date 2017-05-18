@@ -1,74 +1,143 @@
-[
-   {
-      "Components" : [
-         {
-            "BodyType" : 2,
-            "ComType" : 2,
-            "Fixtures" : [
-               {
-                  "Density" : 1.0,
-                  "Friction" : 0.3,
-                  "Restitution" : 0.2,
-                  "Height" : 32.0,
-                  "Width" : 32.0
-               }
-            ]
-         },
-         {
-            "ComType" : 1,
-            "TagName" : "player"
-         },
-         {
-            "ComType" : 3,
-            "SoundID" : "beeps"
-         }
-      ],
-      "Sprite" : {
-         "ComType" : 0,
-         "OriginX" : 16.0,
-         "OriginY" : 16.0,
-         "PosX" : 60.0,
-         "PosY" : 0.0,
-         "ScaleX" : 1.0,
-         "ScaleY" : 1.0,
-         "TextureID" : "box",
-         "TextureRectHeight" : 32,
-         "TextureRectLeft" : 0,
-         "TextureRectTop" : 0,
-         "TextureRectWidth" : 32,
-         "Z-Order" : 0
-      }
-   },
-   {
-      "Components" : [
-         {
-            "BodyType" : 0,
-            "ComType" : 2,
-            "Fixtures" : [
-               {
-                  "Density" : 0.0,
-                  "Friction" : 0.3,
-                  "Restitution" : 0.4,
-                  "Height" : 32.0,
-                  "Width" : 704.0
-               }
-            ]
-         }
-      ],
-      "Sprite" : {
-         "ComType" : 0,
-         "OriginX" : 16.0,
-         "OriginY" : 16.0,
-         "PosX" : 400.0,
-         "PosY" : 500.0,
-         "ScaleX" : 22.0,
-         "ScaleY" : 1.0,
-         "TextureID" : "box",
-         "TextureRectHeight" : 32,
-         "TextureRectLeft" : 0,
-         "TextureRectTop" : 0,
-         "TextureRectWidth" : 32,
-         "Z-Order" : 0
-      }
-   }
-]
+{
+	"Textures" : [
+		{
+			"Identifier" : "box",
+			"Path": "box.png"
+		},
+		{
+			"Identifier" : "platform",
+			"Path": "platform.png"
+		},
+		{
+			"Identifier" : "cloud",
+			"Path": "cloud.png"
+		}
+	],
+	"Sounds" : [
+		{
+			"Identifier" : "hop",
+			"Path": "hop.wav"
+		}
+	],
+	"Entities":[
+		{
+			"Components" : [
+				{
+					"ComType" : 3,
+					"SoundID" : "hop"
+				},
+				{
+					"BodyType" : 2,
+					"ComType" : 2,
+					"FixedRotation" : true,
+					"Fixtures" : [
+						{
+							"Density" : 1.0,
+							"Friction" : 0.0,
+							"Restitution" : 0.0,
+							"Height" : 32.0,
+							"Width" : 32.0
+						}
+					]
+				},
+				{
+					"ComType" : 1,
+					"TagName" : "player"
+				}
+			],
+			"Sprite" : {
+				"ComType" : 0,
+				"OriginX" : 16.0,
+				"OriginY" : 16.0,
+				"PosX" : 100.0,
+				"PosY" : 400.0,
+				"ScaleX" : 1.0,
+				"ScaleY" : 1.0,
+				"TextureID" : "box",
+				"TextureRectHeight" : 32,
+				"TextureRectLeft" : 0,
+				"TextureRectTop" : 0,
+				"TextureRectWidth" : 32,
+				"Z-Order" : 10
+			}
+		},
+		{
+			"Components" : [
+				{
+					"BodyType" : 0,
+					"ComType" : 2,
+					"Fixtures" : [
+						{
+							"Density" : 0.0,
+							"Friction" : 0.3,
+							"Restitution" : 0.0,
+							"Height" : 32.0,
+							"Width" : 704.0
+						}
+					]
+				}
+			],
+			"Sprite" : {
+				"ComType" : 0,
+				"OriginX" : 16.0,
+				"OriginY" : 16.0,
+				"PosX" : 400.0,
+				"PosY" : 500.0,
+				"ScaleX" : 22.0,
+				"ScaleY" : 1.0,
+				"TextureID" : "box",
+				"TextureRectHeight" : 32,
+				"TextureRectLeft" : 0,
+				"TextureRectTop" : 0,
+				"TextureRectWidth" : 32,
+				"Z-Order" : 0
+			}
+		},
+		{
+			"Components" : [
+				{
+					"ComType" : 1,
+					"TagName" : "cloud"
+				}
+			],
+			"Sprite" : {
+				"ComType" : 0,
+				"OriginX" : 130.0,
+				"OriginY" : 67.5,
+				"PosX" : 100.0,
+				"PosY" : 40.0,
+				"ScaleX" : 1.0,
+				"ScaleY" : 1.0,
+				"TextureID" : "cloud",
+				"TextureRectHeight" : 135,
+				"TextureRectLeft" : 0,
+				"TextureRectTop" : 0,
+				"TextureRectWidth" : 260,
+				"Z-Order" : 0
+			}
+		},
+		{
+			"Components" : [
+				{
+					"ComType" : 1,
+					"TagName" : "cloud"
+				}
+			],
+			"Sprite" : {
+				"ComType" : 0,
+				"OriginX" : 130.0,
+				"OriginY" : 67.5,
+				"PosX" : 500.0,
+				"PosY" : 300.0,
+				"ScaleX" : 1.0,
+				"ScaleY" : 1.0,
+				"TextureID" : "cloud",
+				"TextureRectHeight" : 135,
+				"TextureRectLeft" : 0,
+				"TextureRectTop" : 0,
+				"TextureRectWidth" : 260,
+				"Z-Order" : 0
+			}
+		}
+	]
+}

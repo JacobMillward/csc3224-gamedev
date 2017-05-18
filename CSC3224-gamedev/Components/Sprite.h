@@ -46,7 +46,7 @@ inline Sprite* Sprite::buildFromJson(Json::Value componentRoot, ...)
 	auto originY = componentRoot.get("OriginY", 0).asFloat();
 	float scaleX = componentRoot.get("ScaleX", 1).asFloat();
 	float scaleY = componentRoot.get("ScaleY", 1).asFloat();
-	int zOrder = componentRoot.get("z-Order", 0).asInt();
+	int zOrder = componentRoot.get("Z-Order", 0).asInt();
 
 	Sprite* s = new Sprite(textureID, textureRect);
 	s->setPosition(posX, posY);
