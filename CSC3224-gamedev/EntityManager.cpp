@@ -7,7 +7,7 @@
 #include "Components/IComponent.h"
 using namespace std;
 
-EntityManager::EntityManager() : entityMap_(), entityID_(0)
+EntityManager::EntityManager() : entityMap_(), entityID_(0), entityComponents_()
 {
 	/* Initiaslise map with lists of all component types to save checks for creation later on */
 	for (auto i = 0; i < static_cast<int>(ComponentType::TYPE_END); ++i)
@@ -47,6 +47,7 @@ Entity* EntityManager::createEntity(std::string textureID, sf::IntRect rect)
 	auto e = new Entity(getNextID(), *this, *(static_cast<Sprite*>(p)));
 	std::cout << "Creating Entity#" << e->getID() << endl;
 	entityMap_.find(static_cast<int>(ComponentType::SPRITE))->second.push_back(make_pair(p, e));
+	entityComponents_.emplace(e->getID(), eastl::vector<Component*>{p});
 	return e;
 }
 
@@ -74,6 +75,7 @@ void EntityManager::destroyEntity(Entity* entity)
 			comType.second.erase(e);
 		}
 	}
+	entityComponents_.erase(entity->getID());
 	std::cout << "Destroyed Entity#" << entity->getID() << endl;
 	delete entity;
 }
@@ -85,6 +87,7 @@ void EntityManager::addComponent(Entity& e, Component& c)
 {
 	std::cout << "Adding Component type " << c.getTypeValue() << " to Entity#" << e.getID() << endl;
 	entityMap_.find(c.getTypeValue())->second.push_back(make_pair(&c, &e));
+	entityComponents_.find(e.getID())->second.push_back(&c);
 }
 
 /*
@@ -107,6 +110,17 @@ void EntityManager::removeComponent(Entity& e, Component& c)
 	{
 		throw "No such component on Entity";
 	}
+	auto comList = entityComponents_.find(e.getID())->second;
+	auto comListIt = eastl::find_if(comList.begin(), comList.end(), [&c](Component* p)
+	{
+		return (&c == p);
+	});
+	comList.erase(comListIt);
+}
+
+eastl::vector<Component*>* EntityManager::getComponentList(Entity& e)
+{
+	return &entityComponents_.find(e.getID())->second;
 }
 
 ComponentVector* EntityManager::getComponentList(ComponentType type)

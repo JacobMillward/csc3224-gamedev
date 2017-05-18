@@ -24,13 +24,15 @@ public:
 	void addComponent(Entity& e, Component& c);
 	void removeComponent(Entity& e, Component& c);
 	ComponentVector* getComponentList(ComponentType type);
+	eastl::vector<Component*>* getComponentList(Entity& e);
 	template <typename T>
+	//Can return nullptr if no such entity exists
 	T* getComponent(Entity* e);
 
 private:
 	EntityMap entityMap_;
 	uint32_t entityID_;
-
+	eastl::fixed_hash_map<uint32_t, eastl::vector<Component*>, MAX_ENTITIES> entityComponents_;
 	uint32_t getNextID();
 };
 
@@ -48,5 +50,5 @@ T* EntityManager::getComponent(Entity* e)
 	{
 		return static_cast<T*>(it->first);
 	}
-	throw "No such component on entity.";
+	return nullptr;
 }
