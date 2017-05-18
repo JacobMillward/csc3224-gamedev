@@ -16,6 +16,8 @@ public:
 		return physicsWorld_.CreateBody(&bodydef);
 	};
 
+	void setContactListener(b2ContactListener* listener);
+
 protected:
 	b2World physicsWorld_;
 };

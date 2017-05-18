@@ -20,3 +20,8 @@ void PhysicsSystem::step(const sf::Time& dt)
 		sprite->setRotation((180.f / b2_pi) * body->GetAngle());
 	}
 }
+
+void PhysicsSystem::setContactListener(b2ContactListener* listener)
+{
+	physicsWorld_.SetContactListener(listener);
+}
