@@ -7,7 +7,7 @@
 #include "Components/IComponent.h"
 using namespace std;
 
-EntityManager::EntityManager() : entityMap_(), entityID_(0)
+EntityManager::EntityManager() : entityMap_(), entityID_(0), entityComponents_()
 {
 	/* Initiaslise map with lists of all component types to save checks for creation later on */
 	for (auto i = 0; i < static_cast<int>(ComponentType::TYPE_END); ++i)
@@ -43,10 +43,16 @@ EntityManager::~EntityManager()
  */
 Entity* EntityManager::createEntity(std::string textureID, sf::IntRect rect)
 {
-	Component* p = new Sprite(textureID, rect);
-	auto e = new Entity(getNextID(), *this, *(static_cast<Sprite*>(p)));
+	auto s = new Sprite(textureID, rect);
+	return createEntity(s);
+}
+
+Entity* EntityManager::createEntity(Sprite* sprite)
+{
+	auto e = new Entity(getNextID(), *this, *sprite);
 	std::cout << "Creating Entity#" << e->getID() << endl;
-	entityMap_.find(static_cast<int>(ComponentType::SPRITE))->second.push_back(make_pair(p, e));
+	entityMap_.find(static_cast<int>(ComponentType::SPRITE))->second.push_back(make_pair(sprite, e));
+	entityComponents_.emplace(e->getID(), eastl::vector<Component*>{sprite});
 	return e;
 }
 
@@ -74,6 +80,7 @@ void EntityManager::destroyEntity(Entity* entity)
 			comType.second.erase(e);
 		}
 	}
+	entityComponents_.erase(entity->getID());
 	std::cout << "Destroyed Entity#" << entity->getID() << endl;
 	delete entity;
 }
@@ -85,6 +92,7 @@ void EntityManager::addComponent(Entity& e, Component& c)
 {
 	std::cout << "Adding Component type " << c.getTypeValue() << " to Entity#" << e.getID() << endl;
 	entityMap_.find(c.getTypeValue())->second.push_back(make_pair(&c, &e));
+	entityComponents_.find(e.getID())->second.push_back(&c);
 }
 
 /*
@@ -107,6 +115,22 @@ void EntityManager::removeComponent(Entity& e, Component& c)
 	{
 		throw "No such component on Entity";
 	}
+	auto comList = entityComponents_.find(e.getID())->second;
+	auto comListIt = eastl::find_if(comList.begin(), comList.end(), [&c](Component* p)
+	{
+		return (&c == p);
+	});
+	comList.erase(comListIt);
+}
+
+eastl::vector<Component*>* EntityManager::getComponentList(uint32_t eID)
+{
+	return &entityComponents_.find(eID)->second;
+}
+
+uint32_t EntityManager::getMaxIdUsed() const
+{
+	return entityID_;
 }
 
 ComponentVector* EntityManager::getComponentList(ComponentType type)

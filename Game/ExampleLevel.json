@@ -1,0 +1,70 @@
+[
+   {
+      "Components" : [
+         {
+            "ComType" : 2,
+            "fixtures" : [
+               {
+                  "density" : 1.0,
+                  "height" : 32.0,
+                  "width" : 32.0
+               }
+            ],
+            "type" : 2
+         },
+         {
+            "ComType" : 1,
+            "TagName" : "player"
+         },
+         {
+            "ComType" : 3,
+            "SoundID" : "beeps"
+         }
+      ],
+      "Sprite" : {
+         "ComType" : 0,
+         "TextureID" : "box",
+         "originX" : 16.0,
+         "originY" : 16.0,
+         "posX" : 60.0,
+         "posY" : 0.0,
+         "scaleX" : 1.0,
+         "scaleY" : 1.0,
+         "textureRectHeight" : 32,
+         "textureRectLeft" : 0,
+         "textureRectTop" : 0,
+         "textureRectWidth" : 32,
+         "z-order" : 0
+      }
+   },
+   {
+      "Components" : [
+         {
+            "ComType" : 2,
+            "fixtures" : [
+               {
+                  "density" : 0.0,
+                  "height" : 32.0,
+                  "width" : 704.0
+               }
+            ],
+            "type" : 0
+         }
+      ],
+      "Sprite" : {
+         "ComType" : 0,
+         "TextureID" : "box",
+         "originX" : 16.0,
+         "originY" : 16.0,
+         "posX" : 400.0,
+         "posY" : 500.0,
+         "scaleX" : 22.0,
+         "scaleY" : 1.0,
+         "textureRectHeight" : 32,
+         "textureRectLeft" : 0,
+         "textureRectTop" : 0,
+         "textureRectWidth" : 32,
+         "z-order" : 0
+      }
+   }
+]

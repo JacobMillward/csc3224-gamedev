@@ -28,7 +28,7 @@ public:
 	void draw(sf::RenderWindow& w, ResourceManager& resourceManager);
 
 	EntityManager& getEntityManager();
-	PhysicsSystem* getPhysicsSystem() const;
+	PhysicsSystem& getPhysicsSystem() const;
 
 protected:
 	State state_;
