@@ -15,9 +15,9 @@ public:
 	void onNotify(IntentEvent event) override;
 
 protected:
-	float moveForce = 40.f;
-	float moveX = 0;
-	float moveY = 0;
+	const float jumpVel = 8;
+	const float moveVel = 8;
+	float desiredVel = 0;
 
-	bool play = false;
+	bool jump = false;
 };

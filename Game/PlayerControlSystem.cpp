@@ -21,15 +21,17 @@ void PlayerControlSystem::step(const sf::Time& dt)
 		if (component->getTag() == "player")
 		{
 			auto body = pair.second->getComponent<PhysicsBody>()->getBody();
-			body->ApplyForceToCenter(b2Vec2(moveX, moveY), true);
-			if (play)
+			float velChange = desiredVel - body->GetLinearVelocity().x;
+			float impulse = body->GetMass() * velChange;
+			body->ApplyLinearImpulseToCenter(b2Vec2(impulse, 0), true);
+			if (jump)
 			{
-				pair.second->getComponent<SoundEffect>()->play();
-				play = false;
+				body->ApplyLinearImpulseToCenter(b2Vec2(0, body->GetMass() * (-jumpVel - body->GetLinearVelocity().y)), true);
+				jump = false;
 			}
 		}
 	}
-	moveX = moveY = 0;
+	desiredVel = 0;
 }
 
 void PlayerControlSystem::onNotify(IntentEvent intent)
@@ -40,29 +42,13 @@ void PlayerControlSystem::onNotify(IntentEvent intent)
 		{
 		case str2int("Left"):
 			{
-				moveX -= moveForce;
-
+				desiredVel -= moveVel;
 				break;
 			}
 
 		case str2int("Right"):
 			{
-				moveX += moveForce;
-
-				break;
-			}
-
-		case str2int("Up"):
-			{
-				moveY -= moveForce;
-
-				break;
-			}
-
-		case str2int("Down"):
-			{
-				moveY += moveForce;
-
+				desiredVel += moveVel;
 				break;
 			}
 		default:
@@ -71,8 +57,8 @@ void PlayerControlSystem::onNotify(IntentEvent intent)
 	}
 
 	//Play sound
-	if(intent.name == "Jump" && intent.state == State::RELEASED)
+	if (intent.name == "Jump" && intent.state == State::PRESSED)
 	{
-		play = true;
+		jump = true;
 	}
 }
