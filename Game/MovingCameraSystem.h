@@ -20,7 +20,7 @@ protected:
 	sf::RenderWindow* window_;
 	sf::View camera_;
 	Entity* playerEntity;
-	const float delayInMilliseconds = 800;
+	const float delayInMilliseconds = 2000;
 	float currentdelay = 0;
 	const float moveSpeed = 1/ PIXELS_TO_UNITS_SCALE;
 	Json::Value platformConfig;

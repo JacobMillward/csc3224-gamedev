@@ -40,9 +40,10 @@ void MovingCameraSystem::step(const sf::Time& dt)
 	currentdelay += dt.asMilliseconds();
 	if (currentdelay > delayInMilliseconds)
 	{
-		auto move = -moveSpeed * dt.asMilliseconds();
-		camera_.move(0, move);
-		world_->DebugText.move(0, move);
+		auto finalSpeed = -moveSpeed * dt.asMilliseconds();
+		finalSpeed = eastl::clamp(finalSpeed * currentdelay / 10000, -8.f, -1.f);
+		camera_.move(0, finalSpeed);
+		world_->DebugText.move(0, finalSpeed);
 		window_->setView(camera_);
 	}
 
