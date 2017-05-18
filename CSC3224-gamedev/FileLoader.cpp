@@ -30,13 +30,9 @@ void FileLoader::LoadEntitiesFromFile(EntityManager& entityManager, PhysicsSyste
 		//For each entity
 		for (auto jsonValue : root)
 		{
-			auto entity = entityManager.createEntity(jsonValue["Sprite"]["TextureID"].asString(),
-			                                         sf::IntRect(root["Sprite"]["rectTL"].asInt(),
-			                                                     jsonValue["Sprite"]["rectTR"].asInt(),
-			                                                     jsonValue["Sprite"]["width"].asInt(),
-			                                                     jsonValue["Sprite"]["height"].asInt()));
+			auto entity = entityManager.createEntity(Sprite::buildFromJson(jsonValue["Sprite"]));
 			//Loop though components
-			for (auto jsonComponent : jsonValue)
+			for (auto jsonComponent : jsonValue["Components"])
 			{
 				auto type = jsonComponent.get("ComType", -1).asInt();
 				if (type < 0)
@@ -46,6 +42,7 @@ void FileLoader::LoadEntitiesFromFile(EntityManager& entityManager, PhysicsSyste
 				}
 				auto comType = static_cast<ComponentType>(type);
 
+				//Build component based on type
 				Component* component = nullptr;
 				switch (comType)
 				{
@@ -56,7 +53,7 @@ void FileLoader::LoadEntitiesFromFile(EntityManager& entityManager, PhysicsSyste
 					}
 				case ComponentType::PHYSICSBODY:
 					{
-						component = PhysicsBody::buildFromJson(jsonComponent);
+						component = PhysicsBody::buildFromJson(jsonComponent, &physicsSystem, entity->getSprite());
 						break;
 					}
 				case ComponentType::AUDIO:
@@ -70,7 +67,7 @@ void FileLoader::LoadEntitiesFromFile(EntityManager& entityManager, PhysicsSyste
 				case ComponentType::TYPE_END:
 				default: ;
 				}
-				if(component)
+				if (component)
 				{
 					entity->addComponent(*component);
 				}
