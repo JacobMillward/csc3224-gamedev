@@ -12,66 +12,13 @@ FileLoader::~FileLoader()
 
 void FileLoader::LoadEntitiesFromFile(EntityManager& entityManager, PhysicsSystem& physicsSystem, string filePath)
 {
-	ifstream ifs(filePath);
-	string content((istreambuf_iterator<char>(ifs)),
-	               (istreambuf_iterator<char>()));
-
-	Json::Value root;
-	Json::Reader reader;
-
-	if (!reader.parse(content, root))
-	{
-		cout << "Failed to load config" << endl;
-		return;
-	}
-
+	auto root = ReadFileToJsonValue(filePath);
 	if (root.size() > 0)
 	{
 		//For each entity
 		for (auto jsonValue : root)
 		{
-			auto entity = entityManager.createEntity(Sprite::buildFromJson(jsonValue["Sprite"]));
-			//Loop though components
-			for (auto jsonComponent : jsonValue["Components"])
-			{
-				auto type = jsonComponent.get("ComType", -1).asInt();
-				if (type < 0)
-				{
-					cout << "Invalid component type" << endl;
-					break;
-				}
-				auto comType = static_cast<ComponentType>(type);
-
-				//Build component based on type
-				Component* component = nullptr;
-				switch (comType)
-				{
-				case ComponentType::TAG:
-					{
-						component = Tag::buildFromJson(jsonComponent);
-						break;
-					}
-				case ComponentType::PHYSICSBODY:
-					{
-						component = PhysicsBody::buildFromJson(jsonComponent, &physicsSystem, entity->getSprite());
-						break;
-					}
-				case ComponentType::AUDIO:
-					{
-						component = SoundEffect::buildFromJson(jsonComponent);
-						break;
-					}
-
-				//We must have a sprite, so don't bother creating additional ones (undefined behaviour)
-				case ComponentType::SPRITE: break;
-				case ComponentType::TYPE_END:
-				default: ;
-				}
-				if (component)
-				{
-					entity->addComponent(*component);
-				}
-			}
+			Entity::buildFromJson(entityManager, physicsSystem, jsonValue);
 		}
 	}
 }
@@ -128,4 +75,21 @@ void FileLoader::WriteEntitiesToFile(EntityManager& entityManager, string filePa
 	outFile << string;
 	//cleanup
 	outFile.close();
+}
+
+Json::Value FileLoader::ReadFileToJsonValue(std::string filePath)
+{
+	ifstream ifs(filePath);
+	string content((istreambuf_iterator<char>(ifs)),
+		(istreambuf_iterator<char>()));
+
+	Json::Value root;
+	Json::Reader reader;
+
+	if (!reader.parse(content, root))
+	{
+		cout << "Failed to load file" << endl;
+	}
+
+	return root;
 }

@@ -5,6 +5,7 @@
 
 #define MAX_ENTITIES 1024
 
+class PhysicsSystem;
 class EntityManager;
 
 class Entity
@@ -17,6 +18,7 @@ public:
 	Sprite* getSprite() const;
 	template <typename T>
 	T* getComponent();
+	static Entity* buildFromJson(EntityManager& entityManager, PhysicsSystem& physicsSystem, Json::Value root);
 
 	bool operator==(const Entity& other) const;
 private:
