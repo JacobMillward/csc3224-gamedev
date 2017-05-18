@@ -30,7 +30,7 @@ protected:
 	const float maxVerticalDistance = 85.f / PIXELS_TO_UNITS_SCALE;
 	const float minVerticalDistance = 75.f / PIXELS_TO_UNITS_SCALE;
 	const float maxHorixzontalDistance = 100.f / PIXELS_TO_UNITS_SCALE;
-	const float minHorixzontalDistance = 20.f / PIXELS_TO_UNITS_SCALE;
+	const float minHorixzontalDistance = 40.f / PIXELS_TO_UNITS_SCALE;
 
 	bool isBelowView(float y) const
 	{

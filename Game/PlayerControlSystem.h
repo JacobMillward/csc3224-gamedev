@@ -22,7 +22,7 @@ public:
 protected:
 	Entity* playerEntity;
 	PhysicsBody* playerPhysics;
-	const float jumpVel = 12;
+	const float jumpVel = 15.0;
 	const float moveVel = 8;
 	float desiredVel = 0;
 

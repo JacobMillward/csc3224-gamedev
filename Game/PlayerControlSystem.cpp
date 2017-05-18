@@ -26,6 +26,7 @@ void PlayerControlSystem::step(const sf::Time& dt)
 			{
 				playerEntity = pair.second;
 				playerPhysics = playerEntity->getComponent<PhysicsBody>();
+				playerPhysics->getBody()->SetGravityScale(1.5f);
 				break;
 			}
 		}
