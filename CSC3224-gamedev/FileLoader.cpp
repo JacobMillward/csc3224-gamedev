@@ -76,7 +76,7 @@ void FileLoader::LoadEntitiesFromFile(EntityManager& entityManager, PhysicsSyste
 	}
 }
 
-void FileLoader::WriteEntitiesToFile(EntityManager& entityManager, string filePath)
+void FileLoader::WriteEntitiesToFile(EntityManager& entityManager, string filePath, bool readable)
 {
 	Json::Value root;
 	auto max = entityManager.getMaxIdUsed();
@@ -110,9 +110,20 @@ void FileLoader::WriteEntitiesToFile(EntityManager& entityManager, string filePa
 	ofstream outFile;
 	//We want to overwrite any existing file
 	outFile.open(filePath, ios::trunc);
-	//Create json fast writer and write to string
-	Json::FastWriter fast;
-	auto string = fast.write(root);
+
+	//Create json writer and write to string
+	std::string string;
+	if (readable)
+	{
+		Json::StyledWriter writer;
+		string = writer.write(root);
+	}
+	else
+	{
+		Json::FastWriter writer;
+		string = writer.write(root);
+	}
+
 	//Write to file
 	outFile << string;
 	//cleanup

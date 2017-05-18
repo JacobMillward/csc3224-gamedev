@@ -36,17 +36,17 @@ inline Sprite* Sprite::buildFromJson(Json::Value componentRoot, ...)
 {
 	//TODO: Implement buildFromJson
 	std::string textureID = componentRoot.get("TextureID", "").asString();
-	sf::IntRect textureRect = sf::IntRect(componentRoot.get("textureRectLeft", 0).asInt(),
-	                                       componentRoot.get("textureRectTop", 0).asInt(),
-	                                       componentRoot.get("textureRectWidth", 32).asInt(),
-	                                       componentRoot.get("textureRectHeight", 32).asInt());
-	float posX = componentRoot.get("posX", 0).asFloat();
-	float posY = componentRoot.get("posY", 0).asFloat();
-	auto originX = componentRoot.get("originX", 0).asFloat();
-	auto originY = componentRoot.get("originY", 0).asFloat();
-	float scaleX = componentRoot.get("scaleX", 1).asFloat();
-	float scaleY = componentRoot.get("scaleY", 1).asFloat();
-	int zOrder = componentRoot.get("z-order", 0).asInt();
+	sf::IntRect textureRect = sf::IntRect(componentRoot.get("TextureRectLeft", 0).asInt(),
+	                                       componentRoot.get("TextureRectTop", 0).asInt(),
+	                                       componentRoot.get("TextureRectWidth", 32).asInt(),
+	                                       componentRoot.get("TextureRectHeight", 32).asInt());
+	float posX = componentRoot.get("PosX", 0).asFloat();
+	float posY = componentRoot.get("PosY", 0).asFloat();
+	auto originX = componentRoot.get("OriginX", 0).asFloat();
+	auto originY = componentRoot.get("OriginY", 0).asFloat();
+	float scaleX = componentRoot.get("ScaleX", 1).asFloat();
+	float scaleY = componentRoot.get("ScaleY", 1).asFloat();
+	int zOrder = componentRoot.get("z-Order", 0).asInt();
 
 	Sprite* s = new Sprite(textureID, textureRect);
 	s->setPosition(posX, posY);
@@ -62,17 +62,17 @@ inline Json::Value Sprite::toJson()
 	Json::Value root;
 	root["ComType"] = static_cast<int>(this->getType());
 	root["TextureID"] = textureID_;
-	root["textureRectLeft"] = getTextureRect().left;
-	root["textureRectTop"] = getTextureRect().top;
-	root["textureRectWidth"] = getTextureRect().width;
-	root["textureRectHeight"] = getTextureRect().height;
-	root["posX"] = getPosition().x;
-	root["posY"] = getPosition().y;
-	root["originX"] = getOrigin().x;
-	root["originY"] = getOrigin().y;
-	root["scaleX"] = getScale().x;
-	root["scaleY"] = getScale().y;
-	root["z-order"] = getZOrder();
+	root["TextureRectLeft"] = getTextureRect().left;
+	root["TextureRectTop"] = getTextureRect().top;
+	root["TextureRectWidth"] = getTextureRect().width;
+	root["TextureRectHeight"] = getTextureRect().height;
+	root["PosX"] = getPosition().x;
+	root["PosY"] = getPosition().y;
+	root["OriginX"] = getOrigin().x;
+	root["OriginY"] = getOrigin().y;
+	root["ScaleX"] = getScale().x;
+	root["ScaleY"] = getScale().y;
+	root["Z-Order"] = getZOrder();
 
 	return root;
 }

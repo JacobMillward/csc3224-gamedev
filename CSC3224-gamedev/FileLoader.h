@@ -10,6 +10,6 @@ public:
 	~FileLoader();
 
 	static void LoadEntitiesFromFile(EntityManager& entityManager, PhysicsSystem& physicsSystem, std::string filePath);
-	static void WriteEntitiesToFile(EntityManager& entityManager, std::string filePath);
+	static void WriteEntitiesToFile(EntityManager& entityManager, std::string filePath, bool readable = true);
 };
 

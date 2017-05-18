@@ -59,16 +59,16 @@ inline PhysicsBody* PhysicsBody::buildFromJson(Json::Value componentRoot, ...)
 	if (s == nullptr) throw "No Sprite passed in";
 
 	// Default to 2 (Dynamic body) on failure
-	b2BodyType type = b2BodyType(componentRoot.get("type", 2).asInt());
+	b2BodyType type = b2BodyType(componentRoot.get("BodyType", 2).asInt());
 	auto b = new PhysicsBody(p, s, type);
 
-	auto fixtures = componentRoot.get("fixtures", "");
+	auto fixtures = componentRoot.get("Fixtures", "");
 	for(auto f : fixtures)
 	{
 		b2FixtureDef def;
-		def.density = f.get("density", 1).asFloat();;
-		auto width = f.get("width", 1).asFloat();
-		auto height = f.get("height", 1).asFloat();
+		def.density = f.get("Density", 1).asFloat();;
+		auto width = f.get("Width", 1).asFloat();
+		auto height = f.get("Height", 1).asFloat();
 
 		b->addBoxCollider(def, width, height);
 	}
@@ -79,17 +79,17 @@ inline Json::Value PhysicsBody::toJson()
 {
 	Json::Value root;
 	root["ComType"] = static_cast<int>(this->getType());
-	root["type"] = body_->GetType();
+	root["BodyType"] = body_->GetType();
 
 	auto index = 0;
 	for (b2Fixture* f = body_->GetFixtureList(); f; f = f->GetNext())
 	{
 		Json::Value data;
-		data["density"] = f->GetDensity();
-		data["width"] = fixtureSizes.at(index).first;
-		data["height"] = fixtureSizes.at(index).second;
+		data["Density"] = f->GetDensity();
+		data["Width"] = fixtureSizes.at(index).first;
+		data["Height"] = fixtureSizes.at(index).second;
 
-		root["fixtures"].append(data);
+		root["Fixtures"].append(data);
 
 		++index;
 	}

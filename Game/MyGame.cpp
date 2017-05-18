@@ -32,7 +32,7 @@ void MyGame::init()
 	this->world_->addSystem(new PlayerControlSystem(*this->world_, intentHandler_));
 
 	/* Load entities from file */
-	FileLoader::LoadEntitiesFromFile(world_->getEntityManager(), world_->getPhysicsSystem(), "FastExampleLevel.json");
+	FileLoader::LoadEntitiesFromFile(world_->getEntityManager(), world_->getPhysicsSystem(), "ExampleLevel.json");
 }
 
 void MyGame::update(sf::Time dt)

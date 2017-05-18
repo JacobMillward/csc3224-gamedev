@@ -2,15 +2,15 @@
    {
       "Components" : [
          {
+            "BodyType" : 2,
             "ComType" : 2,
-            "fixtures" : [
+            "Fixtures" : [
                {
-                  "density" : 1.0,
-                  "height" : 32.0,
-                  "width" : 32.0
+                  "Density" : 1.0,
+                  "Height" : 32.0,
+                  "Width" : 32.0
                }
-            ],
-            "type" : 2
+            ]
          },
          {
             "ComType" : 1,
@@ -23,48 +23,48 @@
       ],
       "Sprite" : {
          "ComType" : 0,
+         "OriginX" : 16.0,
+         "OriginY" : 16.0,
+         "PosX" : 60.0,
+         "PosY" : 0.0,
+         "ScaleX" : 1.0,
+         "ScaleY" : 1.0,
          "TextureID" : "box",
-         "originX" : 16.0,
-         "originY" : 16.0,
-         "posX" : 60.0,
-         "posY" : 0.0,
-         "scaleX" : 1.0,
-         "scaleY" : 1.0,
-         "textureRectHeight" : 32,
-         "textureRectLeft" : 0,
-         "textureRectTop" : 0,
-         "textureRectWidth" : 32,
-         "z-order" : 0
+         "TextureRectHeight" : 32,
+         "TextureRectLeft" : 0,
+         "TextureRectTop" : 0,
+         "TextureRectWidth" : 32,
+         "Z-Order" : 0
       }
    },
    {
       "Components" : [
          {
+            "BodyType" : 0,
             "ComType" : 2,
-            "fixtures" : [
+            "Fixtures" : [
                {
-                  "density" : 0.0,
-                  "height" : 32.0,
-                  "width" : 704.0
+                  "Density" : 0.0,
+                  "Height" : 32.0,
+                  "Width" : 704.0
                }
-            ],
-            "type" : 0
+            ]
          }
       ],
       "Sprite" : {
          "ComType" : 0,
+         "OriginX" : 16.0,
+         "OriginY" : 16.0,
+         "PosX" : 400.0,
+         "PosY" : 500.0,
+         "ScaleX" : 22.0,
+         "ScaleY" : 1.0,
          "TextureID" : "box",
-         "originX" : 16.0,
-         "originY" : 16.0,
-         "posX" : 400.0,
-         "posY" : 500.0,
-         "scaleX" : 22.0,
-         "scaleY" : 1.0,
-         "textureRectHeight" : 32,
-         "textureRectLeft" : 0,
-         "textureRectTop" : 0,
-         "textureRectWidth" : 32,
-         "z-order" : 0
+         "TextureRectHeight" : 32,
+         "TextureRectLeft" : 0,
+         "TextureRectTop" : 0,
+         "TextureRectWidth" : 32,
+         "Z-Order" : 0
       }
    }
 ]
