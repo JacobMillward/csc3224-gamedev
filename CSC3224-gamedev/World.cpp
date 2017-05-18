@@ -47,7 +47,7 @@ EntityManager& World::getEntityManager()
 	return entityManager_;
 }
 
-PhysicsSystem* World::getPhysicsSystem() const
+PhysicsSystem& World::getPhysicsSystem() const
 {
-	return physics_system_;
+	return *physics_system_;
 }
