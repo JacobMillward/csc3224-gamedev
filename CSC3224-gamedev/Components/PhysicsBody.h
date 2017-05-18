@@ -78,6 +78,7 @@ inline PhysicsBody* PhysicsBody::buildFromJson(Json::Value componentRoot, ...)
 inline Json::Value PhysicsBody::toJson()
 {
 	Json::Value root;
+	root["ComType"] = static_cast<int>(this->getType());
 	root["type"] = body_->GetType();
 
 	auto index = 0;

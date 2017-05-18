@@ -57,6 +57,7 @@ inline Sprite* Sprite::buildFromJson(Json::Value componentRoot, ...)
 inline Json::Value Sprite::toJson()
 {
 	Json::Value root;
+	root["ComType"] = static_cast<int>(this->getType());
 	root["TextureID"] = textureID_;
 	root["textureRectLeft"] = getTextureRect().left;
 	root["textureRectTop"] = getTextureRect().top;

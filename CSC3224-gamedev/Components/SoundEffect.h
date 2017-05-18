@@ -36,7 +36,8 @@ inline SoundEffect* SoundEffect::buildFromJson(Json::Value componentRoot, ...)
 
 inline Json::Value SoundEffect::toJson()
 {
-	Json::Value sound;
-	sound["SoundID"] = this->getSoundID();
-	return sound;
+	Json::Value root;
+	root["ComType"] = static_cast<int>(this->getType());
+	root["SoundID"] = this->getSoundID();
+	return root;
 }

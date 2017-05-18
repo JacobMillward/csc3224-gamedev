@@ -36,7 +36,8 @@ inline Tag* Tag::buildFromJson(Json::Value componentRoot, ...)
 
 inline Json::Value Tag::toJson()
 {
-	Json::Value tag;
-	tag["TagName"] = this->getTag();
-	return tag;
+	Json::Value root;
+	root["ComType"] = static_cast<int>(this->getType());
+	root["TagName"] = this->getTag();
+	return root;
 }
