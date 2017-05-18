@@ -43,11 +43,16 @@ EntityManager::~EntityManager()
  */
 Entity* EntityManager::createEntity(std::string textureID, sf::IntRect rect)
 {
-	Component* p = new Sprite(textureID, rect);
-	auto e = new Entity(getNextID(), *this, *(static_cast<Sprite*>(p)));
+	auto s = new Sprite(textureID, rect);
+	return createEntity(s);
+}
+
+Entity* EntityManager::createEntity(Sprite* sprite)
+{
+	auto e = new Entity(getNextID(), *this, *sprite);
 	std::cout << "Creating Entity#" << e->getID() << endl;
-	entityMap_.find(static_cast<int>(ComponentType::SPRITE))->second.push_back(make_pair(p, e));
-	entityComponents_.emplace(e->getID(), eastl::vector<Component*>{p});
+	entityMap_.find(static_cast<int>(ComponentType::SPRITE))->second.push_back(make_pair(sprite, e));
+	entityComponents_.emplace(e->getID(), eastl::vector<Component*>{sprite});
 	return e;
 }
 
@@ -118,9 +123,14 @@ void EntityManager::removeComponent(Entity& e, Component& c)
 	comList.erase(comListIt);
 }
 
-eastl::vector<Component*>* EntityManager::getComponentList(Entity& e)
+eastl::vector<Component*>* EntityManager::getComponentList(uint32_t eID)
 {
-	return &entityComponents_.find(e.getID())->second;
+	return &entityComponents_.find(eID)->second;
+}
+
+uint32_t EntityManager::getMaxIdUsed() const
+{
+	return entityID_;
 }
 
 ComponentVector* EntityManager::getComponentList(ComponentType type)

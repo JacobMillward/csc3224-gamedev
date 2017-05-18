@@ -75,3 +75,46 @@ void FileLoader::LoadEntitiesFromFile(EntityManager& entityManager, PhysicsSyste
 		}
 	}
 }
+
+void FileLoader::WriteEntitiesToFile(EntityManager& entityManager, string filePath)
+{
+	Json::Value root;
+	auto max = entityManager.getMaxIdUsed();
+
+	for (uint32_t i = 0; i < max; ++i)
+	{
+		//We can't guarantee that every id is mapped to an entity; an entity might have been deleted and ids are not pooled.
+		//Therefore we have to check
+		auto comList = entityManager.getComponentList(i);
+		if (comList)
+		{
+			Json::Value entityJson;
+			for (auto component : *comList)
+			{
+				//If sprite, set mandatory field
+				if (component->getType() == ComponentType::SPRITE)
+				{
+					entityJson["Sprite"] = component->toJson();
+				}
+				//Otherwise add to components array
+				else
+				{
+					entityJson["Components"].append(component->toJson());
+				}
+			}
+			root.append(entityJson);
+		}
+	}
+
+	//Open file for writing
+	ofstream outFile;
+	//We want to overwrite any existing file
+	outFile.open(filePath, ios::trunc);
+	//Create json fast writer and write to string
+	Json::FastWriter fast;
+	auto string = fast.write(root);
+	//Write to file
+	outFile << string;
+	//cleanup
+	outFile.close();
+}

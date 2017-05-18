@@ -20,11 +20,15 @@ public:
 	~EntityManager();
 
 	Entity* createEntity(std::string textureID, sf::IntRect rect);
+	Entity* createEntity(Sprite* sprite);
 	void destroyEntity(Entity* entity);
 	void addComponent(Entity& e, Component& c);
 	void removeComponent(Entity& e, Component& c);
 	ComponentVector* getComponentList(ComponentType type);
-	eastl::vector<Component*>* getComponentList(Entity& e);
+	eastl::vector<Component*>* getComponentList(uint32_t eID);
+
+	uint32_t getMaxIdUsed() const;
+
 	template <typename T>
 	//Can return nullptr if no such entity exists
 	T* getComponent(Entity* e);
