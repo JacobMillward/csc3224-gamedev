@@ -10,13 +10,29 @@ FileLoader::~FileLoader()
 {
 }
 
-void FileLoader::LoadEntitiesFromFile(EntityManager& entityManager, PhysicsSystem& physicsSystem, string filePath)
+void FileLoader::LoadGameAssetsFromFile(EntityManager& entityManager, PhysicsSystem& physicsSystem, ResourceManager& resourceManager, string filePath)
 {
 	auto root = ReadFileToJsonValue(filePath);
+
 	if (root.size() > 0)
-	{
+	{ 
+		//Load specified resources
+		//For each texture
+		for (auto jsonValue : root["Textures"])
+		{
+			auto path = jsonValue.get("Path", "Unknown").asString();
+			auto name = jsonValue.get("Identifier", path).asString();
+			resourceManager.loadTexture(name, path);
+		}
+		//For each sound
+		for (auto jsonValue : root["Sounds"])
+		{
+			auto path = jsonValue.get("Path", "Unknown").asString();
+			auto name = jsonValue.get("Identifier", path).asString();
+			resourceManager.loadSound(name, path);
+		}
 		//For each entity
-		for (auto jsonValue : root)
+		for (auto jsonValue : root["Entities"])
 		{
 			Entity::buildFromJson(entityManager, physicsSystem, jsonValue);
 		}

@@ -1,71 +1,83 @@
-[
-   {
-      "Components" : [
-         {
-            "BodyType" : 2,
-            "ComType" : 2,
-            "FixedRotation" : true,
-            "Fixtures" : [
-               {
-                  "Density" : 1.0,
-                  "Friction" : 0.0,
-                  "Restitution" : 0.0,
-                  "Height" : 32.0,
-                  "Width" : 32.0
-               }
-            ]
-         },
-         {
-            "ComType" : 1,
-            "TagName" : "player"
-         }
-      ],
-      "Sprite" : {
-         "ComType" : 0,
-         "OriginX" : 16.0,
-         "OriginY" : 16.0,
-         "PosX" : 100.0,
-         "PosY" : 400.0,
-         "ScaleX" : 1.0,
-         "ScaleY" : 1.0,
-         "TextureID" : "box",
-         "TextureRectHeight" : 32,
-         "TextureRectLeft" : 0,
-         "TextureRectTop" : 0,
-         "TextureRectWidth" : 32,
-         "Z-Order" : 0
-      }
-   },
-   {
-      "Components" : [
-         {
-            "BodyType" : 0,
-            "ComType" : 2,
-            "Fixtures" : [
-               {
-                  "Density" : 0.0,
-                  "Friction" : 0.3,
-                  "Restitution" : 0.0,
-                  "Height" : 32.0,
-                  "Width" : 704.0
-               }
-            ]
-         }
-      ],
-      "Sprite" : {
-         "ComType" : 0,
-         "OriginX" : 16.0,
-         "OriginY" : 16.0,
-         "PosX" : 400.0,
-         "PosY" : 500.0,
-         "ScaleX" : 22.0,
-         "ScaleY" : 1.0,
-         "TextureID" : "box",
-         "TextureRectHeight" : 32,
-         "TextureRectLeft" : 0,
-         "TextureRectTop" : 0,
-         "TextureRectWidth" : 32,
-         "Z-Order" : 0
-      }
-   }
-]
+{
+	"Textures" : [
+		{
+			"Identifier" : "box",
+			"Path": "box.png"
+		},
+		{
+			"Identifier" : "platform",
+			"Path": "platform.png"
+		}
+	],
+	"Entities":[
+		{
+			"Components" : [
+				{
+					"BodyType" : 2,
+					"ComType" : 2,
+					"FixedRotation" : true,
+					"Fixtures" : [
+						{
+							"Density" : 1.0,
+							"Friction" : 0.0,
+							"Restitution" : 0.0,
+							"Height" : 32.0,
+							"Width" : 32.0
+						}
+					]
+				},
+				{
+					"ComType" : 1,
+					"TagName" : "player"
+				}
+			],
+			"Sprite" : {
+				"ComType" : 0,
+				"OriginX" : 16.0,
+				"OriginY" : 16.0,
+				"PosX" : 100.0,
+				"PosY" : 400.0,
+				"ScaleX" : 1.0,
+				"ScaleY" : 1.0,
+				"TextureID" : "box",
+				"TextureRectHeight" : 32,
+				"TextureRectLeft" : 0,
+				"TextureRectTop" : 0,
+				"TextureRectWidth" : 32,
+				"Z-Order" : 0
+			}
+		},
+		{
+			"Components" : [
+				{
+					"BodyType" : 0,
+					"ComType" : 2,
+					"Fixtures" : [
+						{
+							"Density" : 0.0,
+							"Friction" : 0.3,
+							"Restitution" : 0.0,
+							"Height" : 32.0,
+							"Width" : 704.0
+						}
+					]
+				}
+			],
+			"Sprite" : {
+				"ComType" : 0,
+				"OriginX" : 16.0,
+				"OriginY" : 16.0,
+				"PosX" : 400.0,
+				"PosY" : 500.0,
+				"ScaleX" : 22.0,
+				"ScaleY" : 1.0,
+				"TextureID" : "box",
+				"TextureRectHeight" : 32,
+				"TextureRectLeft" : 0,
+				"TextureRectTop" : 0,
+				"TextureRectWidth" : 32,
+				"Z-Order" : 0
+			}
+		}
+	]
+}

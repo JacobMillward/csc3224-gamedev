@@ -16,17 +16,17 @@
 	],
 	"Sprite" : {
 		"ComType" : 0,
-		"OriginX" : 16.0,
+		"OriginX" : 32.0,
 		"OriginY" : 16.0,
 		"PosX" : 350.0,
 		"PosY" : 500.0,
-		"ScaleX" : 2.0,
+		"ScaleX" : 1.0,
 		"ScaleY" : 1.0,
-		"TextureID" : "box",
+		"TextureID" : "platform",
 		"TextureRectHeight" : 32,
 		"TextureRectLeft" : 0,
 		"TextureRectTop" : 0,
-		"TextureRectWidth" : 32,
+		"TextureRectWidth" : 64,
 		"Z-Order" : -1
 	}
 }

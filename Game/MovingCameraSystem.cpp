@@ -59,7 +59,7 @@ void MovingCameraSystem::step(const sf::Time& dt)
 
 		//Calculate offsets from the last position and clamp within screen bounds
 		auto offsetX = eastl::clamp(lastPlatformPos.x + RandomFloat(-maxHorixzontalDistance, maxHorixzontalDistance),
-		                            2.f,
+		                            2.f, //Hard code the boundries in because I've been fucking about with the maths for too long and I'm seeing falling blocks everywhere
 		                            36.f);
 		auto offsetY = lastPlatformPos.y - RandomFloat(minVerticalDistance, maxVerticalDistance);
 

@@ -29,19 +29,19 @@ void MyGame::init()
 	intentHandler_.printKeyMaps();
 
 	/* Create resources */
-	resourceManager_.loadTexture("box", "box.png");
-	resourceManager_.loadSound("beeps", "sms-alert-4.wav");
 
 	/* Read in platform config */
 	auto platformConfig = FileLoader::ReadFileToJsonValue("platform.json");
+
+	/* Load other entities from file */
+	FileLoader::LoadGameAssetsFromFile(world_->getEntityManager(), world_->getPhysicsSystem(), resourceManager_, "ExampleLevel.json");
 
 	/* Set up world subsystems */
 	this->world_->addSystem(new PlayerControlSystem(*this->world_, intentHandler_));
 	this->world_->addSystem(new ScoreSystem(*this->world_));
 	this->world_->addSystem(new MovingCameraSystem(*this->world_, window_, platformConfig));
 
-	/* Load other entities from file */
-	FileLoader::LoadEntitiesFromFile(world_->getEntityManager(), world_->getPhysicsSystem(), "ExampleLevel.json");
+	
 }
 
 void MyGame::update(sf::Time dt)

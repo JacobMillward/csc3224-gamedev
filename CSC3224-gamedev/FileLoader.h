@@ -9,7 +9,7 @@ class FileLoader
 public:
 	~FileLoader();
 
-	static void LoadEntitiesFromFile(EntityManager& entityManager, PhysicsSystem& physicsSystem, std::string filePath);
+	static void LoadGameAssetsFromFile(EntityManager& entityManager, PhysicsSystem& physicsSystem, ResourceManager& resourceManager, std::string filePath);
 	static void WriteEntitiesToFile(EntityManager& entityManager, std::string filePath, bool readable = true);
 
 	static Json::Value ReadFileToJsonValue(std::string filePath);
