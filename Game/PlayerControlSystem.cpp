@@ -24,7 +24,6 @@ void PlayerControlSystem::step(const sf::Time& dt)
 			body->ApplyForceToCenter(b2Vec2(moveX, moveY), true);
 			if (play)
 			{
-				cout << "playing";
 				pair.second->getComponent<SoundEffect>()->play();
 				play = false;
 			}
@@ -35,7 +34,7 @@ void PlayerControlSystem::step(const sf::Time& dt)
 
 void PlayerControlSystem::onNotify(IntentEvent intent)
 {
-	if (intent.isDown)
+	if (intent.state == State::PRESSED || intent.state == State::DOWN)
 	{
 		switch (str2int(intent.name.c_str()))
 		{
@@ -66,25 +65,14 @@ void PlayerControlSystem::onNotify(IntentEvent intent)
 
 				break;
 			}
-		case str2int("Jump"):
-			{
-				if (intent.isDown && !wasDownLast)
-				{
-					play = true;
-					wasDownLast = true;
-				}
-
-				break;
-			}
 		default:
 			break;
 		}
 	}
-	else
+
+	//Play sound
+	if(intent.name == "Jump" && intent.state == State::RELEASED)
 	{
-		if(wasDownLast && intent.name == "Jump")
-		{
-			wasDownLast = false;
-		}
+		play = true;
 	}
 }

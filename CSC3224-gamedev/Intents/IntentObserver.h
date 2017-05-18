@@ -1,13 +1,20 @@
 #pragma once
 #include <string>
-#include <SFML/System/Vector2.hpp>
 #include "IntentHandler.h"
+
+enum class State
+{
+	PRESSED,
+	DOWN,
+	RELEASED,
+	UP
+};
 
 struct IntentEvent
 {
 	int type;
 	std::string name;
-	bool isDown;
+	State state;
 	sf::Vector2i pos;
 };
 

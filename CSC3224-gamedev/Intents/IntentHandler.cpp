@@ -25,7 +25,7 @@ void IntentHandler::loadIntentsFromFile(std::string filePath)
 	//Get Line from file
 	std::string line;
 	auto lineNum = 0;
-	while (std::getline(infile, line))
+	while (getline(infile, line))
 	{
 		lineNum++;
 		if (!line.empty())
@@ -106,22 +106,75 @@ void IntentHandler::processIntents()
 	/* Keyboard intents */
 	for (auto pair : keyboardIntentMap)
 	{
-		IntentEvent intent;
-		intent.type = 0;
-		intent.name = pair.second;
-		intent.isDown = sf::Keyboard::isKeyPressed(pair.first);
+		auto key = pair.first;
+		State currentState;
+		//If we have a previous state
+		if(keyboardState.count(key) > 0)
+		{
+			currentState = advanceState(keyboardState[key], sf::Keyboard::isKeyPressed(key));
+		}
+		//Otherwise we assume it was up
+		else
+		{
+			currentState = advanceState(State::UP, sf::Keyboard::isKeyPressed(key));
+		}
+		keyboardState[key] = currentState;
+
+		IntentEvent intent{0, pair.second, currentState};
 		sendIntent(intent);
 	}
+
 	/* Mouse intents */
 	for (auto pair : mouseIntentMap)
 	{
-		IntentEvent intent;
-		intent.type = 1;
-		intent.name = pair.second;
-		intent.isDown = sf::Mouse::isButtonPressed(pair.first);
-		intent.pos = sf::Mouse::getPosition();
+		auto button = pair.first;
+		State currentState;
+		//If we have a previous state
+		if (mouseState.count(button) > 0)
+		{
+			currentState = advanceState(mouseState[button], sf::Mouse::isButtonPressed(button));
+		}
+		//Otherwise we assume it was up
+		else
+		{
+			currentState = advanceState(State::UP, sf::Mouse::isButtonPressed(button));
+		}
+		mouseState[button] = currentState;
+
+		IntentEvent intent{ 1, pair.second, currentState, sf::Mouse::getPosition() };
 		sendIntent(intent);
 	}
+}
+
+State IntentHandler::advanceState(State current, bool isPressed)
+{
+	//Update new state based on old
+	State newState;
+	switch (current)
+	{
+	case State::PRESSED:
+	case State::DOWN:
+		{
+			if (isPressed)
+				newState = State::DOWN;
+			else
+				newState = State::RELEASED;
+			break;
+		}
+	case State::RELEASED:
+	case State::UP:
+		{
+			if (isPressed)
+				newState = State::PRESSED;
+			else
+				newState = State::UP;
+			break;
+		}
+	default:
+		newState = State::UP;
+	}
+
+	return newState;
 }
 
 void IntentHandler::sendIntent(IntentEvent intent)
