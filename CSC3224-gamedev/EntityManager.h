@@ -44,15 +44,14 @@ template <typename T>
 T* EntityManager::getComponent(Entity* e)
 {
 	static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component");
-	auto comType = static_cast<int>(T::typeID);
-	auto list = entityMap_.find(comType)->second;
-	auto it = eastl::find_if(list.begin(), list.end(), [e](pair<Component*, Entity*> p)
+	auto list = getComponentList(e->getID());
+	auto it = eastl::find_if(list->begin(), list->end(), [](Component* p)
 	                         {
-		                         return (e == p.second);
+		                         return (T::typeID == p->getType());
 	                         });
-	if (it != list.end())
+	if (it != list->end())
 	{
-		return static_cast<T*>(it->first);
+		return static_cast<T*>(*it);
 	}
 	return nullptr;
 }
