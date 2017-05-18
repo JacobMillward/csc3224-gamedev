@@ -16,7 +16,7 @@ public:
 
 	static PhysicsBody* buildFromJson(Json::Value componentRoot, ...);
 
-	explicit PhysicsBody(PhysicsSystem* physicsSystem, Sprite* sprite, b2BodyType bodyType)
+	explicit PhysicsBody(PhysicsSystem* physicsSystem, Sprite* sprite, b2BodyType bodyType) : fixtureSizes()
 	{
 		b2BodyDef def;
 		def.position = b2Vec2( (sprite->getPosition().x + sprite->getOrigin().x) / PIXELS_TO_UNITS_SCALE, (sprite->getPosition().y + sprite->getOrigin().y) / PIXELS_TO_UNITS_SCALE);
@@ -26,18 +26,21 @@ public:
 
 	b2Body* getBody() const { return body_; }
 
-	void addBoxCollider(b2FixtureDef& fixturedef, float width, float height) const
+	void addBoxCollider(b2FixtureDef& fixturedef, float width, float height)
 	{
 		b2PolygonShape shape;
 		shape.SetAsBox((width / 2) / PIXELS_TO_UNITS_SCALE, (height / 2) / PIXELS_TO_UNITS_SCALE);
 		fixturedef.shape = &shape;
 		body_->CreateFixture(&fixturedef);
+
+		fixtureSizes.push_back(eastl::make_pair(width, height));
 	}
 	
 	Json::Value toJson() override;
 
 protected:
 	b2Body* body_;
+	eastl::vector<eastl::pair<float, float>> fixtureSizes;
 };
 
 /* Expects a pointer to a sprite to be passed in, as well as a pointer to the PhysicsSystem.
@@ -59,7 +62,16 @@ inline PhysicsBody* PhysicsBody::buildFromJson(Json::Value componentRoot, ...)
 	b2BodyType type = b2BodyType(componentRoot.get("type", 2).asInt());
 	auto b = new PhysicsBody(p, s, type);
 
-	//TODO: Add fictures
+	auto fixtures = componentRoot.get("fixtures", "");
+	for(auto f : fixtures)
+	{
+		b2FixtureDef def;
+		def.density = f.get("density", 1).asFloat();;
+		auto width = f.get("width", 1).asFloat();
+		auto height = f.get("height", 1).asFloat();
+
+		b->addBoxCollider(def, width, height);
+	}
 	return b;
 }
 
@@ -67,6 +79,19 @@ inline Json::Value PhysicsBody::toJson()
 {
 	Json::Value root;
 	root["type"] = body_->GetType();
+
+	auto index = 0;
+	for (b2Fixture* f = body_->GetFixtureList(); f; f = f->GetNext())
+	{
+		Json::Value data;
+		data["density"] = f->GetDensity();
+		data["width"] = fixtureSizes.at(index).first;
+		data["height"] = fixtureSizes.at(index).second;
+
+		root["fixtures"].append(data);
+
+		++index;
+	}
 
 	return root;
 }
