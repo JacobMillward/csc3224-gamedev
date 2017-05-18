@@ -1,7 +1,13 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
+#include <string>
 
 #define MAX_SYSTEMS 1024
+
+struct SystemMessage
+{
+	std::string name;
+};
 
 class World;
 
@@ -17,6 +23,7 @@ public:
 	};
 
 	virtual void step(const sf::Time& dt) = 0;
+	virtual void recieveMessage(const SystemMessage& m) = 0;
 
 protected:
 	World* world_;

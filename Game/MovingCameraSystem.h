@@ -5,6 +5,7 @@
 #include <SFML/Graphics/View.hpp>
 #include "Entity.h"
 #include <queue>
+#include <iostream>
 
 /*
  * Possibly the most inefficient class I've ever made, with hacks galore. I am ashamed to call this my work :(
@@ -25,6 +26,7 @@ protected:
 	float currentdelay = 0;
 	const float moveSpeed = 1/ PIXELS_TO_UNITS_SCALE;
 	Json::Value platformConfig;
+	bool gameover = false;
 	/* eastl::queue is broken right now */
 	std::deque<b2Body*> platformBuffer;
 
@@ -36,8 +38,11 @@ protected:
 	bool isBelowView(float y) const
 	{
 		auto bottom = camera_.getCenter().y + (camera_.getSize().y / 2);
-		return y > bottom;
+		return (y-bottom) > 0;
 	}
+
+public:
+	void recieveMessage(const SystemMessage& m) override;
 };
 
 /* Generates a random float between a and b. Assumes a < b */

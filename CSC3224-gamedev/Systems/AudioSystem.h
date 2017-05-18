@@ -12,6 +12,11 @@ public:
 	AudioSystem(World& w, ResourceManager& resourceManager);
 	~AudioSystem();
 	void step(const sf::Time& dt) override;
+
+	void recieveMessage(const SystemMessage& m) override
+	{
+	};
+
 protected:
 	ResourceManager* resourcemanager_;
 	/* We're only allowing 20 concurrent sounds by default */

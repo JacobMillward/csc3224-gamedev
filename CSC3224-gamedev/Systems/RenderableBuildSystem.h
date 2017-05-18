@@ -8,4 +8,8 @@ public:
 	~RenderableBuildSystem();
 
 	void step(const sf::Time& dt) override;
+
+	void recieveMessage(const SystemMessage& m) override
+	{
+	};
 };

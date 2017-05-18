@@ -1,6 +1,7 @@
 #include "ScoreSystem.h"
 #include "Components/Tag.h"
 #include "World.h"
+#include <iostream>
 
 
 ScoreSystem::ScoreSystem(World& w): ISystem(w), playerEntity(nullptr), highScore(-200)
@@ -19,8 +20,7 @@ ScoreSystem::~ScoreSystem()
 
 void ScoreSystem::step(const sf::Time& dt)
 {
-	if (gameOver) return;
-	/* Grab a reference to the player */
+		/* Grab a reference to the player */
 	if (!playerEntity)
 	{
 		auto list = this->world_->getEntityManager().getComponentList(ComponentType::TAG);
@@ -42,18 +42,25 @@ void ScoreSystem::step(const sf::Time& dt)
 		highScore = score;
 	}
 
-	stringstream ss;
-	if (playerEntity->getComponent<Tag>()->getTag() != "dead")
+	
+	if (!gameOver)
 	{
+		stringstream ss;
 		ss << "Highscore: " << highScore << endl << "Height: " << floor(-playerHeight + baseline);
 		world_->DebugText.setString(ss.str());
 	}
-	else
+}
+
+void ScoreSystem::recieveMessage(const SystemMessage& m)
+{
+	if (m.name == "gameover")
 	{
+		gameOver = true;
+		stringstream ss;
 		ss << "Game Over" << endl << "Final Score: " << highScore;
 		auto pos = world_->DebugText.getPosition();
-		world_->DebugText.move(250, 300);
-		gameOver = true;
+		world_->DebugText.move((pos.x < 350 ? 200 : -300), -500);
+		world_->DebugText.setString(ss.str());
 	}
-	world_->DebugText.setString(ss.str());
+		
 }

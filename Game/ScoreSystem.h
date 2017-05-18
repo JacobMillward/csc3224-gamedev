@@ -8,6 +8,7 @@ public:
 	ScoreSystem(World& w);
 	~ScoreSystem();
 	void step(const sf::Time& dt) override;
+	void recieveMessage(const SystemMessage& m) override;
 protected:
 	Entity* playerEntity;
 	const float baseline = 500.f;

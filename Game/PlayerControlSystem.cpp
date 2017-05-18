@@ -5,7 +5,6 @@
 #include "Components/PhysicsBody.h"
 #include "Components/SoundEffect.h"
 #include "Box2D/Dynamics/Contacts/b2Contact.h"
-#include <iostream>
 #include "ScoreSystem.h"
 
 PlayerControlSystem::PlayerControlSystem(World& world, IntentHandler& intentHandler) : ISystem(world), IntentObserver(intentHandler), playerEntity(nullptr)
@@ -112,4 +111,9 @@ void PlayerControlSystem::EndContact(b2Contact* contact)
 			grounded = false;
 		}
 	}
+}
+
+void PlayerControlSystem::recieveMessage(const SystemMessage& m)
+{
+
 }

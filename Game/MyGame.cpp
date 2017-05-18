@@ -28,8 +28,6 @@ void MyGame::init()
 	intentHandler_.loadIntentsFromFile("KeyMap.txt");
 	intentHandler_.printKeyMaps();
 
-	/* Create resources */
-
 	/* Read in platform config */
 	auto platformConfig = FileLoader::ReadFileToJsonValue("platform.json");
 
@@ -58,7 +56,4 @@ void MyGame::update(sf::Time dt)
 
 void MyGame::quit()
 {
-	cout << "Cleaning up resources" << endl;
-
-	/* World cleans up it's resources automatically, so we don't need to delete any pointers here */
 }

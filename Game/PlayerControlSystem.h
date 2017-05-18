@@ -19,6 +19,7 @@ public:
 
 	void BeginContact(b2Contact* contact) override;
 	void EndContact(b2Contact* contact) override;
+	void recieveMessage(const SystemMessage& m) override;
 protected:
 	Entity* playerEntity;
 	PhysicsBody* playerPhysics;

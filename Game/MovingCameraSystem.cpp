@@ -40,42 +40,61 @@ void MovingCameraSystem::moveClouds() const
 
 void MovingCameraSystem::step(const sf::Time& dt)
 {
-	/* Grab a reference to the player */
-	if (!playerEntity)
+	if(!gameover)
 	{
-		auto list = this->world_->getEntityManager().getComponentList(ComponentType::TAG);
-		for (auto pair : *list)
+		/* Grab a reference to the player */
+		if (!playerEntity)
 		{
-			auto component = static_cast<Tag*>(pair.first);
-			if (component->getTag() == "player")
+			auto list = this->world_->getEntityManager().getComponentList(ComponentType::TAG);
+			for (auto pair : *list)
 			{
-				playerEntity = pair.second;
-				break;
+				auto component = static_cast<Tag*>(pair.first);
+				if (component->getTag() == "player")
+				{
+					playerEntity = pair.second;
+					break;
+				}
 			}
 		}
-	}
 
-	/* Move Camera */
-	currentdelay += dt.asMilliseconds();
-	if (currentdelay > delayInMilliseconds)
-	{
-		auto finalSpeed = -moveSpeed * dt.asMilliseconds();
-		finalSpeed = eastl::clamp(finalSpeed * currentdelay / 20000, -7.f, -1.f);
-		camera_.move(0, finalSpeed);
-		world_->DebugText.move(0, finalSpeed);
+		auto pos = playerEntity->getSprite()->getPosition();
+		/* Shift highscore text depending on side */
+		auto leftSide = (pos.x > camera_.getSize().x / 3);
+		world_->DebugText.setPosition((leftSide ? 10 : 600), pos.y - world_->DebugText.getCharacterSize());
+
+		/* Move Camera */
+		//Starting delay
+		currentdelay += dt.asMilliseconds();
+		if (currentdelay > delayInMilliseconds)
+		{
+			auto finalSpeed = -moveSpeed * dt.asMilliseconds();
+			finalSpeed = eastl::clamp(finalSpeed * currentdelay / 20000, -7.f, -1.f);
+			auto difference = pos.y - camera_.getCenter().y;
+			if (difference < 0)
+			{
+				finalSpeed += difference;
+			}
+			camera_.move(0, finalSpeed);
+
+		}
+		/* If after moving we're still behind the player then we want to match the players speed */
+		auto difference = pos.y - camera_.getCenter().y;
+		if (difference < 0)
+		{
+			camera_.move(0, difference);
+		}
 		window_->setView(camera_);
-	}
 
-	advancePlatforms();
-	moveClouds();
+		advancePlatforms();
+		moveClouds();
 
-	/* Update player status */
-	auto pos = playerEntity->getSprite()->getPosition();
-	if (isBelowView(pos.y))
-	{
-		//player is dead
-		playerEntity->getComponent<Tag>()->setTag("dead");
+		/* Update player status */
+		if (isBelowView(pos.y))
+		{
+			world_->sendSystemMessage({ "gameover" });
+		}
 	}
+	
 }
 
 void MovingCameraSystem::advancePlatforms()
@@ -106,5 +125,13 @@ void MovingCameraSystem::advancePlatforms()
 		//Move the platform at the front to the back
 		platformBuffer.pop_front();
 		platformBuffer.push_back(nextPlatform);
+	}
+}
+
+void MovingCameraSystem::recieveMessage(const SystemMessage& m)
+{
+	if(m.name == "gameover")
+	{
+		gameover = true;
 	}
 }

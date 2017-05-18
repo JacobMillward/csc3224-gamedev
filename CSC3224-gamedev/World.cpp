@@ -33,6 +33,14 @@ void World::addSystem(ISystem* system)
 	systemList_.push_back(system);
 }
 
+void World::sendSystemMessage(const SystemMessage& m)
+{
+	for (auto system : systemList_)
+	{
+		system->recieveMessage(m);
+	}
+}
+
 void World::step(const sf::Time& gameDelta)
 {
 	for (auto system : systemList_)
@@ -48,7 +56,7 @@ void World::draw(sf::RenderWindow& w, ResourceManager& resourceManager)
 		sprite->setTexture(*(resourceManager.getTexture(sprite->getTextureID())));
 		w.draw(*sprite);
 	}
-	//if(debug)
+	if(debug)
 	{
 		w.draw(DebugText);
 	}

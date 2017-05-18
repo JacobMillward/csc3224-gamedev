@@ -18,6 +18,10 @@ public:
 
 	void setContactListener(b2ContactListener* listener);
 
+	void recieveMessage(const SystemMessage& m) override
+	{
+	}
+
 protected:
 	b2World physicsWorld_;
 };
